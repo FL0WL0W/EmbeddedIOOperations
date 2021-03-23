@@ -6,20 +6,21 @@ using namespace EmbeddedIOServices;
 #ifdef OPERATION_DIGITALPINRECORD_H
 namespace OperationArchitecture
 {
-	Operation_DigitalPinRecord::Operation_DigitalPinRecord(EmbeddedIOServices::IDigitalService *digitalService, EmbeddedIOServices::ITimerService *timerService, uint16_t pin, bool inverted, uint8_t length)
+	Operation_DigitalPinRecord::Operation_DigitalPinRecord(EmbeddedIOServices::IDigitalService *digitalService, EmbeddedIOServices::ITimerService *timerService, uint16_t pin, bool inverted, uint16_t length)
 	{
 		_digitalService = digitalService;
 		_timerService = timerService;
 		_pin = pin;
 		_inverted = inverted;
 		_record.Initialize(length);
+		_record.TicksPerSecond = _timerService->GetTicksPerSecond();
 
 		_digitalService->ScheduleRecurringInterrupt(_pin, new EmbeddedIOServices::CallBack<Operation_DigitalPinRecord>(this, &Operation_DigitalPinRecord::InterruptCallBack));
 	}
 
 	Record Operation_DigitalPinRecord::Execute()
 	{
-		const uint8_t last = _record.Last;
+		const uint16_t last = _record.Last;
 		if(!_record.Frames[last].Valid)
 			return _record;
 
@@ -41,7 +42,7 @@ namespace OperationArchitecture
 		const uint32_t tick = _timerService->GetTick();
 		if(_inverted)
 			state = !state;
-		uint8_t last = _record.Last;
+		uint16_t last = _record.Last;
 		//only record toggles
 		if(state == _record.Frames[last].State && _record.Frames[last].Valid)
 			return;
@@ -58,7 +59,7 @@ namespace OperationArchitecture
 	{
 		const uint16_t pin = Config::CastAndOffset<uint16_t>(config, sizeOut);
 		const bool inverted = Config::CastAndOffset<bool>(config, sizeOut);
-		uint32_t length = Config::CastAndOffset<uint8_t>(config, sizeOut);
+		uint32_t length = Config::CastAndOffset<uint16_t>(config, sizeOut);
 					
 		Operation_DigitalPinRecord *operation = new Operation_DigitalPinRecord(embeddedIOServiceCollection->DigitalService, embeddedIOServiceCollection->TimerService, pin, inverted, length);
 

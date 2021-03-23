@@ -20,20 +20,20 @@ namespace OperationArchitecture
 		{
 			Length = 0;
 		}
-		void Initialize(uint8_t length)
+		void Initialize(uint16_t length)
 		{
 			Length = length;
 			Last = 0;
 			Frames = (Frame *)calloc(length, sizeof(Frame));
 		}
-		static uint8_t Subtract(const uint8_t &val1, uint8_t val2, const uint8_t &length)
+		static uint16_t Subtract(const uint16_t &val1, uint16_t val2, const uint16_t &length)
 		{
 			val2 %= length;
 			if(val2 > val1)
 				return length - (val2 - val1);
 			return val1 - val2;
 		}
-		static uint8_t Add(const uint8_t &val1, uint16_t val2, const uint8_t &length)
+		static uint16_t Add(const uint16_t &val1, uint16_t val2, const uint16_t &length)
 		{
 			val2 %= length;
 			if(val1 + val2 > length)
@@ -41,8 +41,9 @@ namespace OperationArchitecture
 			return val1 + val2;
 		}
 
-		uint8_t Length; //Don't modify this -_-
-		uint8_t Last;
+		uint16_t Length; //Don't modify this -_-
+		uint16_t Last;
+		uint32_t TicksPerSecond;
 		Frame *Frames;
 	};
 
@@ -55,7 +56,7 @@ namespace OperationArchitecture
 		bool _inverted;
 		Record _record;
 	public:	
-        Operation_DigitalPinRecord(EmbeddedIOServices::IDigitalService *digitalService, EmbeddedIOServices::ITimerService *timerService, uint16_t pin, bool inverted, uint8_t length);
+        Operation_DigitalPinRecord(EmbeddedIOServices::IDigitalService *digitalService, EmbeddedIOServices::ITimerService *timerService, uint16_t pin, bool inverted, uint16_t length);
 		Record Execute() override;
 		void InterruptCallBack();
 
