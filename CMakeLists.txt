@@ -9,8 +9,12 @@ set(LIBRARIES	libs)
 
 project(${TARGET} CXX)
 
-add_subdirectory (${LIBRARIES}/OperationArchitecture)
-add_subdirectory (${LIBRARIES}/EmbeddedIOServices)
+if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${LIBRARIES}/OperationArchitecture/CMakeLists.txt)
+    add_subdirectory (${LIBRARIES}/OperationArchitecture)
+endif()
+if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${LIBRARIES}/EmbeddedIOServices/CMakeLists.txt)
+    add_subdirectory (${LIBRARIES}/EmbeddedIOServices)
+endif()
 
 # headers are always in include/
 set(HDR_DIR		include)
@@ -30,7 +34,9 @@ target_link_libraries(${TARGET} EmbeddedIOServices)
 
 if(EmbeddedIOOperations_build_tests)
     # Include google tests
-    add_subdirectory (${LIBRARIES}/googletest)
+    if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${LIBRARIES}/googletest/CMakeLists.txt)
+        add_subdirectory (${LIBRARIES}/googletest)
+    endif()
     # include tests
     add_subdirectory (test)
 endif()
