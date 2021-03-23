@@ -8,7 +8,7 @@ using namespace OperationArchitecture;
 
 namespace UnitTests
 {
-	class Operation_AnalogPinReadTests : public ::testing::Test 
+	class Operation_AnalogPinReadTests : public Test
 	{
 		protected:
 		MockAnalogService _analogService;

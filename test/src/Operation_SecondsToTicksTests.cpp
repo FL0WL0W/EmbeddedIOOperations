@@ -8,7 +8,7 @@ using namespace OperationArchitecture;
 
 namespace UnitTests
 {
-	class Operation_SecondsToTicksTests : public ::testing::Test 
+	class Operation_SecondsToTicksTests : public Test
 	{
 		protected:
 		IOperationBase *_operation;

@@ -8,7 +8,7 @@ using namespace OperationArchitecture;
 
 namespace UnitTests
 {
-	class Operation_PulseWidthPinReadTests : public ::testing::Test 
+	class Operation_PulseWidthPinReadTests : public Test
 	{
 		protected:
 		MockPwmService _pwmService;

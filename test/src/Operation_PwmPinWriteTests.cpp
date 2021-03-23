@@ -8,7 +8,7 @@ using namespace OperationArchitecture;
 
 namespace UnitTests
 {
-	class Operation_PwmPinWriteTests : public ::testing::Test 
+	class Operation_PwmPinWriteTests : public Test
 	{
 		protected:
 		MockPwmService _pwmService;

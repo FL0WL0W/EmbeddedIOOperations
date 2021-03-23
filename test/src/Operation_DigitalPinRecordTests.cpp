@@ -9,7 +9,7 @@ using namespace OperationArchitecture;
 
 namespace UnitTests
 {
-	class Operation_DigitalPinRecordTests : public ::testing::Test 
+	class Operation_DigitalPinRecordTests : public Test
 	{
 		protected:
 		MockDigitalService _digitalService;
