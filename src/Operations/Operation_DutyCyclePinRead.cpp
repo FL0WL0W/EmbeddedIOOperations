@@ -23,6 +23,7 @@ namespace OperationArchitecture
 
 	IOperationBase *Operation_DutyCyclePinRead::Create(const EmbeddedIOServiceCollection *embeddedIOServiceCollection, const void *config, unsigned int &sizeOut)
 	{
+		Config::OffsetConfig(config, sizeOut, sizeof(uint32_t)); //skip over FactoryID
 		const uint16_t pin = Config::CastAndOffset<uint16_t>(config, sizeOut);
 		const uint16_t minFrequency = Config::CastAndOffset<uint16_t>(config, sizeOut);
 		return new Operation_DutyCyclePinRead(embeddedIOServiceCollection->PwmService, pin, minFrequency);

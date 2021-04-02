@@ -1,4 +1,5 @@
 #include "Operations/Operation_GetTick.h"
+#include "Config.h"
 
 using namespace EmbeddedIOServices;
 
@@ -18,6 +19,7 @@ namespace OperationArchitecture
 
 	IOperationBase * Operation_GetTick::Create(const EmbeddedIOServiceCollection *embeddedIOServiceCollection, const void *config, unsigned int &sizeOut)
 	{
+		Config::OffsetConfig(config, sizeOut, sizeof(uint32_t)); //skip over FactoryID
 		if(_instance == 0)
 			_instance = new Operation_GetTick(embeddedIOServiceCollection->TimerService);
 		return _instance;
