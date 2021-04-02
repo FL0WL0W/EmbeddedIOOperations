@@ -1,5 +1,4 @@
 #include "Operations/EmbeddedIOOperationFactory.h"
-
 using namespace EmbeddedIOServices;
 
 #ifdef EMBEDDEDIOOPERATIONFACTORY_H
