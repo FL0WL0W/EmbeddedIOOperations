@@ -1,6 +1,5 @@
 #include "Operations/EmbeddedIOOperationFactoryRegister.h"
 #include "CreateWithParameters.h"
-#include "Operations/OperationFactoryRegister.h"
 #include "Operations/Operation_AnalogPinRead.h"
 #include "Operations/Operation_DigitalPinRead.h"
 #include "Operations/Operation_DigitalPinRecord.h"
