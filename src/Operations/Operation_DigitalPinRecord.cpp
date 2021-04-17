@@ -55,9 +55,8 @@ namespace OperationArchitecture
 		_record.Last = last;
 	}
 
-	IOperationBase *Operation_DigitalPinRecord::Create(const EmbeddedIOServiceCollection *embeddedIOServiceCollection, const void *config, unsigned int &sizeOut)
+	IOperationBase *Operation_DigitalPinRecord::Create(const void *config, unsigned int &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
 	{
-		Config::OffsetConfig(config, sizeOut, sizeof(uint32_t)); //skip over FactoryID
 		const uint16_t pin = Config::CastAndOffset<uint16_t>(config, sizeOut);
 		const bool inverted = Config::CastAndOffset<bool>(config, sizeOut);
 		uint32_t length = Config::CastAndOffset<uint16_t>(config, sizeOut);

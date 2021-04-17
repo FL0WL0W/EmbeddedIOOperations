@@ -45,13 +45,13 @@ namespace UnitTests
 				.Times(1)
 				.WillOnce(SaveArg<1>(&_callBack));
 
-			_operation = Operation_DigitalPinRecord::Create(&_embeddedIOServiceCollection, config, _size);
+			_operation = Operation_DigitalPinRecord::Create(config, _size, &_embeddedIOServiceCollection);
 		}
 	};
 
 	TEST_F(Operation_DigitalPinRecordTests, ConfigsAreCorrect)
 	{
-		ASSERT_EQ(4, _size);
+		ASSERT_EQ(5, _size);
 	}
 
 	TEST_F(Operation_DigitalPinRecordTests, WhenRecordingThenNonToggleStatesDoNotTriggerAFrame)

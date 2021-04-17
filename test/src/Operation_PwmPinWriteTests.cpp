@@ -32,7 +32,7 @@ namespace UnitTests
 			buildConfig = (void *)(((uint16_t *)buildConfig) + 1);
 
 			EXPECT_CALL(_pwmService, InitPin(1, Out, 2)).Times(1);
-			_operation = Operation_PwmPinWrite::Create(&_embeddedIOServiceCollection, config, _size);
+			_operation = Operation_PwmPinWrite::Create(config, _size, &_embeddedIOServiceCollection);
 		}
 	};
 

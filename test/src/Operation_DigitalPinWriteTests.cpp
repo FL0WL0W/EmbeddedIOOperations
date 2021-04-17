@@ -44,7 +44,7 @@ namespace UnitTests
 			
 			EXPECT_CALL(_digitalService, InitPin(1, Out)).Times(1);
 			EXPECT_CALL(_digitalService, WritePin(1, false)).Times(1);
-			_operationNormalOff = Operation_DigitalPinWrite::Create(&_embeddedIOServiceCollection, configNormalOff, _sizeNormalOff);
+			_operationNormalOff = Operation_DigitalPinWrite::Create(configNormalOff, _sizeNormalOff, &_embeddedIOServiceCollection);
 
 			void *configNormalOn = malloc( sizeof(uint16_t) + sizeof(bool) + sizeof(bool));
 			buildConfig = configNormalOn;
@@ -63,7 +63,7 @@ namespace UnitTests
 
 			EXPECT_CALL(_digitalService, InitPin(2, Out)).Times(1);
 			EXPECT_CALL(_digitalService, WritePin(2, true)).Times(1);
-			_operationNormalOn = Operation_DigitalPinWrite::Create(&_embeddedIOServiceCollection, configNormalOn, _sizeNormalOn);
+			_operationNormalOn = Operation_DigitalPinWrite::Create(configNormalOn, _sizeNormalOn, &_embeddedIOServiceCollection);
 
 			void *configNormalOffHighZ = malloc(sizeof(uint16_t) + sizeof(bool) + sizeof(bool));
 			buildConfig = configNormalOffHighZ;
@@ -82,7 +82,7 @@ namespace UnitTests
 
 			EXPECT_CALL(_digitalService, InitPin(3, Out)).Times(1);
 			EXPECT_CALL(_digitalService, WritePin(3, false)).Times(1);
-			_operationNormalOffHighZ = Operation_DigitalPinWrite::Create(&_embeddedIOServiceCollection, configNormalOffHighZ, _sizeNormalOffHighZ);
+			_operationNormalOffHighZ = Operation_DigitalPinWrite::Create(configNormalOffHighZ, _sizeNormalOffHighZ, &_embeddedIOServiceCollection);
 
 			void *configNormalOnHighZ = malloc(sizeof(uint16_t) + sizeof(bool) + sizeof(bool));
 			buildConfig = configNormalOnHighZ;
@@ -100,7 +100,7 @@ namespace UnitTests
 			buildConfig = (void *)(((bool *)buildConfig) + 1);
 
 			EXPECT_CALL(_digitalService, InitPin(4, In)).Times(1);
-			_operationNormalOnHighZ = Operation_DigitalPinWrite::Create(&_embeddedIOServiceCollection, configNormalOnHighZ, _sizeNormalOnHighZ);
+			_operationNormalOnHighZ = Operation_DigitalPinWrite::Create(configNormalOnHighZ, _sizeNormalOnHighZ, &_embeddedIOServiceCollection);
 		}
 	};
 

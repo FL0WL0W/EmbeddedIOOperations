@@ -20,9 +20,8 @@ namespace OperationArchitecture
 		return _pwmService->ReadPin(_pin).PulseWidth;
 	}
 
-	IOperationBase *Operation_PulseWidthPinRead::Create(const EmbeddedIOServiceCollection *embeddedIOServiceCollection, const void *config, unsigned int &sizeOut)
+	IOperationBase *Operation_PulseWidthPinRead::Create(const void *config, unsigned int &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
 	{
-		Config::OffsetConfig(config, sizeOut, sizeof(uint32_t)); //skip over FactoryID
 		const uint16_t pin = Config::CastAndOffset<uint16_t>(config, sizeOut);
 		const uint16_t minFrequency = Config::CastAndOffset<uint16_t>(config, sizeOut);
 		return new Operation_PulseWidthPinRead(embeddedIOServiceCollection->PwmService, pin, minFrequency);

@@ -19,9 +19,8 @@ namespace OperationArchitecture
 		return _analogService->ReadPin(_pin);
 	}
 
-	IOperationBase *Operation_AnalogPinRead::Create(const EmbeddedIOServiceCollection *embeddedIOServiceCollection, const void *config, unsigned int &sizeOut)
+	IOperationBase *Operation_AnalogPinRead::Create(const void *config, unsigned int &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
 	{
-		Config::OffsetConfig(config, sizeOut, sizeof(uint32_t)); //skip over FactoryID
 		return new Operation_AnalogPinRead(embeddedIOServiceCollection->AnalogService, Config::CastAndOffset<uint16_t>(config, sizeOut));
 	}
 }

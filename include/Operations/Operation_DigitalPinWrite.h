@@ -17,7 +17,7 @@ namespace OperationArchitecture
 
 		void Execute(bool x) override;
 
-		static IOperationBase *Create(const EmbeddedIOServices::EmbeddedIOServiceCollection *embeddedIOServiceCollection, const void *config, unsigned int &sizeOut);
+		static IOperationBase *Create(const void *config, unsigned int &sizeOut, const EmbeddedIOServices::EmbeddedIOServiceCollection *embeddedIOServiceCollection);
 	};
 }
 #endif

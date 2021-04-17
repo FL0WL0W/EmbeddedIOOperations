@@ -44,8 +44,8 @@ namespace UnitTests
 
 			EXPECT_CALL(_digitalService, InitPin(1, In)).Times(1);
 			EXPECT_CALL(_digitalService, InitPin(2, In)).Times(1);
-			_operationUninverted = Operation_DigitalPinRead::Create(&_embeddedIOServiceCollection, configUninverted, _sizeInverted);
-			_operationInverted = Operation_DigitalPinRead::Create(&_embeddedIOServiceCollection, configInverted, _sizeUnInverted);
+			_operationUninverted = Operation_DigitalPinRead::Create(configUninverted, _sizeInverted, &_embeddedIOServiceCollection);
+			_operationInverted = Operation_DigitalPinRead::Create(configInverted, _sizeUnInverted, &_embeddedIOServiceCollection);
 		}
 	};
 

@@ -17,9 +17,8 @@ namespace OperationArchitecture
 		return _timerService->GetTicksPerSecond() * seconds;
 	}
 
-	IOperationBase * Operation_SecondsToTicks::Create(const EmbeddedIOServiceCollection *embeddedIOServiceCollection, const void *config, unsigned int &sizeOut)
+	IOperationBase * Operation_SecondsToTicks::Create(const void *config, unsigned int &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
 	{
-		Config::OffsetConfig(config, sizeOut, sizeof(uint32_t)); //skip over FactoryID
 		if(_instance == 0)
 			_instance = new Operation_SecondsToTicks(embeddedIOServiceCollection->TimerService);
 		return _instance;

@@ -20,7 +20,7 @@ namespace UnitTests
 		{
 			_embeddedIOServiceCollection.TimerService = &_timerService;
 
-			_operation = Operation_GetTick::Create(&_embeddedIOServiceCollection, 0, _size);
+			_operation = Operation_GetTick::Create(0, _size, &_embeddedIOServiceCollection);
 		}
 	};
 
