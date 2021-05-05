@@ -64,8 +64,9 @@ namespace OperationArchitecture
 	IOperationBase *Operation_DigitalPinWrite::Create(const void *config, unsigned int &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
 	{
 		const uint16_t pin = Config::CastAndOffset<uint16_t>(config, sizeOut);
-		const bool normalOn = Config::CastAndOffset<bool>(config, sizeOut);
-		const bool highZ = Config::CastAndOffset<bool>(config, sizeOut);
+		const uint8_t opts = Config::CastAndOffset<uint8_t>(config, sizeOut);
+		const bool normalOn = opts & 0x01;
+		const bool highZ = (opts >> 1) & 0x01;
 		return new Operation_DigitalPinWrite(embeddedIOServiceCollection->DigitalService, pin, normalOn, highZ);
 	}
 }

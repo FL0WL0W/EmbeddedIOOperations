@@ -59,7 +59,7 @@ namespace OperationArchitecture
 	{
 		const uint16_t pin = Config::CastAndOffset<uint16_t>(config, sizeOut);
 		const bool inverted = Config::CastAndOffset<bool>(config, sizeOut);
-		uint32_t length = Config::CastAndOffset<uint16_t>(config, sizeOut);
+		const uint16_t length = Config::CastAndOffset<uint16_t>(config, sizeOut);
 					
 		Operation_DigitalPinRecord *operation = new Operation_DigitalPinRecord(embeddedIOServiceCollection->DigitalService, embeddedIOServiceCollection->TimerService, pin, inverted, length);
 
