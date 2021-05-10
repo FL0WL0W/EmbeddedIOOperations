@@ -10,8 +10,8 @@ namespace OperationArchitecture
 	protected:
 		EmbeddedIOServices::IDigitalService *_digitalService;
 		uint16_t _pin;
-		bool _normalOn;
-		bool _highZ;
+		bool _normalOn : 1;
+		bool _highZ : 1;
 	public:		
         Operation_DigitalPinWrite(EmbeddedIOServices::IDigitalService *digitalService, uint16_t pin, const bool normalOn, const bool highZ);
 
