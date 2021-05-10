@@ -10,8 +10,8 @@ namespace OperationArchitecture
 	{
 		public:
 		uint32_t Tick;
-		bool State;
-		bool Valid;
+		bool State : 1;
+		bool Valid : 1;
 	});
 	struct Record
 	{
