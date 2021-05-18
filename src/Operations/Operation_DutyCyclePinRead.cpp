@@ -21,7 +21,7 @@ namespace OperationArchitecture
 		return value.PulseWidth / value.Period;
 	}
 
-	IOperationBase *Operation_DutyCyclePinRead::Create(const void *config, unsigned int &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
+	IOperationBase *Operation_DutyCyclePinRead::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
 	{
 		const uint16_t pin = Config::CastAndOffset<uint16_t>(config, sizeOut);
 		const uint16_t minFrequency = Config::CastAndOffset<uint16_t>(config, sizeOut);

@@ -14,7 +14,7 @@ namespace UnitTests
 		IOperationBase *_operation;
 		MockTimerService _timerService;
 		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
-		unsigned int _size = 0;
+		size_t _size = 0;
 
 		Operation_TicksToSecondsTests() 
 		{

@@ -2,6 +2,7 @@
 #include "gtest/gtest.h"
 #include "Operations/Operation_DigitalPinWrite.h"
 #include "MockDigitalService.h"
+#include "Config.h"
 using namespace testing;
 using namespace EmbeddedIOServices;
 using namespace OperationArchitecture;
@@ -17,71 +18,67 @@ namespace UnitTests
 		IOperationBase *_operationNormalOn;
 		IOperationBase *_operationNormalOffHighZ;
 		IOperationBase *_operationNormalOnHighZ;
-		unsigned int _sizeNormalOff = 0;
-		unsigned int _sizeNormalOn = 0;
-		unsigned int _sizeNormalOffHighZ = 0;
-		unsigned int _sizeNormalOnHighZ = 0;
+		size_t _sizeNormalOff = 0;
+		size_t _sizeNormalOn = 0;
+		size_t _sizeNormalOffHighZ = 0;
+		size_t _sizeNormalOnHighZ = 0;
+		size_t _expectedSize = 0;
+		size_t _buildSizeNormalOff = 0;
+		size_t _buildSizeNormalOn = 0;
+		size_t _buildSizeNormalOffHighZ = 0;
+		size_t _buildSizeNormalOnHighZ = 0;
 
 		Operation_DigitalPinWriteTests() 
 		{
-
 			_embeddedIOServiceCollection.DigitalService = &_digitalService;
 
-			void *configNormalOff = malloc(sizeof(uint16_t) + sizeof(uint8_t));
+			_expectedSize = sizeof(uint16_t);
+			_expectedSize += _expectedSize % alignof(uint8_t);
+			_expectedSize += sizeof(uint8_t);
+
+			void *configNormalOff = malloc(_expectedSize);
 			void *buildConfig = configNormalOff;
 
 			//pin 1
-			*((uint16_t *)buildConfig) = 1;
-			buildConfig = (void *)(((uint16_t *)buildConfig) + 1);
-
-			//NormalOn
-			*((uint8_t *)buildConfig) = 0x00;
-			buildConfig = (void *)(((uint8_t *)buildConfig) + 1);
+			Config::AssignAndOffset<uint16_t>(buildConfig, _buildSizeNormalOff, 1);
+			//NormalOn / HighZ
+			Config::AssignAndOffset<uint8_t>(buildConfig, _buildSizeNormalOff, 0x00);
 			
 			EXPECT_CALL(_digitalService, InitPin(1, Out)).Times(1);
 			EXPECT_CALL(_digitalService, WritePin(1, false)).Times(1);
 			_operationNormalOff = Operation_DigitalPinWrite::Create(configNormalOff, _sizeNormalOff, &_embeddedIOServiceCollection);
 
-			void *configNormalOn = malloc( sizeof(uint16_t) + sizeof(uint8_t));
+			void *configNormalOn = malloc( _expectedSize);
 			buildConfig = configNormalOn;
 
 			//pin 2
-			*((uint16_t *)buildConfig) = 2;
-			buildConfig = (void *)(((uint16_t *)buildConfig) + 1);
-
-			//NormalOn
-			*((uint8_t *)buildConfig) = 0x01;
-			buildConfig = (void *)(((uint8_t *)buildConfig) + 1);
+			Config::AssignAndOffset<uint16_t>(buildConfig, _buildSizeNormalOn, 2);
+			//NormalOn / HighZ
+			Config::AssignAndOffset<uint8_t>(buildConfig, _buildSizeNormalOn, 0x01);
 
 			EXPECT_CALL(_digitalService, InitPin(2, Out)).Times(1);
 			EXPECT_CALL(_digitalService, WritePin(2, true)).Times(1);
 			_operationNormalOn = Operation_DigitalPinWrite::Create(configNormalOn, _sizeNormalOn, &_embeddedIOServiceCollection);
 
-			void *configNormalOffHighZ = malloc(sizeof(uint16_t) + sizeof(uint8_t));
+			void *configNormalOffHighZ = malloc(_expectedSize);
 			buildConfig = configNormalOffHighZ;
 
 			//pin 3
-			*((uint16_t *)buildConfig) = 3;
-			buildConfig = (void *)(((uint16_t *)buildConfig) + 1);
-
-			//NormalOn
-			*((uint8_t *)buildConfig) = 0x02;
-			buildConfig = (void *)(((uint8_t *)buildConfig) + 1);
+			Config::AssignAndOffset<uint16_t>(buildConfig, _buildSizeNormalOffHighZ, 3);
+			//NormalOn / HighZ
+			Config::AssignAndOffset<uint8_t>(buildConfig, _buildSizeNormalOffHighZ, 0x02);
 
 			EXPECT_CALL(_digitalService, InitPin(3, Out)).Times(1);
 			EXPECT_CALL(_digitalService, WritePin(3, false)).Times(1);
 			_operationNormalOffHighZ = Operation_DigitalPinWrite::Create(configNormalOffHighZ, _sizeNormalOffHighZ, &_embeddedIOServiceCollection);
 
-			void *configNormalOnHighZ = malloc(sizeof(uint16_t) + sizeof(uint8_t));
+			void *configNormalOnHighZ = malloc(_expectedSize);
 			buildConfig = configNormalOnHighZ;
 
 			//pin 4
-			*((uint16_t *)buildConfig) = 4;
-			buildConfig = (void *)(((uint16_t *)buildConfig) + 1);
-
-			//NormalOn
-			*((uint8_t *)buildConfig) = 0x03;
-			buildConfig = (void *)(((uint8_t *)buildConfig) + 1);
+			Config::AssignAndOffset<uint16_t>(buildConfig, _buildSizeNormalOnHighZ, 4);
+			//NormalOn / HighZ
+			Config::AssignAndOffset<uint8_t>(buildConfig, _buildSizeNormalOnHighZ, 0x03);
 
 			EXPECT_CALL(_digitalService, InitPin(4, In)).Times(1);
 			_operationNormalOnHighZ = Operation_DigitalPinWrite::Create(configNormalOnHighZ, _sizeNormalOnHighZ, &_embeddedIOServiceCollection);
@@ -90,10 +87,14 @@ namespace UnitTests
 
 	TEST_F(Operation_DigitalPinWriteTests, ConfigsAreCorrect)
 	{
-		ASSERT_EQ(3, _sizeNormalOff);
-		ASSERT_EQ(3, _sizeNormalOn);
-		ASSERT_EQ(3, _sizeNormalOffHighZ);
-		ASSERT_EQ(3, _sizeNormalOnHighZ);
+		ASSERT_EQ(_expectedSize, _buildSizeNormalOff);
+		ASSERT_EQ(_expectedSize, _buildSizeNormalOn);
+		ASSERT_EQ(_expectedSize, _buildSizeNormalOffHighZ);
+		ASSERT_EQ(_expectedSize, _buildSizeNormalOnHighZ);
+		ASSERT_EQ(_expectedSize, _sizeNormalOff);
+		ASSERT_EQ(_expectedSize, _sizeNormalOn);
+		ASSERT_EQ(_expectedSize, _sizeNormalOffHighZ);
+		ASSERT_EQ(_expectedSize, _sizeNormalOnHighZ);
 	}
 	
 	TEST_F(Operation_DigitalPinWriteTests, WhenWritingTrueForNormalOff_ThenPinWrittenTrue)

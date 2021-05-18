@@ -15,7 +15,7 @@ namespace OperationArchitecture
 
 		float Execute(uint32_t ticks) override;
 
-		static IOperationBase *Create(const void *config, unsigned int &sizeOut, const EmbeddedIOServices::EmbeddedIOServiceCollection *embeddedIOServiceCollection);
+		static IOperationBase *Create(const void *config, size_t  &sizeOut, const EmbeddedIOServices::EmbeddedIOServiceCollection *embeddedIOServiceCollection);
 	};
 }
 #endif

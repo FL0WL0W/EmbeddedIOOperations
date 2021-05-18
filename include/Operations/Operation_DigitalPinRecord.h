@@ -1,18 +1,17 @@
 #include "Operations/IOperation.h"
 #include "EmbeddedIOServiceCollection.h"
-#include "Packed.h"
 
 #ifndef OPERATION_DIGITALPINRECORD_H
 #define OPERATION_DIGITALPINRECORD_H
 namespace OperationArchitecture
 {
-	PACK(struct Frame
+	struct Frame
 	{
 		public:
 		uint32_t Tick;
 		bool State : 1;
 		bool Valid : 1;
-	});
+	};
 	struct Record
 	{
 		public:
@@ -60,7 +59,7 @@ namespace OperationArchitecture
 		Record Execute() override;
 		void InterruptCallBack();
 
-		static IOperationBase *Create(const void *config, unsigned int &sizeOut, const EmbeddedIOServices::EmbeddedIOServiceCollection *embeddedIOServiceCollection);
+		static IOperationBase *Create(const void *config, size_t &sizeOut, const EmbeddedIOServices::EmbeddedIOServiceCollection *embeddedIOServiceCollection);
 	};
 }
 #endif

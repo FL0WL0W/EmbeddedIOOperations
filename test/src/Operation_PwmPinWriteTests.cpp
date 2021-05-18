@@ -2,6 +2,7 @@
 #include "gtest/gtest.h"
 #include "Operations/Operation_PwmPinWrite.h"
 #include "MockPwmService.h"
+#include "Config.h"
 using namespace testing;
 using namespace EmbeddedIOServices;
 using namespace OperationArchitecture;
@@ -14,22 +15,25 @@ namespace UnitTests
 		MockPwmService _pwmService;
 		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
 		IOperationBase *_operation;
-        unsigned int _size = 0;
+        size_t _size = 0;
+        size_t _buildSize = 0;
+        size_t _expectedSize = 0;
+
 
 		Operation_PwmPinWriteTests() 
 		{
 			_embeddedIOServiceCollection.PwmService = &_pwmService;
 
-			void *config = malloc(sizeof(uint16_t) + sizeof(uint16_t));
+			_expectedSize = sizeof(uint16_t);
+			_expectedSize += _expectedSize % alignof(uint16_t);
+			_expectedSize += sizeof(uint16_t);
+			void *config = malloc(_expectedSize);
 			void *buildConfig = config;
 
-			//pin 1
-			*((uint16_t *)buildConfig) = 1;
-			buildConfig = (void *)(((uint16_t *)buildConfig) + 1);
-
+			//pin 3
+			Config::AssignAndOffset<uint16_t>(buildConfig, _buildSize, 1);
 			//minFrequency 2
-			*((uint16_t *)buildConfig) = 2;
-			buildConfig = (void *)(((uint16_t *)buildConfig) + 1);
+			Config::AssignAndOffset<uint16_t>(buildConfig, _buildSize, 2);
 
 			EXPECT_CALL(_pwmService, InitPin(1, Out, 2)).Times(1);
 			_operation = Operation_PwmPinWrite::Create(config, _size, &_embeddedIOServiceCollection);
@@ -38,7 +42,8 @@ namespace UnitTests
 
 	TEST_F(Operation_PwmPinWriteTests, ConfigsAreCorrect)
 	{
-		ASSERT_EQ(4, _size);
+		ASSERT_EQ(_expectedSize, _buildSize);
+		ASSERT_EQ(_expectedSize, _size);
 	}
 
 	TEST_F(Operation_PwmPinWriteTests, WhenWritingValue_ThenCorrectValueIsWritten)

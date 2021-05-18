@@ -61,7 +61,7 @@ namespace OperationArchitecture
 		}
 	}
 
-	IOperationBase *Operation_DigitalPinWrite::Create(const void *config, unsigned int &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
+	IOperationBase *Operation_DigitalPinWrite::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
 	{
 		const uint16_t pin = Config::CastAndOffset<uint16_t>(config, sizeOut);
 		const uint8_t opts = Config::CastAndOffset<uint8_t>(config, sizeOut);

@@ -2,6 +2,7 @@
 #include "gtest/gtest.h"
 #include "Operations/Operation_DigitalPinRead.h"
 #include "MockDigitalService.h"
+#include "Config.h"
 using namespace testing;
 using namespace EmbeddedIOServices;
 using namespace OperationArchitecture;
@@ -15,32 +16,34 @@ namespace UnitTests
 		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
 		IOperationBase *_operationInverted;
 		IOperationBase *_operationUninverted;
-        unsigned int _sizeInverted = 0;
-        unsigned int _sizeUnInverted = 0;
+        size_t _sizeInverted = 0;
+        size_t _sizeUnInverted = 0;
+        size_t _expectedSize = 0;
+        size_t _buildSizeInverted = 0;
+        size_t _buildSizeUnInverted = 0;
 
 		Operation_DigitalPinReadTests() 
 		{
 			_embeddedIOServiceCollection.DigitalService = &_digitalService;
 
-			void *configUninverted = malloc(sizeof(uint16_t) + sizeof(bool));
+			_expectedSize = sizeof(uint16_t);
+			_expectedSize += _expectedSize % alignof(bool);
+			_expectedSize += sizeof(bool);
+			void *configUninverted = malloc(_expectedSize);
 			void *buildConfig = configUninverted;
 
 			//pin 1
-			*((uint16_t *)buildConfig) = 1;
-			buildConfig = (void *)(((uint16_t *)buildConfig) + 1);
-
-			*((bool *)buildConfig) = false;
-			buildConfig = (void *)(((bool *)buildConfig) + 1);
+			Config::AssignAndOffset<uint16_t>(buildConfig, _buildSizeUnInverted, 1);
+			//inverted false
+			Config::AssignAndOffset<bool>(buildConfig, _buildSizeUnInverted, false);
 			
-			void *configInverted = malloc(sizeof(uint16_t) + sizeof(bool));
+			void *configInverted = malloc(_expectedSize);
 			buildConfig = configInverted;
 
 			//pin 2
-			*((uint16_t *)buildConfig) = 2;
-			buildConfig = (void *)(((uint16_t *)buildConfig) + 1);
-
-			*((bool *)buildConfig) = true;
-			buildConfig = (void *)(((bool *)buildConfig) + 1);
+			Config::AssignAndOffset<uint16_t>(buildConfig, _buildSizeInverted, 2);
+			//inverted true
+			Config::AssignAndOffset<bool>(buildConfig, _buildSizeInverted, true);
 
 			EXPECT_CALL(_digitalService, InitPin(1, In)).Times(1);
 			EXPECT_CALL(_digitalService, InitPin(2, In)).Times(1);
@@ -51,8 +54,10 @@ namespace UnitTests
 
 	TEST_F(Operation_DigitalPinReadTests, ConfigsAreCorrect)
 	{
-		ASSERT_EQ(3, _sizeUnInverted);
-		ASSERT_EQ(3, _sizeInverted);
+		ASSERT_EQ(_expectedSize, _buildSizeUnInverted);
+		ASSERT_EQ(_expectedSize, _buildSizeInverted);
+		ASSERT_EQ(_expectedSize, _sizeUnInverted);
+		ASSERT_EQ(_expectedSize, _sizeInverted);
 	}
 
 	TEST_F(Operation_DigitalPinReadTests, WhenGettingHighForUninverted_ThenTrueIsReturned)

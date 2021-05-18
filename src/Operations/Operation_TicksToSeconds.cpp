@@ -17,7 +17,7 @@ namespace OperationArchitecture
 		return static_cast<float>(ticks) / _timerService->GetTicksPerSecond();
 	}
 
-	IOperationBase * Operation_TicksToSeconds::Create(const void *config, unsigned int &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
+	IOperationBase * Operation_TicksToSeconds::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
 	{
 		if(_instance == 0)
 			_instance = new Operation_TicksToSeconds(embeddedIOServiceCollection->TimerService);

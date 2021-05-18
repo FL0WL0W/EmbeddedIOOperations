@@ -3,6 +3,7 @@
 #include "Operations/Operation_DigitalPinRecord.h"
 #include "MockDigitalService.h"
 #include "MockTimerService.h"
+#include "Config.h"
 using namespace testing;
 using namespace EmbeddedIOServices;
 using namespace OperationArchitecture;
@@ -18,27 +19,29 @@ namespace UnitTests
 		IOperationBase *_operation;
 		ICallBack *_callBack = 0;
 		Record *_record;
-        unsigned int _size = 0;
+        size_t _expectedSize = 0;
+        size_t _buildSize = 0;
+        size_t _size = 0;
 
 		Operation_DigitalPinRecordTests() 
 		{
 			_embeddedIOServiceCollection.DigitalService = &_digitalService;
 			_embeddedIOServiceCollection.TimerService = &_timerService;
 
-			void *config = malloc(sizeof(uint16_t) + sizeof(bool) + sizeof(uint8_t));
+			_expectedSize = sizeof(uint16_t);
+			_expectedSize += _expectedSize % alignof(bool);
+			_expectedSize += sizeof(bool);
+			_expectedSize += _expectedSize % alignof(uint16_t);
+			_expectedSize += sizeof(uint16_t);
+			void *config = malloc(_expectedSize);
 			void *buildConfig = config;
 
 			//pin 1
-			*((uint16_t *)buildConfig) = 1;
-			buildConfig = (void *)(((uint16_t *)buildConfig) + 1);
-            
-			//inverted
-			*((bool *)buildConfig) = false;
-			buildConfig = (void *)(((bool *)buildConfig) + 1);
-            
+			Config::AssignAndOffset<uint16_t>(buildConfig, _buildSize, 1);
+			//inverted false
+			Config::AssignAndOffset<bool>(buildConfig, _buildSize, false);
 			//length
-			*((uint8_t *)buildConfig) = 8;
-			buildConfig = (void *)(((uint8_t *)buildConfig) + 1);
+			Config::AssignAndOffset<uint16_t>(buildConfig, _buildSize, 8);
 
 			
 			EXPECT_CALL(_digitalService, ScheduleRecurringInterrupt(1, _))
@@ -51,7 +54,8 @@ namespace UnitTests
 
 	TEST_F(Operation_DigitalPinRecordTests, ConfigsAreCorrect)
 	{
-		ASSERT_EQ(5, _size);
+		ASSERT_EQ(_expectedSize, _buildSize);
+		ASSERT_EQ(_expectedSize, _size);
 	}
 
 	TEST_F(Operation_DigitalPinRecordTests, WhenRecordingThenNonToggleStatesDoNotTriggerAFrame)

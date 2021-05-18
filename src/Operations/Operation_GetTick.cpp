@@ -17,7 +17,7 @@ namespace OperationArchitecture
 		return _timerService->GetTick();
 	}
 
-	IOperationBase * Operation_GetTick::Create(const void *config, unsigned int &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
+	IOperationBase * Operation_GetTick::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
 	{
 		if(_instance == 0)
 			_instance = new Operation_GetTick(embeddedIOServiceCollection->TimerService);
