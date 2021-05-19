@@ -24,8 +24,7 @@ namespace UnitTests
 			_embeddedIOServiceCollection.PwmService = &_pwmService;
 
 			_expectedSize = sizeof(uint16_t);
-			_expectedSize += _expectedSize % alignof(uint16_t);
-			_expectedSize += sizeof(uint16_t);
+			Config::AlignAndAddSize<uint16_t>(_expectedSize);
 			void *config = malloc(_expectedSize);
 			void *buildConfig = config;
 

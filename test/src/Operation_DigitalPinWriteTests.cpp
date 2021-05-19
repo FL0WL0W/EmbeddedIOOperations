@@ -33,8 +33,7 @@ namespace UnitTests
 			_embeddedIOServiceCollection.DigitalService = &_digitalService;
 
 			_expectedSize = sizeof(uint16_t);
-			_expectedSize += _expectedSize % alignof(uint8_t);
-			_expectedSize += sizeof(uint8_t);
+			Config::AlignAndAddSize<uint8_t>(_expectedSize);
 
 			void *configNormalOff = malloc(_expectedSize);
 			void *buildConfig = configNormalOff;

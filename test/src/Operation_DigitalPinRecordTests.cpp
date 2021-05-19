@@ -29,10 +29,8 @@ namespace UnitTests
 			_embeddedIOServiceCollection.TimerService = &_timerService;
 
 			_expectedSize = sizeof(uint16_t);
-			_expectedSize += _expectedSize % alignof(bool);
-			_expectedSize += sizeof(bool);
-			_expectedSize += _expectedSize % alignof(uint16_t);
-			_expectedSize += sizeof(uint16_t);
+			Config::AlignAndAddSize<bool>(_expectedSize);
+			Config::AlignAndAddSize<uint16_t>(_expectedSize);
 			void *config = malloc(_expectedSize);
 			void *buildConfig = config;
 

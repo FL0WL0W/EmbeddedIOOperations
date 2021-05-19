@@ -27,8 +27,7 @@ namespace UnitTests
 			_embeddedIOServiceCollection.DigitalService = &_digitalService;
 
 			_expectedSize = sizeof(uint16_t);
-			_expectedSize += _expectedSize % alignof(bool);
-			_expectedSize += sizeof(bool);
+			Config::AlignAndAddSize<bool>(_expectedSize);
 			void *configUninverted = malloc(_expectedSize);
 			void *buildConfig = configUninverted;
 
