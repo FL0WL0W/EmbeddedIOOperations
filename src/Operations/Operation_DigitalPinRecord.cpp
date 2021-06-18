@@ -15,7 +15,7 @@ namespace OperationArchitecture
 		_record.Initialize(length);
 		_record.TicksPerSecond = _timerService->GetTicksPerSecond();
 
-		_digitalService->ScheduleRecurringInterrupt(_pin, new EmbeddedIOServices::CallBack<Operation_DigitalPinRecord>(this, &Operation_DigitalPinRecord::InterruptCallBack));
+		_digitalService->AttachInterrupt(_pin, [this]() { this->InterruptCallBack(); });
 	}
 
 	Record Operation_DigitalPinRecord::Execute()
