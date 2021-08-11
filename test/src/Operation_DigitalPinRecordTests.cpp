@@ -17,7 +17,7 @@ namespace UnitTests
 		MockTimerService _timerService;
 		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
 		IOperationBase *_operation;
-		ICallBack *_callBack = 0;
+		std::function<void()> _callBack = 0;
 		Record *_record;
         size_t _expectedSize = 0;
         size_t _buildSize = 0;
@@ -42,7 +42,7 @@ namespace UnitTests
 			Config::AssignAndOffset<uint16_t>(buildConfig, _buildSize, 8);
 
 			
-			EXPECT_CALL(_digitalService, ScheduleRecurringInterrupt(1, _))
+			EXPECT_CALL(_digitalService, AttachInterrupt(1, _))
 				.Times(1)
 				.WillOnce(SaveArg<1>(&_callBack));
 
@@ -63,7 +63,7 @@ namespace UnitTests
 
 		EXPECT_CALL(_timerService, GetTick()).Times(2).WillRepeatedly(Return(10));
 	 	EXPECT_CALL(_digitalService, ReadPin(1)).Times(1).WillOnce(Return(false));
-		_callBack->Execute();
+		_callBack();
         record = _operation->Execute<Record>();
 		ASSERT_EQ(1, record.Last);
 		ASSERT_EQ(true, record.Frames[record.Last].Valid);
@@ -72,7 +72,7 @@ namespace UnitTests
 
 		EXPECT_CALL(_timerService, GetTick()).Times(2).WillRepeatedly(Return(11));
 	 	EXPECT_CALL(_digitalService, ReadPin(1)).Times(1).WillOnce(Return(false));
-		_callBack->Execute();
+		_callBack();
         record = _operation->Execute<Record>();
 		ASSERT_EQ(1, record.Last);
 		ASSERT_EQ(true, record.Frames[record.Last].Valid);
@@ -81,7 +81,7 @@ namespace UnitTests
 
 		EXPECT_CALL(_timerService, GetTick()).Times(2).WillRepeatedly(Return(12));
 	 	EXPECT_CALL(_digitalService, ReadPin(1)).Times(1).WillOnce(Return(true));
-		_callBack->Execute();
+		_callBack();
         record = _operation->Execute<Record>();
 		ASSERT_EQ(2, record.Last);
 		ASSERT_EQ(true, record.Frames[record.Last].Valid);
