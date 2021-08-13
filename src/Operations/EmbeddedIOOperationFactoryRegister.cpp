@@ -27,9 +27,9 @@ namespace OperationArchitecture
         factory->Register(idOffset + 6, [embeddedIOServiceCollection](const void *config, size_t &sizeOut) { return Operation_PulseWidthPinRead::Create(config, sizeOut, embeddedIOServiceCollection); });
         factory->Register(idOffset + 7, [embeddedIOServiceCollection](const void *config, size_t &sizeOut) { return Operation_DigitalPinWrite::Create(config, sizeOut, embeddedIOServiceCollection); });
         factory->Register(idOffset + 8, [embeddedIOServiceCollection](const void *config, size_t &sizeOut) { return Operation_PwmPinWrite::Create(config, sizeOut, embeddedIOServiceCollection); });
-        factory->Register(idOffset + 9, [embeddedIOServiceCollection](const void *config, size_t &sizeOut) { return Operation_GetTick::Create(config, sizeOut, embeddedIOServiceCollection); });
-        factory->Register(idOffset + 10, [embeddedIOServiceCollection](const void *config, size_t &sizeOut) { return Operation_SecondsToTicks::Create(config, sizeOut, embeddedIOServiceCollection); });
-        factory->Register(idOffset + 11, [embeddedIOServiceCollection](const void *config, size_t &sizeOut) { return Operation_TicksToSeconds::Create(config, sizeOut, embeddedIOServiceCollection); });
+        factory->Register(idOffset + 9, Operation_GetTick::Create(embeddedIOServiceCollection));
+        factory->Register(idOffset + 10, Operation_SecondsToTicks::Create(embeddedIOServiceCollection));
+        factory->Register(idOffset + 11, Operation_TicksToSeconds::Create(embeddedIOServiceCollection));
     }
 }
 

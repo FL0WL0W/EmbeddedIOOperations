@@ -6,13 +6,12 @@ using namespace EmbeddedIOServices;
 #ifdef OPERATION_DIGITALPINWRITE_H
 namespace OperationArchitecture
 {
-	Operation_DigitalPinWrite::Operation_DigitalPinWrite(EmbeddedIOServices::IDigitalService *digitalService, const uint16_t pin, const bool normalOn, const bool highZ)
+	Operation_DigitalPinWrite::Operation_DigitalPinWrite(EmbeddedIOServices::IDigitalService *digitalService, const uint16_t pin, const bool normalOn, const bool highZ) :
+		_digitalService(digitalService),
+		_pin(pin),
+		_normalOn(normalOn),
+		_highZ(highZ)
 	{
-		_digitalService = digitalService;
-		_pin = pin;
-		_normalOn = normalOn;
-		_highZ = highZ;
-
 		if (_highZ && _normalOn)
 		{
 			_digitalService->InitPin(_pin, In);

@@ -21,15 +21,10 @@ namespace UnitTests
 			_embeddedIOServiceCollection.TimerService = &_timerService;
 
 			EXPECT_CALL(_timerService, GetTicksPerSecond()).WillRepeatedly(Return(5000));
-			_operation = Operation_SecondsToTicks::Create(0, _size, &_embeddedIOServiceCollection);
+			_operation = Operation_SecondsToTicks::Create(&_embeddedIOServiceCollection);
 		}
 	};
-
-	TEST_F(Operation_SecondsToTicksTests, ConfigsAreCorrect)
-	{
-		ASSERT_EQ(0, _size);
-	}
-
+	
 	TEST_F(Operation_SecondsToTicksTests, WhenGettingValues_ThenCorrectValueIsReturned)
 	{
 		ASSERT_EQ(0, _operation->Execute<uint32_t>(0.0f));

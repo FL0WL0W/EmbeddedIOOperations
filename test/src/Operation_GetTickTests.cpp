@@ -14,20 +14,14 @@ namespace UnitTests
 		IOperationBase *_operation;
 		MockTimerService _timerService;
 		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
-		size_t _size = 0;
 
 		Operation_GetTickTests() 
 		{
 			_embeddedIOServiceCollection.TimerService = &_timerService;
 
-			_operation = Operation_GetTick::Create(0, _size, &_embeddedIOServiceCollection);
+			_operation = Operation_GetTick::Create(&_embeddedIOServiceCollection);
 		}
 	};
-
-	TEST_F(Operation_GetTickTests, ConfigsAreCorrect)
-	{
-		ASSERT_EQ(0, _size);
-	}
 
 	TEST_F(Operation_GetTickTests, WhenGettingValues_ThenCorrectValueIsReturned)
 	{

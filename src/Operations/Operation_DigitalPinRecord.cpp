@@ -6,12 +6,12 @@ using namespace EmbeddedIOServices;
 #ifdef OPERATION_DIGITALPINRECORD_H
 namespace OperationArchitecture
 {
-	Operation_DigitalPinRecord::Operation_DigitalPinRecord(EmbeddedIOServices::IDigitalService *digitalService, EmbeddedIOServices::ITimerService *timerService, uint16_t pin, bool inverted, uint16_t length)
+	Operation_DigitalPinRecord::Operation_DigitalPinRecord(EmbeddedIOServices::IDigitalService *digitalService, EmbeddedIOServices::ITimerService *timerService, uint16_t pin, bool inverted, uint16_t length) :
+		_digitalService(digitalService),
+		_timerService(timerService),
+		_pin(pin),
+		_inverted(inverted)
 	{
-		_digitalService = digitalService;
-		_timerService = timerService;
-		_pin = pin;
-		_inverted = inverted;
 		_record.Initialize(length);
 		_record.TicksPerSecond = _timerService->GetTicksPerSecond();
 

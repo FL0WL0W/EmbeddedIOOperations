@@ -6,11 +6,10 @@ using namespace EmbeddedIOServices;
 #ifdef OPERATION_ANALOGPINREAD_H
 namespace OperationArchitecture
 {
-	Operation_AnalogPinRead::Operation_AnalogPinRead( EmbeddedIOServices::IAnalogService *analogService, const uint16_t pin)
+	Operation_AnalogPinRead::Operation_AnalogPinRead( EmbeddedIOServices::IAnalogService *analogService, const uint16_t pin) :
+		_analogService(analogService),
+		_pin(pin)
 	{
-		_analogService = analogService;
-		_pin = pin;
-
 		_analogService->InitPin(_pin);
 	}
 

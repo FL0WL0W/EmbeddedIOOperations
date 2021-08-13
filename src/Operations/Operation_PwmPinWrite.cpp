@@ -6,12 +6,11 @@ using namespace EmbeddedIOServices;
 #ifdef OPERATION_PWMPINWRITE_H
 namespace OperationArchitecture
 {
-	Operation_PwmPinWrite::Operation_PwmPinWrite( EmbeddedIOServices::IPwmService *pwmService, const uint16_t pin, const uint16_t minFrequency)
+	Operation_PwmPinWrite::Operation_PwmPinWrite( EmbeddedIOServices::IPwmService *pwmService, const uint16_t pin, const uint16_t minFrequency) :
+		_pwmService(pwmService),
+		_pin(pin),
+		_minFrequency(minFrequency)
 	{
-		_pwmService = pwmService;
-		_pin = pin;
-		_minFrequency = minFrequency;
-
 		_pwmService->InitPin(_pin, Out, _minFrequency);
 	}
 

@@ -15,7 +15,7 @@ namespace OperationArchitecture
 
 		uint32_t Execute() override;
 
-		static IOperationBase *Create(const void *config, size_t &sizeOut, const EmbeddedIOServices::EmbeddedIOServiceCollection *embeddedIOServiceCollection);
+		static IOperationBase *Create(const EmbeddedIOServices::EmbeddedIOServiceCollection *embeddedIOServiceCollection);
 	};
 }
 #endif
