@@ -8,7 +8,7 @@ namespace OperationArchitecture
 	struct Frame
 	{
 		public:
-		uint32_t Tick;
+		EmbeddedIOServices::tick_t Tick;
 		bool State : 1;
 		bool Valid : 1;
 	};
@@ -42,7 +42,7 @@ namespace OperationArchitecture
 
 		uint16_t Length; //Don't modify this -_-
 		uint16_t Last;
-		uint32_t TicksPerSecond;
+		EmbeddedIOServices::tick_t TicksPerSecond;
 		Frame *Frames;
 	};
 

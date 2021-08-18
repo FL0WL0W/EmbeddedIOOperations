@@ -24,7 +24,7 @@ namespace OperationArchitecture
 		if(!_record.Frames[last].Valid)
 			return _record;
 
-		const uint32_t tick = _timerService->GetTick();
+		const tick_t tick = _timerService->GetTick();
 		if(EmbeddedIOServices::ITimerService::TickLessThanTick(tick, _record.Frames[last].Tick))
 		{
 			for(int i = 0; i < _record.Length; i++)
@@ -38,19 +38,12 @@ namespace OperationArchitecture
 
 	void Operation_DigitalPinRecord::InterruptCallBack()
 	{
-		bool state = _digitalService->ReadPin(_pin);
-		const uint32_t tick = _timerService->GetTick();
-		if(_inverted)
-			state = !state;
-		uint16_t last = _record.Last;
+		const uint16_t last = (_record.Last + 1) % _record.Length;
+		_record.Frames[last].State = _digitalService->ReadPin(_pin)  ^ _inverted;
+		_record.Frames[last].Tick = _timerService->GetTick();
 		//only record toggles
-		if(state == _record.Frames[last].State && _record.Frames[last].Valid)
+		if(_record.Frames[last].State == _record.Frames[_record.Last].State && _record.Frames[_record.Last].Valid)
 			return;
-		last++;
-		if(last >= _record.Length)
-			last = 0;
-		_record.Frames[last].State = state;
-		_record.Frames[last].Tick = tick;
 		_record.Frames[last].Valid = true;
 		_record.Last = last;
 	}

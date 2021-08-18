@@ -5,7 +5,7 @@
 #define OPERATION_GETTICK_H
 namespace OperationArchitecture
 {
-	class Operation_GetTick : public IOperation<uint32_t>
+	class Operation_GetTick : public IOperation<EmbeddedIOServices::tick_t>
 	{
 	protected:
 		static Operation_GetTick *_instance;
@@ -13,7 +13,7 @@ namespace OperationArchitecture
 	public:		
         Operation_GetTick(EmbeddedIOServices::ITimerService *timerService);
 
-		uint32_t Execute() override;
+		EmbeddedIOServices::tick_t Execute() override;
 
 		static IOperationBase *Create(const EmbeddedIOServices::EmbeddedIOServiceCollection *embeddedIOServiceCollection);
 	};
