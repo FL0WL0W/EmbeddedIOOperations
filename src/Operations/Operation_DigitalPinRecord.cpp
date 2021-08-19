@@ -29,7 +29,7 @@ namespace OperationArchitecture
 		{
 			for(int i = 0; i < _record.Length; i++)
 			{
-				 _record.Frames[last].Valid = false;
+				 _record.Frames[i].Valid = false;
 			}
 		}
 
