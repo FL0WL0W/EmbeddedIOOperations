@@ -17,7 +17,7 @@ namespace UnitTests
 		MockTimerService _timerService;
 		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
 		IOperationBase *_operation;
-		std::function<void()> _callBack = 0;
+		callback_t _callBack = 0;
 		Record *_record;
         size_t _expectedSize = 0;
         size_t _buildSize = 0;
