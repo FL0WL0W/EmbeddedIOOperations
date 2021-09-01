@@ -5,6 +5,7 @@
 #define OPERATION_DIGITALPINRECORD_H
 namespace OperationArchitecture
 {
+	typedef uint16_t frameindex_t;
 	struct Frame
 	{
 		public:
@@ -19,20 +20,20 @@ namespace OperationArchitecture
 		{
 			Length = 0;
 		}
-		void Initialize(uint16_t length)
+		void Initialize(frameindex_t length)
 		{
 			Length = length;
 			Last = 0;
 			Frames = (Frame *)calloc(length, sizeof(Frame));
 		}
-		static uint16_t Subtract(const uint16_t &val1, uint16_t val2, const uint16_t &length)
+		static frameindex_t Subtract(const frameindex_t &val1, frameindex_t val2, const frameindex_t &length)
 		{
 			val2 %= length;
 			if(val2 > val1)
 				return length - (val2 - val1);
 			return val1 - val2;
 		}
-		static uint16_t Add(const uint16_t &val1, uint16_t val2, const uint16_t &length)
+		static frameindex_t Add(const frameindex_t &val1, frameindex_t val2, const frameindex_t &length)
 		{
 			val2 %= length;
 			if(val1 + val2 > length)
@@ -40,8 +41,8 @@ namespace OperationArchitecture
 			return val1 + val2;
 		}
 
-		uint16_t Length; //Don't modify this -_-
-		uint16_t Last;
+		frameindex_t Length; //Don't modify this -_-
+		frameindex_t Last;
 		EmbeddedIOServices::tick_t TicksPerSecond;
 		Frame *Frames;
 	};
