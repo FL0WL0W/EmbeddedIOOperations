@@ -27,7 +27,7 @@ namespace OperationArchitecture
 		const tick_t tick = _timerService->GetTick();
 		if(EmbeddedIOServices::ITimerService::TickLessThanTick(tick, _record.Frames[last].Tick))
 		{
-			for(int i = 0; i < _record.Length; i++)
+			for(frameindex_t i = 0; i < _record.Length; i++)
 			{
 				 _record.Frames[i].Valid = false;
 			}
