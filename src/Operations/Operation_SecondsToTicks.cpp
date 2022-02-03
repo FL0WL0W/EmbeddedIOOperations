@@ -8,9 +8,9 @@ namespace OperationArchitecture
 {
 	Operation_SecondsToTicks::Operation_SecondsToTicks(EmbeddedIOServices::ITimerService *timerService) : _timerService(timerService) { }
 
-	uint32_t Operation_SecondsToTicks::Execute(float seconds)
+	tick_t Operation_SecondsToTicks::Execute(float seconds)
 	{
-		return _timerService->GetTicksPerSecond() * seconds;
+		return static_cast<tick_t>(_timerService->GetTicksPerSecond() * seconds);
 	}
 
 	IOperationBase * Operation_SecondsToTicks::Create(const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
