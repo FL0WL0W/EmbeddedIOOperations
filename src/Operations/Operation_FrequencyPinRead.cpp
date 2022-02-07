@@ -1,12 +1,13 @@
 #include "Operations/Operation_FrequencyPinRead.h"
 #include "Config.h"
 
+using namespace OperationArchitecture;
 using namespace EmbeddedIOServices;
 
 #ifdef OPERATION_FREQUENCYPINREAD_H
-namespace OperationArchitecture
+namespace EmbeddedIOOperations
 {
-	Operation_FrequencyPinRead::Operation_FrequencyPinRead( EmbeddedIOServices::IPwmService *pwmService, const uint16_t pin, const uint16_t minFrequency) :
+	Operation_FrequencyPinRead::Operation_FrequencyPinRead( IPwmService *pwmService, const uint16_t pin, const uint16_t minFrequency) :
 		_pwmService(pwmService),
 		_pin(pin),
 		_minFrequency(minFrequency)

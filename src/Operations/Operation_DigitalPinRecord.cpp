@@ -1,12 +1,13 @@
 #include "Operations/Operation_DigitalPinRecord.h"
 #include "Config.h"
 
+using namespace OperationArchitecture;
 using namespace EmbeddedIOServices;
 
 #ifdef OPERATION_DIGITALPINRECORD_H
-namespace OperationArchitecture
+namespace EmbeddedIOOperations
 {
-	Operation_DigitalPinRecord::Operation_DigitalPinRecord(EmbeddedIOServices::IDigitalService *digitalService, EmbeddedIOServices::ITimerService *timerService, uint16_t pin, bool inverted, uint16_t length) :
+	Operation_DigitalPinRecord::Operation_DigitalPinRecord(IDigitalService *digitalService, ITimerService *timerService, uint16_t pin, bool inverted, uint16_t length) :
 		_digitalService(digitalService),
 		_timerService(timerService),
 		_pin(pin),
@@ -25,7 +26,7 @@ namespace OperationArchitecture
 			return _record;
 
 		const tick_t tick = _timerService->GetTick();
-		if(EmbeddedIOServices::ITimerService::TickLessThanTick(tick, _record.Frames[last].Tick))
+		if(ITimerService::TickLessThanTick(tick, _record.Frames[last].Tick))
 		{
 			for(frameindex_t i = 0; i < _record.Length; i++)
 			{

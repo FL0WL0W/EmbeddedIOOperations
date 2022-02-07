@@ -11,11 +11,10 @@
 #include "Operations/Operation_SecondsToTicks.h"
 #include "Operations/Operation_TicksToSeconds.h"
 
-using namespace EmbeddedIOServices;
+using namespace OperationArchitecture;
 
 #ifdef EMBEDDEDIOOPERATIONFACTORYREGISTER_H
-
-namespace OperationArchitecture
+namespace EmbeddedIOOperations
 {
     void EmbeddedIOOperationFactoryRegister::Register(uint32_t idOffset, OperationFactory *factory, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
     {
@@ -32,5 +31,4 @@ namespace OperationArchitecture
         factory->Register(idOffset + 11, Operation_TicksToSeconds::Create(embeddedIOServiceCollection));
     }
 }
-
 #endif

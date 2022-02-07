@@ -1,10 +1,10 @@
 #include "Operations/Operation_AnalogPinRead.h"
 #include "Config.h"
 
-using namespace EmbeddedIOServices;
+using namespace OperationArchitecture;
 
 #ifdef OPERATION_ANALOGPINREAD_H
-namespace OperationArchitecture
+namespace EmbeddedIOOperations
 {
 	Operation_AnalogPinRead::Operation_AnalogPinRead( EmbeddedIOServices::IAnalogService *analogService, const uint16_t pin) :
 		_analogService(analogService),

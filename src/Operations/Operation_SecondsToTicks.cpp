@@ -1,12 +1,13 @@
 #include "Operations/Operation_SecondsToTicks.h"
 #include "Config.h"
 
+using namespace OperationArchitecture;
 using namespace EmbeddedIOServices;
 
 #ifdef OPERATION_SECONDSTOTICKS_H
-namespace OperationArchitecture
+namespace EmbeddedIOOperations
 {
-	Operation_SecondsToTicks::Operation_SecondsToTicks(EmbeddedIOServices::ITimerService *timerService) : _timerService(timerService) { }
+	Operation_SecondsToTicks::Operation_SecondsToTicks(ITimerService *timerService) : _timerService(timerService) { }
 
 	tick_t Operation_SecondsToTicks::Execute(float seconds)
 	{

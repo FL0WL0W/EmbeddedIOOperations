@@ -1,10 +1,10 @@
 #include "Operations/Operation_TicksToSeconds.h"
 #include "Config.h"
 
-using namespace EmbeddedIOServices;
+using namespace OperationArchitecture;
 
 #ifdef OPERATION_TICKSTOSECONDS_H
-namespace OperationArchitecture
+namespace EmbeddedIOOperations
 {
 	Operation_TicksToSeconds::Operation_TicksToSeconds(EmbeddedIOServices::ITimerService *timerService) : _timerService(timerService) { }
 

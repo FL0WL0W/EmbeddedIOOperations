@@ -1,12 +1,13 @@
 #include "Operations/Operation_DutyCyclePinRead.h"
 #include "Config.h"
 
+using namespace OperationArchitecture;
 using namespace EmbeddedIOServices;
 
 #ifdef OPERATION_DUTYCYCLEPINREAD_H
-namespace OperationArchitecture
+namespace EmbeddedIOOperations
 {
-	Operation_DutyCyclePinRead::Operation_DutyCyclePinRead( EmbeddedIOServices::IPwmService *pwmService, const uint16_t pin, const uint16_t minFrequency) :
+	Operation_DutyCyclePinRead::Operation_DutyCyclePinRead(IPwmService *pwmService, const uint16_t pin, const uint16_t minFrequency) :
 		_pwmService(pwmService),
 		_pin(pin),
 		_minFrequency(minFrequency)

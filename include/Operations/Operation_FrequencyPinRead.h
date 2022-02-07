@@ -3,9 +3,9 @@
 
 #ifndef OPERATION_FREQUENCYPINREAD_H
 #define OPERATION_FREQUENCYPINREAD_H
-namespace OperationArchitecture
+namespace EmbeddedIOOperations
 {
-	class Operation_FrequencyPinRead : public IOperation<float>
+	class Operation_FrequencyPinRead : public OperationArchitecture::IOperation<float>
 	{
 	protected:
 		EmbeddedIOServices::IPwmService *_pwmService;
@@ -16,7 +16,7 @@ namespace OperationArchitecture
 
 		float Execute() override;
 
-		static IOperationBase *Create(const void *config, size_t &sizeOut, const EmbeddedIOServices::EmbeddedIOServiceCollection *embeddedIOServiceCollection);
+		static OperationArchitecture::IOperationBase *Create(const void *config, size_t &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection);
 	};
 }
 #endif

@@ -3,9 +3,9 @@
 
 #ifndef OPERATION_PWMPINWRITE_H
 #define OPERATION_PWMPINWRITE_H
-namespace OperationArchitecture
+namespace EmbeddedIOOperations
 {
-	class Operation_PwmPinWrite : public IOperation<void, float, float>
+	class Operation_PwmPinWrite : public OperationArchitecture::IOperation<void, float, float>
 	{
 	protected:
 		EmbeddedIOServices::IPwmService *_pwmService;
@@ -16,7 +16,7 @@ namespace OperationArchitecture
 
 		void Execute(float period, float pulseWidth) override;
 
-		static IOperationBase *Create(const void *config, size_t &sizeOut, const EmbeddedIOServices::EmbeddedIOServiceCollection *embeddedIOServiceCollection);
+		static OperationArchitecture::IOperationBase *Create(const void *config, size_t &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection);
 	};
 }
 #endif

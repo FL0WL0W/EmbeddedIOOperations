@@ -1,12 +1,13 @@
 #include "Operations/Operation_DigitalPinRead.h"
 #include "Config.h"
 
+using namespace OperationArchitecture;
 using namespace EmbeddedIOServices;
 
 #ifdef OPERATION_DIGITALPINREAD_H
-namespace OperationArchitecture
+namespace EmbeddedIOOperations
 {
-	Operation_DigitalPinRead::Operation_DigitalPinRead(EmbeddedIOServices::IDigitalService *digitalService, const uint16_t pin, const bool inverted) :
+	Operation_DigitalPinRead::Operation_DigitalPinRead(IDigitalService *digitalService, const uint16_t pin, const bool inverted) :
 		_digitalService(digitalService),
 		_pin(pin),
 		_inverted(inverted)

@@ -3,9 +3,9 @@
 
 #ifndef OPERATION_GETTICK_H
 #define OPERATION_GETTICK_H
-namespace OperationArchitecture
+namespace EmbeddedIOOperations
 {
-	class Operation_GetTick : public IOperation<EmbeddedIOServices::tick_t>
+	class Operation_GetTick : public OperationArchitecture::IOperation<EmbeddedIOServices::tick_t>
 	{
 	protected:
 		static Operation_GetTick *_instance;
@@ -15,7 +15,7 @@ namespace OperationArchitecture
 
 		EmbeddedIOServices::tick_t Execute() override;
 
-		static IOperationBase *Create(const EmbeddedIOServices::EmbeddedIOServiceCollection *embeddedIOServiceCollection);
+		static OperationArchitecture::IOperationBase *Create(const EmbeddedIOServiceCollection *embeddedIOServiceCollection);
 	};
 }
 #endif

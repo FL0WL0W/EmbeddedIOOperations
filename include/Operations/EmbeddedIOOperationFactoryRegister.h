@@ -3,12 +3,12 @@
 
 #ifndef EMBEDDEDIOOPERATIONFACTORYREGISTER_H
 #define EMBEDDEDIOOPERATIONFACTORYREGISTER_H
-namespace OperationArchitecture
+namespace EmbeddedIOOperations
 {
 	class EmbeddedIOOperationFactoryRegister
 	{
 		public:
-		static void Register(uint32_t idOffset, OperationFactory *factory, const EmbeddedIOServices::EmbeddedIOServiceCollection *embeddedIOServiceCollection);
+		static void Register(uint32_t idOffset, OperationArchitecture::OperationFactory *factory, const EmbeddedIOOperations::EmbeddedIOServiceCollection *embeddedIOServiceCollection);
 	};
 }
 #endif

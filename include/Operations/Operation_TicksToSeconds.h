@@ -3,9 +3,9 @@
 
 #ifndef OPERATION_TICKSTOSECONDS_H
 #define OPERATION_TICKSTOSECONDS_H
-namespace OperationArchitecture
+namespace EmbeddedIOOperations
 {
-	class Operation_TicksToSeconds : public IOperation<float, uint32_t>
+	class Operation_TicksToSeconds : public OperationArchitecture::IOperation<float, uint32_t>
 	{
 	protected:
 		static Operation_TicksToSeconds *_instance;
@@ -15,7 +15,7 @@ namespace OperationArchitecture
 
 		float Execute(uint32_t ticks) override;
 
-		static IOperationBase *Create(const EmbeddedIOServices::EmbeddedIOServiceCollection *embeddedIOServiceCollection);
+		static OperationArchitecture::IOperationBase *Create(const EmbeddedIOServiceCollection *embeddedIOServiceCollection);
 	};
 }
 #endif

@@ -3,7 +3,7 @@
 
 #ifndef OPERATION_DIGITALPINRECORD_H
 #define OPERATION_DIGITALPINRECORD_H
-namespace OperationArchitecture
+namespace EmbeddedIOOperations
 {
 	typedef uint16_t frameindex_t;
 	struct Frame
@@ -47,7 +47,7 @@ namespace OperationArchitecture
 		Frame *Frames;
 	};
 
-	class Operation_DigitalPinRecord : public IOperation<Record>
+	class Operation_DigitalPinRecord : public OperationArchitecture::IOperation<Record>
 	{
 	protected:
 		EmbeddedIOServices::IDigitalService *_digitalService;
@@ -60,7 +60,7 @@ namespace OperationArchitecture
 		Record Execute() override;
 		void InterruptCallBack();
 
-		static IOperationBase *Create(const void *config, size_t &sizeOut, const EmbeddedIOServices::EmbeddedIOServiceCollection *embeddedIOServiceCollection);
+		static OperationArchitecture::IOperationBase *Create(const void *config, size_t &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection);
 	};
 }
 #endif

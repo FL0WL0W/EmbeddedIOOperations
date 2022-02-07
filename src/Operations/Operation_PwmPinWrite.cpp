@@ -1,12 +1,13 @@
 #include "Operations/Operation_PwmPinWrite.h"
 #include "Config.h"
 
+using namespace OperationArchitecture;
 using namespace EmbeddedIOServices;
 
 #ifdef OPERATION_PWMPINWRITE_H
-namespace OperationArchitecture
+namespace EmbeddedIOOperations
 {
-	Operation_PwmPinWrite::Operation_PwmPinWrite( EmbeddedIOServices::IPwmService *pwmService, const uint16_t pin, const uint16_t minFrequency) :
+	Operation_PwmPinWrite::Operation_PwmPinWrite(IPwmService *pwmService, const uint16_t pin, const uint16_t minFrequency) :
 		_pwmService(pwmService),
 		_pin(pin),
 		_minFrequency(minFrequency)

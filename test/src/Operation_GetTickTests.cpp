@@ -5,6 +5,7 @@
 using namespace testing;
 using namespace EmbeddedIOServices;
 using namespace OperationArchitecture;
+using namespace EmbeddedIOOperations;
 
 namespace UnitTests
 {

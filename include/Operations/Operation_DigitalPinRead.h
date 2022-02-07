@@ -3,9 +3,9 @@
 
 #ifndef OPERATION_DIGITALPINREAD_H
 #define OPERATION_DIGITALPINREAD_H
-namespace OperationArchitecture
+namespace EmbeddedIOOperations
 {
-	class Operation_DigitalPinRead : public IOperation<bool>
+	class Operation_DigitalPinRead : public OperationArchitecture::IOperation<bool>
 	{
 	protected:
 		EmbeddedIOServices::IDigitalService *_digitalService;
@@ -16,7 +16,7 @@ namespace OperationArchitecture
 
 		bool Execute() override;
 
-		static IOperationBase *Create(const void *config, size_t &sizeOut, const EmbeddedIOServices::EmbeddedIOServiceCollection *embeddedIOServiceCollection);
+		static OperationArchitecture::IOperationBase *Create(const void *config, size_t &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection);
 	};
 }
 #endif

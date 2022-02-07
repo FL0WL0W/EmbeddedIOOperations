@@ -1,12 +1,13 @@
 #include "Operations/Operation_PulseWidthPinRead.h"
 #include "Config.h"
 
+using namespace OperationArchitecture;
 using namespace EmbeddedIOServices;
 
 #ifdef OPERATION_PULSEWIDTHPINREAD_H
-namespace OperationArchitecture
+namespace EmbeddedIOOperations
 {
-	Operation_PulseWidthPinRead::Operation_PulseWidthPinRead( EmbeddedIOServices::IPwmService *pwmService, const uint16_t pin, const uint16_t minFrequency) :
+	Operation_PulseWidthPinRead::Operation_PulseWidthPinRead(IPwmService *pwmService, const uint16_t pin, const uint16_t minFrequency) :
 		_pwmService(pwmService),
 		_pin(pin),
 		_minFrequency(minFrequency)
