@@ -6,7 +6,7 @@ using namespace OperationArchitecture;
 #ifdef COMMUNICATIONHANDLER_GETVARIABLE_H
 namespace EFIGenie
 {	
-		CommunicationHandler_GetVariable::CommunicationHandler_GetVariable(ICommunicationService *communicationService, std::map<uint32_t, Variable*> *variableMap) :
+		CommunicationHandler_GetVariable::CommunicationHandler_GetVariable(ICommunicationService *communicationService, GeneratorMap<Variable> *variableMap) :
 			_communicationService(communicationService),
 			_variableMap(variableMap)
 		{
