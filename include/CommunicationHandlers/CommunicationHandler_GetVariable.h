@@ -9,8 +9,8 @@ namespace EFIGenie
 	class CommunicationHandler_GetVariable
 	{
 	protected:
-		OperationArchitecture::GeneratorMap<OperationArchitecture::Variable> *_variableMap;
 		EmbeddedIOServices::ICommunicationService *_communicationService;
+		OperationArchitecture::GeneratorMap<OperationArchitecture::Variable> *_variableMap;
 		EmbeddedIOServices::communication_receive_callback_t _communicationReceiveCallBack;
 	public:
 		CommunicationHandler_GetVariable(EmbeddedIOServices::ICommunicationService *communicationService, OperationArchitecture::GeneratorMap<OperationArchitecture::Variable> *variableMap);
