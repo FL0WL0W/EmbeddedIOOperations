@@ -39,20 +39,22 @@ namespace EFIGenie
 				{
 					//return the value of the address location of the variable + offset
 					std::memcpy(&variableBuff[1], reinterpret_cast<uint64_t *>(it->second->Value) + offset, sizeof(uint64_t));
+					_communicationService->Send(variableBuff, sizeof(variableBuff));
 				}
 				else
 				{
 					//otherwise copy the value of the variable
 					std::memcpy(&variableBuff[1], &it->second->Value, sizeof(uint64_t));
+					_communicationService->Send(variableBuff, sizeof(VariableType) + VariableTypeSizeOf(it->second->Type));
 				}
 			}
 			else
 			{
 				variableBuff[0] = VOID;
+				_communicationService->Send(variableBuff, sizeof(VariableType));
 			}
 
 			//send the message back
-			_communicationService->Send(variableBuff, sizeof(variableBuff));
 			return sizeof(uint32_t) + sizeof(uint8_t);//return number of bytes handled
 		}
 }
