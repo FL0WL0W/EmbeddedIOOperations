@@ -37,6 +37,7 @@ namespace EFIGenie
 				variableBuff[0] = it->second->Type;//type is the first byte returned
 				if(it->second->Type == POINTER || it->second->Type == BIGOTHER)//if it is a pointer
 				{
+					//If security is an issue, then this function allows users to read memory with 0 oversight
 					//return the value of the address location of the variable + offset
 					std::memcpy(&variableBuff[1], reinterpret_cast<uint64_t *>(it->second->Value) + offset, sizeof(uint64_t));
 					_communicationService->Send(variableBuff, sizeof(variableBuff));
