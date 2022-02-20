@@ -6,7 +6,7 @@ using namespace OperationArchitecture;
 #ifdef COMMUNICATIONHANDLER_GETVARIABLE_H
 namespace EFIGenie
 {	
-		CommunicationHandler_GetVariable::CommunicationHandler_GetVariable(ICommunicationService *communicationService, GeneratorMap<Variable> *variableMap, void *metadata) :
+		CommunicationHandler_GetVariable::CommunicationHandler_GetVariable(ICommunicationService *communicationService, GeneratorMap<Variable> *variableMap, const void *metadata) :
 			_communicationService(communicationService),
 			_variableMap(variableMap),
 			_metadata(metadata)
@@ -37,7 +37,7 @@ namespace EFIGenie
 
 				//If security is an issue, then this function allows users to read memory with 0 oversight
 				//send metadata in 64 byte blocks at a time. the second variable is the block index
-				_communicationService->Send(reinterpret_cast<uint8_t *>(_metadata) + offset * 64, 64);
+				_communicationService->Send(reinterpret_cast<const uint8_t *>(_metadata) + offset * 64, 64);
 
 				return sizeof(uint32_t) + sizeof(uint32_t);//return number of bytes handled
 			}
