@@ -6,9 +6,10 @@ using namespace OperationArchitecture;
 #ifdef COMMUNICATIONHANDLER_GETVARIABLE_H
 namespace EFIGenie
 {	
-		CommunicationHandler_GetVariable::CommunicationHandler_GetVariable(ICommunicationService *communicationService, GeneratorMap<Variable> *variableMap) :
+		CommunicationHandler_GetVariable::CommunicationHandler_GetVariable(ICommunicationService *communicationService, GeneratorMap<Variable> *variableMap, void *metadata) :
 			_communicationService(communicationService),
-			_variableMap(variableMap)
+			_variableMap(variableMap),
+			_metadata(metadata)
 		{
 			_communicationReceiveCallBack = [this](void *data, size_t length) { return this->Receive(data, length); };
 			_communicationService->RegisterReceiveCallBack(&_communicationReceiveCallBack);
@@ -21,11 +22,28 @@ namespace EFIGenie
 
 		size_t CommunicationHandler_GetVariable::Receive(void *data, size_t length)
 		{
-			if(length < sizeof(uint32_t) + sizeof(uint8_t))//make sure there are enough bytes to process a request
+			if(length < sizeof(uint32_t))//make sure there are enough bytes to process a request
 				return 0;
 
 			uint32_t variableID = *reinterpret_cast<uint32_t *>(data); //grab service from data
 			data = reinterpret_cast<uint32_t *>(data) + 1; //ofset data
+
+			if(variableID == METADATA_VARIABLEID)
+			{
+				if(length < sizeof(uint32_t) + sizeof(uint32_t))//make sure there are enough bytes to process a request
+					return 0;
+				uint8_t offset = *reinterpret_cast<uint32_t *>(data); //grab length from data
+				data = reinterpret_cast<uint32_t *>(data) + 1; //ofset data
+
+				//If security is an issue, then this function allows users to read memory with 0 oversight
+				//send metadata in 64 byte blocks at a time. the second variable is the block index
+				_communicationService->Send(reinterpret_cast<uint8_t *>(_metadata) + offset * 64, 64);
+
+				return sizeof(uint32_t) + sizeof(uint32_t);//return number of bytes handled
+			}
+
+			if(length < sizeof(uint32_t) + sizeof(uint8_t))//make sure there are enough bytes to process a request
+				return 0;
 			uint8_t offset = *reinterpret_cast<uint8_t *>(data); //grab length from data
 			data = reinterpret_cast<uint8_t *>(data) + 1; //ofset data
 			
