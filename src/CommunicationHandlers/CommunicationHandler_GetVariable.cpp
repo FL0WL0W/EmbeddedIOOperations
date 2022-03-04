@@ -25,14 +25,14 @@ namespace EFIGenie
 			if(length < sizeof(uint32_t))//make sure there are enough bytes to process a request
 				return 0;
 
-			uint32_t variableID = *reinterpret_cast<uint32_t *>(data); //grab service from data
+			uint32_t variableID = *reinterpret_cast<uint32_t *>(data); //grab variable ID from data
 			data = reinterpret_cast<uint32_t *>(data) + 1; //ofset data
 
 			if(variableID == METADATA_VARIABLEID)
 			{
 				if(length < sizeof(uint32_t) + sizeof(uint32_t))//make sure there are enough bytes to process a request
 					return 0;
-				uint8_t offset = *reinterpret_cast<uint32_t *>(data); //grab length from data
+				uint8_t offset = *reinterpret_cast<uint32_t *>(data); //grab offset from data
 				data = reinterpret_cast<uint32_t *>(data) + 1; //ofset data
 
 				//If security is an issue, then this function allows users to read memory with 0 oversight
@@ -44,7 +44,7 @@ namespace EFIGenie
 
 			if(length < sizeof(uint32_t) + sizeof(uint8_t))//make sure there are enough bytes to process a request
 				return 0;
-			uint8_t offset = *reinterpret_cast<uint8_t *>(data); //grab length from data
+			uint8_t offset = *reinterpret_cast<uint8_t *>(data); //grab offset from data
 			data = reinterpret_cast<uint8_t *>(data) + 1; //ofset data
 			
 			uint8_t variableBuff[sizeof(VariableType) + sizeof(uint64_t)];//create a buffer for the returned message
@@ -58,22 +58,24 @@ namespace EFIGenie
 					//If security is an issue, then this function allows users to read memory with 0 oversight
 					//return the value of the address location of the variable + offset
 					std::memcpy(&variableBuff[1], reinterpret_cast<uint64_t *>(it->second->Value) + offset, sizeof(uint64_t));
+					//send the message back
 					_communicationService->Send(variableBuff, sizeof(variableBuff));
 				}
 				else
 				{
 					//otherwise copy the value of the variable
 					std::memcpy(&variableBuff[1], &it->second->Value, sizeof(uint64_t));
+					//send the message back
 					_communicationService->Send(variableBuff, sizeof(VariableType) + VariableTypeSizeOf(it->second->Type));
 				}
 			}
 			else
 			{
 				variableBuff[0] = VOID;
+				//send the message back
 				_communicationService->Send(variableBuff, sizeof(VariableType));
 			}
 
-			//send the message back
 			return sizeof(uint32_t) + sizeof(uint8_t);//return number of bytes handled
 		}
 }
