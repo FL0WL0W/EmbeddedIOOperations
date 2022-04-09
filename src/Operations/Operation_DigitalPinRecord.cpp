@@ -19,7 +19,7 @@ namespace EmbeddedIOOperations
 		_digitalService->AttachInterrupt(_pin, [this]() { this->InterruptCallBack(); });
 	}
 
-	Record Operation_DigitalPinRecord::Execute()
+	Record<bool> Operation_DigitalPinRecord::Execute()
 	{
 		const uint16_t last = _record.Last;
 		if(!_record.Frames[last].Valid)

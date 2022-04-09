@@ -19,7 +19,7 @@ namespace UnitTests
 		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
 		IOperationBase *_operation;
 		callback_t _callBack = 0;
-		Record *_record;
+		Record<bool> *_record;
         size_t _expectedSize = 0;
         size_t _buildSize = 0;
         size_t _size = 0;
@@ -59,13 +59,13 @@ namespace UnitTests
 
 	TEST_F(Operation_DigitalPinRecordTests, WhenRecordingThenNonToggleStatesDoNotTriggerAFrame)
 	{
-        Record record = _operation->Execute<Record>();
+        Record<bool> record = _operation->Execute<Record<bool>>();
 		ASSERT_EQ(0, record.Last);
 
 		EXPECT_CALL(_timerService, GetTick()).Times(2).WillRepeatedly(Return(10));
 	 	EXPECT_CALL(_digitalService, ReadPin(1)).Times(1).WillOnce(Return(false));
 		_callBack();
-        record = _operation->Execute<Record>();
+        record = _operation->Execute<Record<bool>>();
 		ASSERT_EQ(1, record.Last);
 		ASSERT_EQ(true, record.Frames[record.Last].Valid);
 		ASSERT_EQ(false, record.Frames[record.Last].State);
@@ -74,7 +74,7 @@ namespace UnitTests
 		EXPECT_CALL(_timerService, GetTick()).Times(2).WillRepeatedly(Return(11));
 	 	EXPECT_CALL(_digitalService, ReadPin(1)).Times(1).WillOnce(Return(false));
 		_callBack();
-        record = _operation->Execute<Record>();
+        record = _operation->Execute<Record<bool>>();
 		ASSERT_EQ(1, record.Last);
 		ASSERT_EQ(true, record.Frames[record.Last].Valid);
 		ASSERT_EQ(false, record.Frames[record.Last].State);
@@ -83,7 +83,7 @@ namespace UnitTests
 		EXPECT_CALL(_timerService, GetTick()).Times(2).WillRepeatedly(Return(12));
 	 	EXPECT_CALL(_digitalService, ReadPin(1)).Times(1).WillOnce(Return(true));
 		_callBack();
-        record = _operation->Execute<Record>();
+        record = _operation->Execute<Record<bool>>();
 		ASSERT_EQ(2, record.Last);
 		ASSERT_EQ(true, record.Frames[record.Last].Valid);
 		ASSERT_EQ(true, record.Frames[record.Last].State);
