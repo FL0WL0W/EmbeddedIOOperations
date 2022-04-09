@@ -30,7 +30,8 @@ namespace EmbeddedIOOperations
 				_sampleTask = new EmbeddedIOServices::Task([this]() 
 				{
 					this->Sample(); 
-#ifdef ALLOW_TASK_TO_SCHEDULE_IN_CALLBACK
+#ifdef ALLOW_TASK_TO_SCHEDULE_IN_CALLBACK 
+//this allows us to sample faster than the main loop speed
 					this->_timerService->ScheduleTask(this->_sampleTask, this->_sampleTask->ScheduledTick + this->_sampleRateTicks);
 #endif
 				});
@@ -55,6 +56,7 @@ namespace EmbeddedIOOperations
 				Sample();
 			}
 #ifndef ALLOW_TASK_TO_SCHEDULE_IN_CALLBACK
+//this method cannot sample faster than the main loop speed so we have to do some calculations to acount for this
 			//else schedule the next sample
 			else if(!_sampleTask->Scheduled)
 			{
