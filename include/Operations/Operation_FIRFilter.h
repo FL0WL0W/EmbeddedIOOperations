@@ -53,38 +53,39 @@ namespace EmbeddedIOOperations
 		{
 			const uint16_t length = record.Length;
 			const uint16_t last = record.Last;
-			const Frame<state_t> lastFrame = record.Frames[last];
+			const Frame<state_t> *lastFrame = &record.Frames[last];
 			const uint16_t lastPlusOne = Record<state_t>::Add(last, 1, length);
 			const EmbeddedIOServices::tick_t lastTick = record.Frames[last].Tick;
 			const EmbeddedIOServices::tick_t sampleRateTicks = _config->SampleRate * record.TicksPerSecond;
 			const float *coefficents = _config->Coefficients();
 			state_t filteredValue = 0;
-			if(lastFrame.Valid) 
+			if(lastFrame->Valid) 
 			{
-				filteredValue = lastFrame.State * coefficents[0];
-				EmbeddedIOServices::tick_t previousFrameTick = lastFrame.Tick;
+				filteredValue = lastFrame->State * coefficents[0];
+				const Frame<state_t> *previousFrame = lastFrame;
 				for(uint16_t i = 1, frameIndex = Record<state_t>::Subtract(last, 1, length); frameIndex != lastPlusOne; frameIndex = Record<state_t>::Subtract(frameIndex, 1, length))
 				{
-					const Frame<state_t> frame = record.Frames[frameIndex];
-					if(!frame.Valid)
+					const Frame<state_t> *frame = &record.Frames[frameIndex];
+					if(!frame->Valid)
 						break;
 					
-					const EmbeddedIOServices::tick_t nextCoefficientTick = lastFrame.Tick + i * sampleRateTicks;
 					//interpolation
-					if(EmbeddedIOServices::ITimerService::TickLessThanTick(frame.Tick, nextCoefficientTick))
+					const EmbeddedIOServices::tick_t nextCoefficientTick = lastFrame->Tick + i * sampleRateTicks;
+					const state_t deltaState = frame->State - previousFrame->State;
+					if(EmbeddedIOServices::ITimerService::TickLessThanTick(frame->Tick, nextCoefficientTick))
 					{
-						filteredValue += (frame.State * coefficents[i] * (nextCoefficientTick - previousFrameTick)) / sampleRateTicks;
+						filteredValue += (deltaState * coefficents[i] * (nextCoefficientTick - previousFrame->Tick)) / sampleRateTicks;
 						i++;
 						if(i >= _config->Order)
 							break;
-						filteredValue += (frame.State * coefficents[i] * (frame.Tick - nextCoefficientTick)) / sampleRateTicks;
+						filteredValue += (deltaState * coefficents[i] * (frame->Tick - nextCoefficientTick)) / sampleRateTicks;
 					}
 					else 
 					{
-						filteredValue += (frame.State * coefficents[i] * (frame.Tick - previousFrameTick)) / sampleRateTicks;
+						filteredValue += (deltaState * coefficents[i] * (frame->Tick - previousFrame->Tick)) / sampleRateTicks;
 					}
 
-					previousFrameTick = frame.Tick;
+					previousFrame = frame;
 				}
 			}
 
