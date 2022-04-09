@@ -4,8 +4,8 @@
 #include "Record.h"
 #include "Config.h"
 
-#ifndef OPERATION_INTERPOLATERECORD_H
-#define OPERATION_INTERPOLATERECORD_H
+#ifndef OPERATION_FIRFILTER_H
+#define OPERATION_FIRFILTER_H
 namespace EmbeddedIOOperations
 {
 	struct Operation_FIRFilterConfig 
@@ -43,12 +43,9 @@ namespace EmbeddedIOOperations
 	class Operation_FIRFilter : public OperationArchitecture::IOperation<state_t, Record<state_t>>
 	{
 	protected:
-		const Operation_FIRFilterConfig *_config;
+		const Operation_FIRFilterConfig *_firConfig;
 	public:		
-        Operation_FIRFilter(EmbeddedIOServices::ITimerService *timerService, const Operation_FIRFilterConfig *config) :
-			_config(config)
-		{
-		}
+        Operation_FIRFilter(const Operation_FIRFilterConfig *firConfig) : _firConfig(firConfig) {}
 		state_t Execute(Record<state_t> record) override 
 		{
 			const uint16_t length = record.Length;
@@ -56,8 +53,8 @@ namespace EmbeddedIOOperations
 			const Frame<state_t> *lastFrame = &record.Frames[last];
 			const uint16_t lastPlusOne = Record<state_t>::Add(last, 1, length);
 			const EmbeddedIOServices::tick_t lastTick = record.Frames[last].Tick;
-			const EmbeddedIOServices::tick_t sampleRateTicks = _config->SampleRate * record.TicksPerSecond;
-			const float *coefficents = _config->Coefficients();
+			const EmbeddedIOServices::tick_t sampleRateTicks = _firConfig->SampleRate * record.TicksPerSecond;
+			const float *coefficents = _firConfig->Coefficients();
 			state_t filteredValue = 0;
 			if(lastFrame->Valid) 
 			{
@@ -70,19 +67,31 @@ namespace EmbeddedIOOperations
 						break;
 					
 					//interpolation
-					const EmbeddedIOServices::tick_t nextCoefficientTick = lastFrame->Tick + i * sampleRateTicks;
-					const state_t deltaState = frame->State - previousFrame->State;
+					EmbeddedIOServices::tick_t nextCoefficientTick = lastFrame->Tick + i * sampleRateTicks;
+					EmbeddedIOServices::tick_t previousFrameTick = previousFrame.Tick;
+					const EmbeddedIOServices::tick_t deltaTick = frame->Tick - previousFrame->Tick;
+					const state_t deltaState = ((frame->State - previousFrame->State) * deltaTick) / sampleRateTicks;
 					if(EmbeddedIOServices::ITimerService::TickLessThanTick(frame->Tick, nextCoefficientTick))
 					{
-						filteredValue += (deltaState * coefficents[i] * (nextCoefficientTick - previousFrame->Tick)) / sampleRateTicks;
-						i++;
-						if(i >= _config->Order)
-							break;
-						filteredValue += (deltaState * coefficents[i] * (frame->Tick - nextCoefficientTick)) / sampleRateTicks;
+						filteredValue += (deltaState * coefficents[i] * (nextCoefficientTick - previousFrameTick)) / deltaTick;
+						while(++i < _firConfig->Order) 
+						{
+							previousFrameTick = nextCoefficientTick;
+							nextCoefficientTick += sampleRateTicks;
+							if(EmbeddedIOServices::ITimerService::TickLessThanTick(frame->Tick, nextCoefficientTick))
+							{
+								filteredValue += (deltaState * coefficents[i] * (nextCoefficientTick - previousFrameTick)) / deltaTick;
+							}
+							else
+							{
+								filteredValue += (deltaState * coefficents[i] * (frame->Tick - nextCoefficientTick)) / deltaTick;
+								break;
+							}
+						}
 					}
 					else 
 					{
-						filteredValue += (deltaState * coefficents[i] * (frame->Tick - previousFrame->Tick)) / sampleRateTicks;
+						filteredValue += deltaState * coefficents[i];
 					}
 
 					previousFrame = frame;
@@ -92,9 +101,9 @@ namespace EmbeddedIOOperations
 			return filteredValue;
 		}
 
-		static OperationArchitecture::IOperationBase *Create(const void *config, size_t &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection) 
+		static OperationArchitecture::IOperationBase *Create(const void *config, size_t &sizeOut) 
 		{
-			return new Operation_FIRFilter(embeddedIOServiceCollection->TimerService, OperationArchitecture::Config::CastConfigAndOffset<Operation_FIRFilterConfig>(config, sizeOut));
+			return new Operation_FIRFilter(OperationArchitecture::Config::CastConfigAndOffset<Operation_FIRFilterConfig>(config, sizeOut));
 		}
 	};
 }
