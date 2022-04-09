@@ -1,6 +1,6 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
-#include "Operations/Operation_DigitalPinRecord.h"
+#include "Operations/Operation_DigitalPinInterruptRecord.h"
 #include "MockDigitalService.h"
 #include "MockTimerService.h"
 #include "Config.h"
@@ -11,7 +11,7 @@ using namespace EmbeddedIOOperations;
 
 namespace UnitTests
 {
-	class Operation_DigitalPinRecordTests : public Test
+	class Operation_DigitalPinInterruptRecordTests : public Test
 	{
 		protected:
 		MockDigitalService _digitalService;
@@ -24,7 +24,7 @@ namespace UnitTests
         size_t _buildSize = 0;
         size_t _size = 0;
 
-		Operation_DigitalPinRecordTests() 
+		Operation_DigitalPinInterruptRecordTests() 
 		{
 			_embeddedIOServiceCollection.DigitalService = &_digitalService;
 			_embeddedIOServiceCollection.TimerService = &_timerService;
@@ -47,17 +47,17 @@ namespace UnitTests
 				.Times(1)
 				.WillOnce(SaveArg<1>(&_callBack));
 
-			_operation = Operation_DigitalPinRecord::Create(config, _size, &_embeddedIOServiceCollection);
+			_operation = Operation_DigitalPinInterruptRecord::Create(config, _size, &_embeddedIOServiceCollection);
 		}
 	};
 
-	TEST_F(Operation_DigitalPinRecordTests, ConfigsAreCorrect)
+	TEST_F(Operation_DigitalPinInterruptRecordTests, ConfigsAreCorrect)
 	{
 		ASSERT_EQ(_expectedSize, _buildSize);
 		ASSERT_EQ(_expectedSize, _size);
 	}
 
-	TEST_F(Operation_DigitalPinRecordTests, WhenRecordingThenNonToggleStatesDoNotTriggerAFrame)
+	TEST_F(Operation_DigitalPinInterruptRecordTests, WhenRecordingThenNonToggleStatesDoNotTriggerAFrame)
 	{
         Record<bool> record = _operation->Execute<Record<bool>>();
 		ASSERT_EQ(0, record.Last);

@@ -25,10 +25,9 @@ namespace EmbeddedIOOperations
 	struct Record
 	{
 		public:
-		Record() 
-		{
-			Length = 0;
-		}
+		Record() : Record(0, 0) { }
+		Record(frameindex_t length) : Record(length, 0) { }
+		Record(frameindex_t length, EmbeddedIOServices::tick_t ticksPerSecond) : TicksPerSecond(ticksPerSecond) { Initialize(length); }
 		void Initialize(frameindex_t length)
 		{
 			Length = length;

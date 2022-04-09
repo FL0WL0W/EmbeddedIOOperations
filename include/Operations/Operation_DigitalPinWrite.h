@@ -14,7 +14,6 @@ namespace EmbeddedIOOperations
 		bool _highZ : 1;
 	public:		
         Operation_DigitalPinWrite(EmbeddedIOServices::IDigitalService *digitalService, uint16_t pin, const bool normalOn, const bool highZ);
-
 		void Execute(bool x) override;
 
 		static OperationArchitecture::IOperationBase *Create(const void *config, size_t &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection);

@@ -12,7 +12,6 @@ namespace EmbeddedIOOperations
 		EmbeddedIOServices::ITimerService *_timerService;
 	public:		
         Operation_SecondsToTicks(EmbeddedIOServices::ITimerService *timerService);
-
 		uint32_t Execute(float seconds) override;
 
 		static OperationArchitecture::IOperationBase *Create(const EmbeddedIOServiceCollection *embeddedIOServiceCollection);

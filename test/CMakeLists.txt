@@ -22,6 +22,7 @@ add_executable(${TARGET} ${SRCS})
 target_link_libraries(${TARGET} EmbeddedIOServices)
 target_link_libraries(${TARGET} EmbeddedIOServicesMockedObjects)
 target_link_libraries(${TARGET} OperationArchitecture)
+target_link_libraries(${TARGET} OperationArchitectureMockedObjects)
 target_link_libraries(${TARGET} EmbeddedIOOperations)
 target_link_libraries(${TARGET} gtest gtest_main gmock)
 

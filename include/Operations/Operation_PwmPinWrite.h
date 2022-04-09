@@ -13,7 +13,6 @@ namespace EmbeddedIOOperations
 		uint16_t _minFrequency;
 	public:		
         Operation_PwmPinWrite(EmbeddedIOServices::IPwmService *pwmService, const uint16_t pin, const uint16_t minFrequency);
-
 		void Execute(float period, float pulseWidth) override;
 
 		static OperationArchitecture::IOperationBase *Create(const void *config, size_t &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection);

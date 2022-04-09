@@ -12,7 +12,6 @@ namespace EmbeddedIOOperations
 		uint16_t _pin;
 	public:		
         Operation_AnalogPinRead(EmbeddedIOServices::IAnalogService *analogService, const uint16_t pin);
-
 		float Execute() override;
 
 		static OperationArchitecture::IOperationBase *Create(const void *config, size_t &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection);

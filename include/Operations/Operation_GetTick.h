@@ -12,7 +12,6 @@ namespace EmbeddedIOOperations
 		EmbeddedIOServices::ITimerService *_timerService;
 	public:		
         Operation_GetTick(EmbeddedIOServices::ITimerService *timerService);
-
 		EmbeddedIOServices::tick_t Execute() override;
 
 		static OperationArchitecture::IOperationBase *Create(const EmbeddedIOServiceCollection *embeddedIOServiceCollection);

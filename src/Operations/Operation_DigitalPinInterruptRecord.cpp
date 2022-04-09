@@ -1,25 +1,23 @@
-#include "Operations/Operation_DigitalPinRecord.h"
+#include "Operations/Operation_DigitalPinInterruptRecord.h"
 #include "Config.h"
 
 using namespace OperationArchitecture;
 using namespace EmbeddedIOServices;
 
-#ifdef OPERATION_DIGITALPINRECORD_H
+#ifdef OPERATION_DIGITALPININTERRUPTRECORD_H
 namespace EmbeddedIOOperations
 {
-	Operation_DigitalPinRecord::Operation_DigitalPinRecord(IDigitalService *digitalService, ITimerService *timerService, uint16_t pin, bool inverted, uint16_t length) :
+	Operation_DigitalPinInterruptRecord::Operation_DigitalPinInterruptRecord(IDigitalService *digitalService, ITimerService *timerService, uint16_t pin, bool inverted, uint16_t length) :
 		_digitalService(digitalService),
 		_timerService(timerService),
 		_pin(pin),
-		_inverted(inverted)
+		_inverted(inverted),
+		_record(length, timerService->GetTicksPerSecond())
 	{
-		_record.Initialize(length);
-		_record.TicksPerSecond = _timerService->GetTicksPerSecond();
-
-		_digitalService->AttachInterrupt(_pin, [this]() { this->InterruptCallBack(); });
+		_digitalService->AttachInterrupt(_pin, [this]() { this->Sample(); });
 	}
 
-	Record<bool> Operation_DigitalPinRecord::Execute()
+	Record<bool> Operation_DigitalPinInterruptRecord::Execute()
 	{
 		const uint16_t last = _record.Last;
 		if(!_record.Frames[last].Valid)
@@ -37,7 +35,7 @@ namespace EmbeddedIOOperations
 		return _record;
 	}
 
-	void Operation_DigitalPinRecord::InterruptCallBack()
+	void Operation_DigitalPinInterruptRecord::Sample()
 	{
 		const uint16_t last = (_record.Last + 1) % _record.Length;
 		_record.Frames[last].State = _digitalService->ReadPin(_pin)  ^ _inverted;
@@ -49,13 +47,13 @@ namespace EmbeddedIOOperations
 		_record.Last = last;
 	}
 
-	IOperationBase *Operation_DigitalPinRecord::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
+	IOperationBase *Operation_DigitalPinInterruptRecord::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
 	{
 		const uint16_t pin = Config::CastAndOffset<uint16_t>(config, sizeOut);
 		const bool inverted = Config::CastAndOffset<bool>(config, sizeOut);
 		const uint16_t length = Config::CastAndOffset<uint16_t>(config, sizeOut);
 					
-		Operation_DigitalPinRecord *operation = new Operation_DigitalPinRecord(embeddedIOServiceCollection->DigitalService, embeddedIOServiceCollection->TimerService, pin, inverted, length);
+		Operation_DigitalPinInterruptRecord *operation = new Operation_DigitalPinInterruptRecord(embeddedIOServiceCollection->DigitalService, embeddedIOServiceCollection->TimerService, pin, inverted, length);
 
 		return operation;
 	}
