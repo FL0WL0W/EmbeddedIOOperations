@@ -23,10 +23,11 @@ namespace EmbeddedIOOperations
 		if(!_record.Frames[last].Valid)
 			return _record;
 
+		const uint16_t length = _record.Length;
 		const tick_t tick = _timerService->GetTick();
 		if(ITimerService::TickLessThanTick(tick, _record.Frames[last].Tick))
 		{
-			for(frameindex_t i = 0; i < _record.Length; i++)
+			for(frameindex_t i = 0; i < length; i++)
 			{
 				 _record.Frames[i].Valid = false;
 			}

@@ -41,10 +41,11 @@ namespace EmbeddedIOOperations
 		Record<state_t> Execute() override 
 		{
 			const uint16_t last = _record.Last;
+			const uint16_t length = _record.Length;
 			const EmbeddedIOServices::tick_t tick = _timerService->GetTick();
 			if(EmbeddedIOServices::ITimerService::TickLessThanTick(tick, _record.Frames[last].Tick))
 			{
-				for(frameindex_t i = 0; i < _record.Length; i++)
+				for(frameindex_t i = 0; i < length; i++)
 				{
 					_record.Frames[i].Valid = false;
 				}
@@ -62,7 +63,7 @@ namespace EmbeddedIOOperations
 			{
 				//if nextSampleTick is before the previous Frame if valid or before tick if not valid, then set nextSampleTick to now;
 				EmbeddedIOServices::tick_t nextSampleTick = _sampleTask->ScheduledTick + _sampleRateTicks;
-				const Frame<float> *previousFrame = &_record.Frames[Record<float>::Subtract(last, 1, _record.Length)];
+				const Frame<state_t> *previousFrame = &_record.Frames[Record<state_t>::Subtract(last, 1, length)];
 				if(previousFrame->Valid)
 				{
 					if(EmbeddedIOServices::ITimerService::TickLessThanTick(nextSampleTick, previousFrame->Tick))

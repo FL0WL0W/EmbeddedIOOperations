@@ -11,6 +11,7 @@
 #include "Operations/Operation_SecondsToTicks.h"
 #include "Operations/Operation_TicksToSeconds.h"
 #include "Operations/Operation_Record.h"
+#include "Operations/Operation_FIRFilter.h"
 
 using namespace OperationArchitecture;
 
@@ -31,6 +32,7 @@ namespace EmbeddedIOOperations
         factory->Register(idOffset + 10, Operation_SecondsToTicks::Create(embeddedIOServiceCollection));
         factory->Register(idOffset + 11, Operation_TicksToSeconds::Create(embeddedIOServiceCollection));
         factory->Register(idOffset + 12, [embeddedIOServiceCollection, factory](const void *config, size_t &sizeOut) { return Operation_Record<float>::Create(config, sizeOut, embeddedIOServiceCollection, factory); });
+        factory->Register(idOffset + 13, [embeddedIOServiceCollection](const void *config, size_t &sizeOut) { return Operation_FIRFilter<float>::Create(config, sizeOut, embeddedIOServiceCollection); });
     }
 }
 #endif
