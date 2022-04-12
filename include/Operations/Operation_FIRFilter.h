@@ -68,7 +68,7 @@ namespace EmbeddedIOOperations
 					
 					//interpolation
 					EmbeddedIOServices::tick_t nextCoefficientTick = lastFrame->Tick + i * sampleRateTicks;
-					EmbeddedIOServices::tick_t previousFrameTick = previousFrame.Tick;
+					EmbeddedIOServices::tick_t previousFrameTick = previousFrame->Tick;
 					const EmbeddedIOServices::tick_t deltaTick = frame->Tick - previousFrame->Tick;
 					const state_t deltaState = ((frame->State - previousFrame->State) * deltaTick) / sampleRateTicks;
 					if(EmbeddedIOServices::ITimerService::TickLessThanTick(frame->Tick, nextCoefficientTick))
