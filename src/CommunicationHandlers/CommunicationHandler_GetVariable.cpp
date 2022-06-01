@@ -72,8 +72,10 @@ namespace EFIGenie
 			else
 			{
 				variableBuff[0] = VOID;
+				std::memcpy(&variableBuff[1], &variableID, sizeof(uint32_t));
+				std::memcpy(&variableBuff[1 + sizeof(uint32_t)], &offset, sizeof(uint8_t));
 				//send the message back
-				_communicationService->Send(variableBuff, sizeof(VariableType));
+				_communicationService->Send(variableBuff, sizeof(VariableType) + sizeof(uint32_t) + sizeof(uint8_t));
 			}
 
 			return sizeof(uint32_t) + sizeof(uint8_t);//return number of bytes handled
