@@ -7,17 +7,14 @@
 #define METADATA_VARIABLEID 4294967295
 namespace EFIGenie
 {	
-	class CommunicationHandler_GetVariable
+	class CommunicationHandler_GetVariable : public EmbeddedIOServices::ICommunicationHandler
 	{
 	protected:
-		EmbeddedIOServices::ICommunicationService *_communicationService;
 		OperationArchitecture::GeneratorMap<OperationArchitecture::Variable> *_variableMap;
-		EmbeddedIOServices::communication_receive_callback_t _communicationReceiveCallBack;
 		const void *_metadata;
 	public:
-		CommunicationHandler_GetVariable(EmbeddedIOServices::ICommunicationService *communicationService, OperationArchitecture::GeneratorMap<OperationArchitecture::Variable> *variableMap, const void *metadata);
-		~CommunicationHandler_GetVariable();
-		size_t Receive(void* buf, size_t length);
+		CommunicationHandler_GetVariable(OperationArchitecture::GeneratorMap<OperationArchitecture::Variable> *variableMap, const void *metadata);
+		size_t Receive(EmbeddedIOServices::ICommunicationService *responseService, void* buf, size_t length);
 	};
 }
 #endif
