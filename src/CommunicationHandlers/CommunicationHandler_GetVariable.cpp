@@ -12,7 +12,7 @@ namespace EFIGenie
 		{
 		}
 
-		size_t CommunicationHandler_GetVariable::Receive(ICommunicationService *responseService, void *data, size_t length)
+		size_t CommunicationHandler_GetVariable::Receive(communication_send_callback_t sendCallBack, void *data, size_t length)
 		{
 			if(length < sizeof(uint32_t))//make sure there are enough bytes to process a request
 				return 0;
@@ -29,7 +29,7 @@ namespace EFIGenie
 
 				//If security is an issue, then this function allows users to read memory with 0 oversight
 				//send metadata in 64 byte blocks at a time. the second variable is the block index
-				responseService->Send(reinterpret_cast<const uint8_t *>(_metadata) + offset * 64, 64);
+				sendCallBack(reinterpret_cast<const uint8_t *>(_metadata) + offset * 64, 64);
 
 				return sizeof(uint32_t) + sizeof(uint32_t);//return number of bytes handled
 			}
@@ -51,14 +51,14 @@ namespace EFIGenie
 					//return the value of the address location of the variable + offset
 					std::memcpy(&variableBuff[1], reinterpret_cast<uint64_t *>(it->second->Value) + offset, sizeof(uint64_t));
 					//send the message back
-					responseService->Send(variableBuff, sizeof(variableBuff));
+					sendCallBack(variableBuff, sizeof(variableBuff));
 				}
 				else
 				{
 					//otherwise copy the value of the variable
 					std::memcpy(&variableBuff[1], &it->second->Value, sizeof(uint64_t));
 					//send the message back
-					responseService->Send(variableBuff, sizeof(VariableType) + VariableTypeSizeOf(it->second->Type));
+					sendCallBack(variableBuff, sizeof(VariableType) + VariableTypeSizeOf(it->second->Type));
 				}
 			}
 			else
@@ -67,7 +67,7 @@ namespace EFIGenie
 				std::memcpy(&variableBuff[1], &variableID, sizeof(uint32_t));
 				std::memcpy(&variableBuff[1 + sizeof(uint32_t)], &offset, sizeof(uint8_t));
 				//send the message back
-				responseService->Send(variableBuff, sizeof(VariableType) + sizeof(uint32_t) + sizeof(uint8_t));
+				sendCallBack(variableBuff, sizeof(VariableType) + sizeof(uint32_t) + sizeof(uint8_t));
 			}
 
 			return sizeof(uint32_t) + sizeof(uint8_t);//return number of bytes handled
