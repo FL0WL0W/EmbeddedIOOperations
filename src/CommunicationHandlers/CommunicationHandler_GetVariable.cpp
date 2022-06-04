@@ -6,36 +6,18 @@ using namespace OperationArchitecture;
 #ifdef COMMUNICATIONHANDLER_GETVARIABLE_H
 namespace EFIGenie
 {	
-		CommunicationHandler_GetVariable::CommunicationHandler_GetVariable(GeneratorMap<Variable> *variableMap, const void *metadata) :
-			_variableMap(variableMap),
-			_metadata(metadata)
+		CommunicationHandler_GetVariable::CommunicationHandler_GetVariable(GeneratorMap<Variable> *variableMap) :
+			_variableMap(variableMap)
 		{
 		}
 
 		size_t CommunicationHandler_GetVariable::Receive(communication_send_callback_t sendCallBack, void *data, size_t length)
 		{
-			if(length < sizeof(uint32_t))//make sure there are enough bytes to process a request
-				return 0;
+			if(length < sizeof(uint32_t) + sizeof(uint8_t))//make sure there are enough bytes to process a request
+				return -1;
 
 			uint32_t variableID = *reinterpret_cast<uint32_t *>(data); //grab variable ID from data
 			data = reinterpret_cast<uint32_t *>(data) + 1; //ofset data
-
-			if(variableID == METADATA_VARIABLEID)
-			{
-				if(length < sizeof(uint32_t) + sizeof(uint32_t))//make sure there are enough bytes to process a request
-					return 0;
-				uint8_t offset = *reinterpret_cast<uint32_t *>(data); //grab offset from data
-				data = reinterpret_cast<uint32_t *>(data) + 1; //ofset data
-
-				//If security is an issue, then this function allows users to read memory with 0 oversight
-				//send metadata in 64 byte blocks at a time. the second variable is the block index
-				sendCallBack(reinterpret_cast<const uint8_t *>(_metadata) + offset * 64, 64);
-
-				return sizeof(uint32_t) + sizeof(uint32_t);//return number of bytes handled
-			}
-
-			if(length < sizeof(uint32_t) + sizeof(uint8_t))//make sure there are enough bytes to process a request
-				return 0;
 			uint8_t offset = *reinterpret_cast<uint8_t *>(data); //grab offset from data
 			data = reinterpret_cast<uint8_t *>(data) + 1; //ofset data
 			

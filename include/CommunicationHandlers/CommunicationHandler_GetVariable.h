@@ -11,9 +11,8 @@ namespace EFIGenie
 	{
 	protected:
 		OperationArchitecture::GeneratorMap<OperationArchitecture::Variable> *_variableMap;
-		const void *_metadata;
 	public:
-		CommunicationHandler_GetVariable(OperationArchitecture::GeneratorMap<OperationArchitecture::Variable> *variableMap, const void *metadata);
+		CommunicationHandler_GetVariable(OperationArchitecture::GeneratorMap<OperationArchitecture::Variable> *variableMap);
 		size_t Receive(EmbeddedIOServices::communication_send_callback_t sendCallBack, void* buf, size_t length);
 	};
 }
