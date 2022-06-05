@@ -14,7 +14,7 @@ namespace EFIGenie
 		size_t CommunicationHandler_GetVariable::Receive(communication_send_callback_t sendCallBack, void *data, size_t length)
 		{
 			if(length < sizeof(uint32_t) + sizeof(uint8_t))//make sure there are enough bytes to process a request
-				return -1;
+				return 0;
 
 			uint32_t variableID = *reinterpret_cast<uint32_t *>(data); //grab variable ID from data
 			data = reinterpret_cast<uint32_t *>(data) + 1; //ofset data

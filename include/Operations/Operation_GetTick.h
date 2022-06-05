@@ -8,7 +8,6 @@ namespace EmbeddedIOOperations
 	class Operation_GetTick : public OperationArchitecture::IOperation<EmbeddedIOServices::tick_t>
 	{
 	protected:
-		static Operation_GetTick *_instance;
 		EmbeddedIOServices::ITimerService *_timerService;
 	public:		
         Operation_GetTick(EmbeddedIOServices::ITimerService *timerService);

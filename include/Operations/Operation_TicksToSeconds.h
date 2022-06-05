@@ -8,7 +8,6 @@ namespace EmbeddedIOOperations
 	class Operation_TicksToSeconds : public OperationArchitecture::IOperation<float, uint32_t>
 	{
 	protected:
-		static Operation_TicksToSeconds *_instance;
 		EmbeddedIOServices::ITimerService *_timerService;
 	public:		
         Operation_TicksToSeconds(EmbeddedIOServices::ITimerService *timerService);
