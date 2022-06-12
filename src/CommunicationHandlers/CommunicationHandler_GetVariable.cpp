@@ -19,14 +19,14 @@ namespace EFIGenie
 			uint32_t variableID = *reinterpret_cast<uint32_t *>(data); //grab variable ID from data
 			data = reinterpret_cast<uint32_t *>(data) + 1; //ofset data
 			
-			uint8_t variableBuff[sizeof(VariableType) + VARIABLE_VALUE_SIZE];//create a buffer for the returned message
-
 			std::map<uint32_t, Variable*>::iterator it = _variableMap->find(variableID); //get the variable
 			if (it != _variableMap->end())
 			{
-				variableBuff[0] = it->second->Type;//type is the first byte returned
 				size_t size = it->second->Size();
-				if(it->second->Type == POINTER)//if it is a pointer
+
+				uint8_t variableBuff[sizeof(VariableType) + size];//create a buffer for the returned message
+				variableBuff[0] = it->second->Type;//type is the first byte returned
+				if(it->second->Type == POINTER || it->second->Type == BIGOTHER)//if it is a pointer
 				{
 					//unknown pointer size
 					if(size == 0)
@@ -35,34 +35,37 @@ namespace EFIGenie
 							return 0;
 						uint8_t offset = *reinterpret_cast<uint8_t *>(data); //grab offset from data
 						data = reinterpret_cast<uint8_t *>(data) + 1; //ofset data
-						std::memcpy(&variableBuff[sizeof(VariableType)], reinterpret_cast<uint64_t *>(it->second->Value) + offset, sizeof(uint64_t));
+						
+						std::memcpy(&variableBuff[sizeof(VariableType)], *reinterpret_cast<uint64_t **>(it->second->Value) + offset, sizeof(uint64_t));
 						//send the message back
 						sendCallBack(variableBuff, sizeof(VariableType) + sizeof(uint64_t));
+						return sizeof(uint32_t) + sizeof(uint8_t);//return number of bytes handled
 					}
 					//known pointer size
 					else
 					{
-						std::memcpy(&variableBuff[sizeof(VariableType)], reinterpret_cast<uint64_t *>(it->second->Value), size);
+						std::memcpy(&variableBuff[sizeof(VariableType)], *reinterpret_cast<uint8_t **>(it->second->Value), size);
 						//send the message back
 						sendCallBack(variableBuff, sizeof(VariableType) + size);
 					}
 				}
 				else
 				{
-					std::memcpy(&variableBuff[sizeof(VariableType)], &it->second->Value, size);
+					std::memcpy(&variableBuff[sizeof(VariableType)], it->second->Value, size);
 					//send the message back
 					sendCallBack(variableBuff, sizeof(VariableType) + size);
 				}
 			}
 			else
 			{
+				uint8_t variableBuff[sizeof(VariableType) + sizeof(uint32_t)];//create a buffer for the returned message
 				variableBuff[0] = VOID;
 				std::memcpy(&variableBuff[sizeof(VariableType)], &variableID, sizeof(uint32_t));
 				//send the message back
 				sendCallBack(variableBuff, sizeof(VariableType) + sizeof(uint32_t));
 			}
 
-			return sizeof(uint32_t) + sizeof(uint8_t);//return number of bytes handled
+			return sizeof(uint32_t);//return number of bytes handled
 		}
 }
 #endif
