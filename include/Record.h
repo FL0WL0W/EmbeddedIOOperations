@@ -11,6 +11,8 @@ namespace EmbeddedIOOperations
 		EmbeddedIOServices::tick_t Tick;
 		state_t State;
 		bool Valid : 1;
+
+		Frame() : Valid(false) {}
 	};
 	template<>
 	struct Frame<bool>
@@ -19,6 +21,8 @@ namespace EmbeddedIOOperations
 		EmbeddedIOServices::tick_t Tick;
 		bool State : 1;
 		bool Valid : 1;
+
+		Frame() : Valid(false) {}
 	};
 	typedef uint16_t frameindex_t;
 	template<typename state_t>
