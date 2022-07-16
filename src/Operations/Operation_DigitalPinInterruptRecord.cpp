@@ -17,6 +17,11 @@ namespace EmbeddedIOOperations
 		_digitalService->AttachInterrupt(_pin, [this]() { this->Sample(); });
 	}
 
+	Operation_DigitalPinInterruptRecord::~Operation_DigitalPinInterruptRecord()
+	{
+		_digitalService->DetachInterrupt(_pin);
+	}
+
 	Record<bool> Operation_DigitalPinInterruptRecord::Execute()
 	{
 		const uint16_t last = _record.Last;

@@ -16,6 +16,7 @@ namespace EmbeddedIOOperations
 		Record<bool> _record;
 	public:	
         Operation_DigitalPinInterruptRecord(EmbeddedIOServices::IDigitalService *digitalService, EmbeddedIOServices::ITimerService *timerService, uint16_t pin, bool inverted, uint16_t length);
+		~Operation_DigitalPinInterruptRecord();
 		Record<bool> Execute() override;
 		void Sample();
 
