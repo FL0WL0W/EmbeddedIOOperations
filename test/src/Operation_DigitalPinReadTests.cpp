@@ -15,8 +15,8 @@ namespace UnitTests
 		protected:
 		MockDigitalService _digitalService;
 		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
-		IOperationBase *_operationInverted;
-		IOperationBase *_operationUninverted;
+		AbstractOperation *_operationInverted;
+		AbstractOperation *_operationUninverted;
         size_t _sizeInverted = 0;
         size_t _sizeUnInverted = 0;
         size_t _expectedSize = 0;

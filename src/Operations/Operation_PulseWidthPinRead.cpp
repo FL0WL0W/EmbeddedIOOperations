@@ -20,7 +20,7 @@ namespace EmbeddedIOOperations
 		return _pwmService->ReadPin(_pin).PulseWidth;
 	}
 
-	IOperationBase *Operation_PulseWidthPinRead::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
+	AbstractOperation *Operation_PulseWidthPinRead::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
 	{
 		const uint16_t pin = Config::CastAndOffset<uint16_t>(config, sizeOut);
 		const uint16_t minFrequency = Config::CastAndOffset<uint16_t>(config, sizeOut);

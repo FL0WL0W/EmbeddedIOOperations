@@ -1,4 +1,4 @@
-#include "Operations/IOperation.h"
+#include "Operations/Operation.h"
 #include "EmbeddedIOServiceCollection.h"
 #include "Record.h"
 
@@ -6,7 +6,7 @@
 #define OPERATION_DIGITALPININTERRUPTRECORD_H
 namespace EmbeddedIOOperations
 {
-	class Operation_DigitalPinInterruptRecord : public OperationArchitecture::IOperation<Record<bool>>
+	class Operation_DigitalPinInterruptRecord : public OperationArchitecture::Operation<Record<bool>>
 	{
 	protected:
 		EmbeddedIOServices::IDigitalService *_digitalService;
@@ -20,7 +20,7 @@ namespace EmbeddedIOOperations
 		Record<bool> Execute() override;
 		void Sample();
 
-		static OperationArchitecture::IOperationBase *Create(const void *config, size_t &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection);
+		static OperationArchitecture::AbstractOperation *Create(const void *config, size_t &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection);
 	};
 }
 #endif

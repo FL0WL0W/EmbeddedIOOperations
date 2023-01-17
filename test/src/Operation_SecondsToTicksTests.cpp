@@ -12,7 +12,7 @@ namespace UnitTests
 	class Operation_SecondsToTicksTests : public Test
 	{
 		protected:
-		IOperationBase *_operation;
+		AbstractOperation *_operation;
 		MockTimerService _timerService;
 		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
 		size_t _size = 0;

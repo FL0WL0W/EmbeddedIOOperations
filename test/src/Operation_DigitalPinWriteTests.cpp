@@ -15,10 +15,10 @@ namespace UnitTests
 		protected:
 		MockDigitalService _digitalService;
 		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
-		IOperationBase *_operationNormalOff;
-		IOperationBase *_operationNormalOn;
-		IOperationBase *_operationNormalOffHighZ;
-		IOperationBase *_operationNormalOnHighZ;
+		AbstractOperation *_operationNormalOff;
+		AbstractOperation *_operationNormalOn;
+		AbstractOperation *_operationNormalOffHighZ;
+		AbstractOperation *_operationNormalOnHighZ;
 		size_t _sizeNormalOff = 0;
 		size_t _sizeNormalOn = 0;
 		size_t _sizeNormalOffHighZ = 0;

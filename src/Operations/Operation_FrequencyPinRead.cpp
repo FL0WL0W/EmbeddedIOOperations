@@ -20,7 +20,7 @@ namespace EmbeddedIOOperations
 		return 1 / _pwmService->ReadPin(_pin).Period;
 	}
 
-	IOperationBase *Operation_FrequencyPinRead::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
+	AbstractOperation *Operation_FrequencyPinRead::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
 	{
 		const uint16_t pin = Config::CastAndOffset<uint16_t>(config, sizeOut);
 		const uint16_t minFrequency = Config::CastAndOffset<uint16_t>(config, sizeOut);

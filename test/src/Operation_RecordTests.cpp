@@ -21,8 +21,8 @@ namespace UnitTests
 		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
 		MockOperation<float> _operationSample;
 		OperationFactory _operationFactory;
-		IOperationBase *_operationSampleOnExecute;
-		IOperationBase *_operationSampleOnInterval;
+		AbstractOperation *_operationSampleOnExecute;
+		AbstractOperation *_operationSampleOnInterval;
 		callback_t _callBack = 0;
 		Record<bool> *_record;
         size_t _expectedSize = 0;

@@ -1,11 +1,11 @@
-#include "Operations/IOperation.h"
+#include "Operations/Operation.h"
 #include "EmbeddedIOServiceCollection.h"
 
 #ifndef OPERATION_DIGITALPINWRITE_H
 #define OPERATION_DIGITALPINWRITE_H
 namespace EmbeddedIOOperations
 {
-	class Operation_DigitalPinWrite : public OperationArchitecture::IOperation<void, bool>
+	class Operation_DigitalPinWrite : public OperationArchitecture::Operation<void, bool>
 	{
 	protected:
 		EmbeddedIOServices::IDigitalService *_digitalService;
@@ -16,7 +16,7 @@ namespace EmbeddedIOOperations
         Operation_DigitalPinWrite(EmbeddedIOServices::IDigitalService *digitalService, uint16_t pin, const bool normalOn, const bool highZ);
 		void Execute(bool x) override;
 
-		static OperationArchitecture::IOperationBase *Create(const void *config, size_t &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection);
+		static OperationArchitecture::AbstractOperation *Create(const void *config, size_t &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection);
 	};
 }
 #endif

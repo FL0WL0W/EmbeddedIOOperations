@@ -14,7 +14,7 @@ namespace EmbeddedIOOperations
 		return _timerService->GetTick();
 	}
 
-	IOperationBase * Operation_GetTick::Create(const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
+	AbstractOperation * Operation_GetTick::Create(const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
 	{
 		return new Operation_GetTick(embeddedIOServiceCollection->TimerService);
 	}

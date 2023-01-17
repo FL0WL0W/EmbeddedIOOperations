@@ -12,7 +12,7 @@ namespace UnitTests
 	class Operation_GetTickTests : public Test
 	{
 		protected:
-		IOperationBase *_operation;
+		AbstractOperation *_operation;
 		MockTimerService _timerService;
 		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
 

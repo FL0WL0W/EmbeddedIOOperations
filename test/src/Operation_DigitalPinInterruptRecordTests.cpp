@@ -17,7 +17,7 @@ namespace UnitTests
 		MockDigitalService _digitalService;
 		MockTimerService _timerService;
 		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
-		IOperationBase *_operation;
+		AbstractOperation *_operation;
 		callback_t _callBack = 0;
 		Record<bool> *_record;
         size_t _expectedSize = 0;

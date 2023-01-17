@@ -1,4 +1,4 @@
-#include "Operations/IOperation.h"
+#include "Operations/Operation.h"
 #include "EmbeddedIOServiceCollection.h"
 #include "Operations/OperationFactory.h"
 #include "Record.h"
@@ -40,7 +40,7 @@ namespace EmbeddedIOOperations
 	};
 
 	template<typename state_t>
-	class Operation_FIRFilter : public OperationArchitecture::IOperation<state_t, Record<state_t>>
+	class Operation_FIRFilter : public OperationArchitecture::Operation<state_t, Record<state_t>>
 	{
 	protected:
 		const Operation_FIRFilterConfig *_firConfig;
@@ -101,7 +101,7 @@ namespace EmbeddedIOOperations
 			return filteredValue;
 		}
 
-		static OperationArchitecture::IOperationBase *Create(const void *config, size_t &sizeOut) 
+		static OperationArchitecture::AbstractOperation *Create(const void *config, size_t &sizeOut) 
 		{
 			return new Operation_FIRFilter(OperationArchitecture::Config::CastConfigAndOffset<Operation_FIRFilterConfig>(config, sizeOut));
 		}

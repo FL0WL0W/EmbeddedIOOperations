@@ -1,4 +1,4 @@
-#include "Operations/IOperation.h"
+#include "Operations/Operation.h"
 #include "EmbeddedIOServiceCollection.h"
 #include "Operations/OperationFactory.h"
 #include "Record.h"
@@ -9,16 +9,16 @@
 namespace EmbeddedIOOperations
 {
 	template<typename state_t>
-	class Operation_Record : public OperationArchitecture::IOperation<Record<state_t>>
+	class Operation_Record : public OperationArchitecture::Operation<Record<state_t>>
 	{
 	protected:
 		EmbeddedIOServices::ITimerService *_timerService;
 		EmbeddedIOServices::Task *_sampleTask;
 		const EmbeddedIOServices::tick_t _sampleRateTicks;
 		Record<state_t> _record;
-		OperationArchitecture::IOperationBase *_sampleOperation;
+		OperationArchitecture::AbstractOperation *_sampleOperation;
 	public:		
-        Operation_Record(EmbeddedIOServices::ITimerService *timerService, const float sampleRate, const uint16_t length, OperationArchitecture::IOperationBase *sampleOperation) :
+        Operation_Record(EmbeddedIOServices::ITimerService *timerService, const float sampleRate, const uint16_t length, OperationArchitecture::AbstractOperation *sampleOperation) :
 			_timerService(timerService),
 			_record(length, timerService->GetTicksPerSecond()),
 			_sampleRateTicks(sampleRate * timerService->GetTicksPerSecond()),
@@ -91,13 +91,13 @@ namespace EmbeddedIOOperations
 			_record.Last = last;
 		}
 
-		static OperationArchitecture::IOperationBase *Create(const void *config, size_t &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection, OperationArchitecture::OperationFactory *factory) 
+		static OperationArchitecture::AbstractOperation *Create(const void *config, size_t &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection, OperationArchitecture::OperationFactory *factory) 
 		{
 			const float sampleRate = OperationArchitecture::Config::CastAndOffset<float>(config, sizeOut);
 			const uint16_t length = OperationArchitecture::Config::CastAndOffset<uint16_t>(config, sizeOut);
 
 			size_t size = 0;
-			OperationArchitecture::IOperationBase *sampleOperation = factory->Create(config, size);
+			OperationArchitecture::AbstractOperation *sampleOperation = factory->Create(config, size);
 			OperationArchitecture::Config::OffsetConfig(config, sizeOut, size);
 
 			return new Operation_Record(embeddedIOServiceCollection->TimerService, sampleRate, length, sampleOperation);

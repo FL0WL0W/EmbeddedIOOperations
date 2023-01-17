@@ -14,7 +14,7 @@ namespace UnitTests
 		protected:
 		MockAnalogService _analogService;
 		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
-		IOperationBase *_operation;
+		AbstractOperation *_operation;
 		size_t _size = 0;
 
 		Operation_AnalogPinReadTests() 

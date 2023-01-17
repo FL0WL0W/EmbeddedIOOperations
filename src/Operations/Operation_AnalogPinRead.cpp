@@ -18,7 +18,7 @@ namespace EmbeddedIOOperations
 		return _analogService->ReadPin(_pin);
 	}
 
-	IOperationBase *Operation_AnalogPinRead::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
+	AbstractOperation *Operation_AnalogPinRead::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
 	{
 		return new Operation_AnalogPinRead(embeddedIOServiceCollection->AnalogService, Config::CastAndOffset<uint16_t>(config, sizeOut));
 	}
