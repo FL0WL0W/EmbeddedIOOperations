@@ -14,8 +14,8 @@ namespace EmbeddedIOOperations
 	protected:
 		EmbeddedIOServices::ITimerService *_timerService;
 		EmbeddedIOServices::Task *_sampleTask;
-		const EmbeddedIOServices::tick_t _sampleRateTicks;
 		Record<state_t> _record;
+		const EmbeddedIOServices::tick_t _sampleRateTicks;
 		OperationArchitecture::AbstractOperation *_sampleOperation;
 	public:		
         Operation_Record(EmbeddedIOServices::ITimerService *timerService, const float sampleRate, const uint16_t length, OperationArchitecture::AbstractOperation *sampleOperation) :

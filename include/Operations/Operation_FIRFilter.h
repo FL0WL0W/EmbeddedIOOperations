@@ -52,7 +52,6 @@ namespace EmbeddedIOOperations
 			const uint16_t last = record.Last;
 			const Frame<state_t> *lastFrame = &record.Frames[last];
 			const uint16_t lastPlusOne = Record<state_t>::Add(last, 1, length);
-			const EmbeddedIOServices::tick_t lastTick = record.Frames[last].Tick;
 			const EmbeddedIOServices::tick_t sampleRateTicks = _firConfig->SampleRate * record.TicksPerSecond;
 			const float *coefficents = _firConfig->Coefficients();
 			state_t filteredValue = 0;
