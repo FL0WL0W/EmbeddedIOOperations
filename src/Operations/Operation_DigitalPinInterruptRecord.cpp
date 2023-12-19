@@ -44,8 +44,8 @@ namespace EmbeddedIOOperations
 	void Operation_DigitalPinInterruptRecord::Sample()
 	{
 		const uint16_t last = (_record.Last + 1) % _record.Length;
-		_record.Frames[last].State = _digitalService->ReadPin(_pin)  ^ _inverted;
 		_record.Frames[last].Tick = _timerService->GetTick();
+		_record.Frames[last].State = _digitalService->ReadPin(_pin) ^ _inverted;
 		//only record toggles
 		if(_record.Frames[last].State == _record.Frames[_record.Last].State && _record.Frames[_record.Last].Valid)
 			return;
