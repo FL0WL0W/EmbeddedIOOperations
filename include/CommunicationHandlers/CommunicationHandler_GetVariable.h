@@ -7,7 +7,7 @@
 #define METADATA_VARIABLEID 4294967295
 namespace EFIGenie
 {	
-	class CommunicationHandler_GetVariable : public EmbeddedIOServices::ICommunicationHandler
+	class CommunicationHandler_GetVariable
 	{
 	protected:
 		OperationArchitecture::GeneratorMap<OperationArchitecture::Variable> *_variableMap;
