@@ -93,9 +93,7 @@ namespace EmbeddedIOOperations
 			const float sampleRate = OperationArchitecture::Config::CastAndOffset<float>(config, sizeOut);
 			const uint16_t length = OperationArchitecture::Config::CastAndOffset<uint16_t>(config, sizeOut);
 
-			size_t size = 0;
-			OperationArchitecture::AbstractOperation *sampleOperation = factory->Create(config, size);
-			OperationArchitecture::Config::OffsetConfig(config, sizeOut, size);
+			OperationArchitecture::AbstractOperation *sampleOperation = factory->Create(config, sizeOut);
 
 			return new Operation_Record(embeddedIOServiceCollection->TimerService, sampleRate, length, sampleOperation);
 		}
