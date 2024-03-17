@@ -77,9 +77,6 @@ namespace EmbeddedIOOperations
 			}
 #endif
 
-			if(!_record.Frames[last].Valid)
-				return _record;
-
 			return _record;
 		}
 		void Sample() 
