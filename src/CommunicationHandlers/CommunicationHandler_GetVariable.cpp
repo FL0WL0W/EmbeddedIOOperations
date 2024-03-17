@@ -11,13 +11,13 @@ namespace EFIGenie
 	{
 	}
 
-	size_t CommunicationHandler_GetVariable::Receive(communication_send_callback_t sendCallBack, void *data, size_t length)
+	size_t CommunicationHandler_GetVariable::Receive(communication_send_callback_t sendCallBack, const void *data, size_t length)
 	{
 		if(length < sizeof(uint32_t))//make sure there are enough bytes to process a request
 			return 0;
 
-		uint32_t variableID = *reinterpret_cast<uint32_t *>(data); //grab variable ID from data
-		data = reinterpret_cast<uint32_t *>(data) + 1; //ofset data
+		const uint32_t variableID = *reinterpret_cast<const uint32_t *>(data); //grab variable ID from data
+		data = reinterpret_cast<const uint32_t *>(data) + 1; //ofset data
 		
 		std::map<uint32_t, Variable*>::iterator it = _variableMap->find(variableID); //get the variable
 		if (it != _variableMap->end())
@@ -33,8 +33,8 @@ namespace EFIGenie
 				{
 					if(length < sizeof(uint32_t) + sizeof(uint8_t))//make sure there are enough bytes to process a request
 						return 0;
-					uint8_t offset = *reinterpret_cast<uint8_t *>(data); //grab offset from data
-					data = reinterpret_cast<uint8_t *>(data) + 1; //ofset data
+					const uint8_t offset = *reinterpret_cast<const uint8_t *>(data); //grab offset from data
+					data = reinterpret_cast<const uint8_t *>(data) + 1; //ofset data
 					
 					std::memcpy(&variableBuff[sizeof(VariableType)], *reinterpret_cast<uint64_t **>(it->second->Value) + offset, sizeof(uint64_t));
 					//send the message back

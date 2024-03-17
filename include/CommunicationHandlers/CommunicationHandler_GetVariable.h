@@ -13,7 +13,7 @@ namespace EFIGenie
 		OperationArchitecture::GeneratorMap<OperationArchitecture::Variable> *_variableMap;
 	public:
 		CommunicationHandler_GetVariable(OperationArchitecture::GeneratorMap<OperationArchitecture::Variable> *variableMap);
-		size_t Receive(EmbeddedIOServices::communication_send_callback_t sendCallBack, void* buf, size_t length);
+		size_t Receive(EmbeddedIOServices::communication_send_callback_t sendCallBack, const void* buf, size_t length);
 	};
 }
 #endif
