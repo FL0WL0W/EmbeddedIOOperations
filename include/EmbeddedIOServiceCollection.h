@@ -16,7 +16,7 @@ namespace EmbeddedIOOperations
 		EmbeddedIOServices::IPwmService *PwmService;
 		EmbeddedIOServices::IAnalogService *AnalogService;
 		EmbeddedIOServices::ITimerService *TimerService;
-		EmbeddedIOServices::ICANService *CanService;
+		EmbeddedIOServices::ICANService *CANService;
 	};
 }
 #endif

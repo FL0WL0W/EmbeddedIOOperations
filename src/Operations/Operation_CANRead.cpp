@@ -11,7 +11,7 @@ namespace EmbeddedIOOperations
 		_canService(canService),
 		_operation(operation)
 	{
-		_iterator = _canService->RegisterReceiveCallBack(identifier, [this](can_send_callback_t send, const uint8_t data[8]) { this->Sample(data); });
+		_iterator = _canService->RegisterReceiveCallBack(identifier, [this](can_send_callback_t send, const CANData_t data) { this->Sample(data); });
 	}
 
 	Operation_CANRead::~Operation_CANRead()
@@ -25,23 +25,23 @@ namespace EmbeddedIOOperations
 		if(!_dataChanged)
 			return;
 
-		uint8_t data[8];
+		CANData_t data;
 		//put this in a while loop in case CAN sample comes in while we are copying data to temporary buffer
 		while(_dataChanged)
 		{
 			_dataChanged = false;
-			std::memcpy(data, _data, 8);
+			std::memcpy(&data, &_data, sizeof(CANData_t));
 		}
 
 		//we have our data, feed it to our operation
-		_operation->Execute(data[8]);
+		_operation->Execute(data);
 	}
 
-	void Operation_CANRead::Sample(const uint8_t data[8])
+	void Operation_CANRead::Sample(const CANData_t data)
 	{
-		if(std::memcmp(data, _data, 8) == 0)
+		if(std::memcmp(&data, &_data, sizeof(CANData_t)) == 0)
 			return;
-		std::memcpy(_data, data, 8);
+		std::memcpy(&_data, &data, sizeof(CANData_t));
 		_dataChanged = true;
 	}
 
@@ -49,7 +49,7 @@ namespace EmbeddedIOOperations
 	{
 		const uint32_t identifier = Config::CastAndOffset<uint32_t>(config, sizeOut);
 		AbstractOperation * const operation = factory->Create(config, sizeOut); //this should be an operation that takes data[8] as a parameter and returns nothing. should probably do some sort of checking here
-		return new Operation_CANRead(embeddedIOServiceCollection->CanService, identifier, operation);
+		return new Operation_CANRead(embeddedIOServiceCollection->CANService, identifier, operation);
 	}
 }
 #endif
