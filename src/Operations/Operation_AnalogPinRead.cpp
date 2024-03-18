@@ -2,11 +2,12 @@
 #include "Config.h"
 
 using namespace OperationArchitecture;
+using namespace EmbeddedIOServices;
 
 #ifdef OPERATION_ANALOGPINREAD_H
 namespace EmbeddedIOOperations
 {
-	Operation_AnalogPinRead::Operation_AnalogPinRead( EmbeddedIOServices::IAnalogService *analogService, const uint16_t pin) :
+	Operation_AnalogPinRead::Operation_AnalogPinRead( IAnalogService *analogService, const uint16_t pin) :
 		_analogService(analogService),
 		_pin(pin)
 	{

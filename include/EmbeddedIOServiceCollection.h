@@ -3,6 +3,7 @@
 #include "IPwmService.h"
 #include "IAnalogService.h"
 #include "ITimerService.h"
+#include "ICANService.h"
 
 #ifndef EMBEDDEDIOSERVICECOLLECTION_H
 #define EMBEDDEDIOSERVICECOLLECTION_H
@@ -15,6 +16,7 @@ namespace EmbeddedIOOperations
 		EmbeddedIOServices::IPwmService *PwmService;
 		EmbeddedIOServices::IAnalogService *AnalogService;
 		EmbeddedIOServices::ITimerService *TimerService;
+		EmbeddedIOServices::ICANService *CanService;
 	};
 }
 #endif
