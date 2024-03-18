@@ -2,10 +2,10 @@
 #include "Operations/OperationFactory.h"
 #include "EmbeddedIOServiceCollection.h"
 
-#ifndef OPERATION_CANREAD_H
-#define OPERATION_CANREAD_H
+#ifndef OPERATION_CANREADDATA_H
+#define OPERATION_CANREADDATA_H
 namespace EmbeddedIOOperations
-{	class Operation_CANRead : public OperationArchitecture::Operation<void>
+{	class Operation_CANReadData : public OperationArchitecture::Operation<void>
 	{
 	protected:
 		EmbeddedIOServices::ICANService *_canService;
@@ -14,8 +14,8 @@ namespace EmbeddedIOOperations
 		EmbeddedIOServices::CANData_t _data;
 		bool _dataChanged = false;
 	public:		
-        Operation_CANRead(EmbeddedIOServices::ICANService *canService, const uint32_t identifier, OperationArchitecture::AbstractOperation *operation);
-		~Operation_CANRead();
+        Operation_CANReadData(EmbeddedIOServices::ICANService *canService, const EmbeddedIOServices::CANIdentifier_t identifier, OperationArchitecture::AbstractOperation *operation);
+		~Operation_CANReadData();
 		void Execute();
 		void Sample(const EmbeddedIOServices::CANData_t data);
 
