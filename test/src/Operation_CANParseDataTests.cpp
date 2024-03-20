@@ -43,21 +43,21 @@ namespace UnitTests
 
 			// number of variables
 			Config::AssignAndOffset<uint8_t>(buildConfig, _buildSize, 15);
-			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 0, 3, true, false }); // Engine Torque Reduction Failure Status
-			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 3, 1, false, true }); // Engine Torque Actual Extended Range Invalid
+			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 0, 3, false, true }); // Engine Torque Reduction Failure Status
+			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 3, 1, true, false }); // Engine Torque Actual Extended Range Invalid
 			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 0.5, -848, 4, 12, false, false }); // Engine Torque Actual Extended Range
-			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 17, 1, false, true }); // Powertrain Regulated Generator Control Active
-			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 18, 1, false, true }); // Accelerator Effective Position Invalid
-			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 19, 1, false, true }); // Engine Torque Driver Requested Extended Range Invalid
+			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 17, 1, true, false }); // Powertrain Regulated Generator Control Active
+			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 18, 1, true, false }); // Accelerator Effective Position Invalid
+			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 19, 1, true, false }); // Engine Torque Driver Requested Extended Range Invalid
 			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 0.5, -848, 20, 12, false, false }); // Engine Torque Driver Requested Extended Range
 			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 100.0f/255, 0, 32, 8, false, false }); // Fuel Filter Remaining Life
-			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 40, 1, false, true }); // Generator Current Invalid
-			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 41, 7, true, false }); // Generator Current
+			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 40, 1, true, false }); // Generator Current Invalid
+			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 41, 7, false, true }); // Generator Current
 			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 100.0f/255, 0, 48, 8, false, false }); // Accelerator Effective Position
-			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 56, 1, false, true }); // Engine Driver Preference Mode Switch 1 Enabled
-			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 57, 1, false, true }); // Engine Driver Preference Mode Switch 1 Active
-			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 58, 1, false, true }); // Economy Mode Active Indication On
-			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 59, 1, false, true }); // Economy Mode Request Denied Indication On
+			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 56, 1, true, false }); // Engine Driver Preference Mode Switch 1 Enabled
+			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 57, 1, true, false }); // Engine Driver Preference Mode Switch 1 Active
+			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 58, 1, true, false }); // Economy Mode Active Indication On
+			Config::AssignAndOffset<Operation_CANParseDataConfig>(buildConfig, _buildSize, { 1, 0, 59, 1, true, false }); // Economy Mode Request Denied Indication On
 
 			_operation = Operation_CANParseData::Create(config, _size);
 		}
@@ -74,7 +74,7 @@ namespace UnitTests
 		CANData_t data;
 		data.Data[0] = 0x31;
 		data.Data[1] = 0x11;
-		data.Data[2] = 0x52;
+		data.Data[2] = 0xD2;
 		data.Data[3] = 0x22;
 		data.Data[4] = 0x55;
 		data.Data[5] = 0x11;

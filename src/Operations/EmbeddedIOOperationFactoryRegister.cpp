@@ -16,6 +16,7 @@
 #include "Operations/Operation_CANReadData.h"
 #include "Operations/Operation_CANWriteData.h"
 #include "Operations/Operation_CANParseData.h"
+#include "Operations/Operation_CANPackData.h"
 
 using namespace OperationArchitecture;
 
@@ -41,6 +42,7 @@ namespace EmbeddedIOOperations
         if(embeddedIOServiceCollection->CANService != 0) factory->Register(idOffset + 15, [embeddedIOServiceCollection, factory](const void *config, size_t &sizeOut) { return Operation_CANReadData::Create(config, sizeOut, embeddedIOServiceCollection, factory); });
         if(embeddedIOServiceCollection->CANService != 0) factory->Register(idOffset + 16, [embeddedIOServiceCollection](const void *config, size_t &sizeOut) { return Operation_CANWriteData::Create(config, sizeOut, embeddedIOServiceCollection); });
         factory->Register(idOffset + 17, Operation_CANParseData::Create);
+        factory->Register(idOffset + 18, Operation_CANPackData::Create);
     }
 }
 #endif

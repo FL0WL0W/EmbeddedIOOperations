@@ -43,9 +43,8 @@ namespace EmbeddedIOOperations
 	AbstractOperation *Operation_CANParseData::Create(const void *config, size_t  &sizeOut)
 	{
 		const uint8_t numberOfVariables = Config::CastAndOffset<uint8_t>(config, sizeOut);
-		Config::AlignConfig(config, sizeOut, alignof(const Operation_CANParseDataConfig));
-		const Operation_CANParseDataConfig *configs = reinterpret_cast<const Operation_CANParseDataConfig *>(config);
-		for(uint8_t i = 0; i < numberOfVariables; i++)
+		const Operation_CANParseDataConfig *configs = Config::CastAndOffsetPointer<Operation_CANParseDataConfig>(config, sizeOut);
+		for(uint8_t i = 1; i < numberOfVariables; i++)
 			Config::AlignAndAddSize<Operation_CANParseDataConfig>(sizeOut);
 		return new Operation_CANParseData(numberOfVariables, configs);
 	}

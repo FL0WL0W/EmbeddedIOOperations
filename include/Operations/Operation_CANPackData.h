@@ -2,26 +2,26 @@
 #include "Operations/OperationFactory.h"
 #include "EmbeddedIOServiceCollection.h"
 
-#ifndef OPERATION_CANPARSEDATA_H
-#define OPERATION_CANPARSEDATA_H
+#ifndef OPERATION_CANPACKDATA_H
+#define OPERATION_CANPACKDATA_H
 namespace EmbeddedIOOperations
 {
-	struct Operation_CANParseDataConfig 
+	struct Operation_CANPackDataConfig 
 	{
 		float Multiplier;
 		float Adder;
 		uint8_t BitLocation : 6;
 		uint8_t BitLength : 6;
 		bool CastToBool : 1;
-		bool CastToInt : 1;
 	};
 
-	class Operation_CANParseData : public OperationArchitecture::AbstractOperation
+	class Operation_CANPackData : public OperationArchitecture::AbstractOperation
 	{
 	protected:
-		const Operation_CANParseDataConfig *_configs;
+		const EmbeddedIOServices::CANData_t *_baseData;
+		const Operation_CANPackDataConfig *_configs;
 	public:		
-        Operation_CANParseData(const uint8_t numberOfVariables, const Operation_CANParseDataConfig *configs);
+        Operation_CANPackData(const EmbeddedIOServices::CANData_t *baseData, const uint8_t numberOfVariables, const Operation_CANPackDataConfig *configs);
 		void AbstractExecute(OperationArchitecture::Variable **variables);
 
 		static AbstractOperation *Create(const void *config, size_t  &sizeOut);
