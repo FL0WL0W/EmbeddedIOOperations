@@ -8,10 +8,10 @@ using namespace EmbeddedIOServices;
 namespace EmbeddedIOOperations
 {
 	Operation_Interval::Operation_Interval( ITimerService *timerService, const float intervalTime, AbstractOperation *operation) :
+		AbstractOperation(operation->NumberOfReturnVariables, operation->NumberOfParameters),
 		_timerService(timerService),
 		_intervalTick(intervalTime * timerService->GetTicksPerSecond()),
-		_operation(operation),
-		AbstractOperation(operation->NumberOfReturnVariables, operation->NumberOfParameters)
+		_operation(operation)
 	{
 	}
 
