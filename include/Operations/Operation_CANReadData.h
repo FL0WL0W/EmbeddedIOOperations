@@ -5,7 +5,8 @@
 #ifndef OPERATION_CANREADDATA_H
 #define OPERATION_CANREADDATA_H
 namespace EmbeddedIOOperations
-{	class Operation_CANReadData : public OperationArchitecture::Operation<void>
+{
+	class Operation_CANReadData : public OperationArchitecture::Operation<void>
 	{
 	protected:
 		EmbeddedIOServices::ICANService *_canService;

@@ -55,7 +55,7 @@ namespace UnitTests
 		_canService.Receive({2, 0}, { 2 });
 		_operation->Execute();
 
-	 	ASSERT_EQ(1, std::get<0>(_mockOperation.Parameters).data[0]) << "Operation called";	
+	 	ASSERT_EQ(1, std::get<0>(_mockOperation.Parameters).Data[0]) << "Operation called";	
 	}
 
 	TEST_F(Operation_CANReadDataTests, CallingIdentifierSubscribedCallsOperationOnce)
@@ -64,10 +64,10 @@ namespace UnitTests
 		_canService.Receive({1, 0}, { 2 });
 		_operation->Execute();
 
-	 	ASSERT_EQ(2, std::get<0>(_mockOperation.Parameters).data[0]) << "Operation not called";	
+	 	ASSERT_EQ(2, std::get<0>(_mockOperation.Parameters).Data[0]) << "Operation not called";	
 
 		std::get<0>(_mockOperation.Parameters) = { 1 };
 		_operation->Execute();
-	 	ASSERT_EQ(1, std::get<0>(_mockOperation.Parameters).data[0]) << "Operation called twice";	
+	 	ASSERT_EQ(1, std::get<0>(_mockOperation.Parameters).Data[0]) << "Operation called twice";	
 	}
 }

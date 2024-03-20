@@ -65,7 +65,7 @@ namespace UnitTests
 		ASSERT_EQ(std::get<0>(_mockOperation.Parameters), 2);
 		EXPECT_CALL(_timerService, GetTick()).Times(1).WillOnce(Return(5));
 		_operation->Execute(5);
-		ASSERT_EQ(std::get<0>(_mockOperation.Parameters), 5);
+		ASSERT_EQ(std::get<0>(_mockOperation.Parameters), 5); 
 		EXPECT_CALL(_timerService, GetTick()).Times(1).WillOnce(Return(8));
 		_operation->Execute(6);
 		ASSERT_EQ(std::get<0>(_mockOperation.Parameters), 5);

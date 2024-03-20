@@ -12,7 +12,10 @@
 #include "Operations/Operation_TicksToSeconds.h"
 #include "Operations/Operation_Record.h"
 #include "Operations/Operation_FIRFilter.h"
+#include "Operations/Operation_Interval.h"
 #include "Operations/Operation_CANReadData.h"
+#include "Operations/Operation_CANWriteData.h"
+#include "Operations/Operation_CANParseData.h"
 
 using namespace OperationArchitecture;
 
@@ -34,7 +37,10 @@ namespace EmbeddedIOOperations
         if(embeddedIOServiceCollection->TimerService != 0) factory->Register(idOffset + 11, Operation_TicksToSeconds::Create(embeddedIOServiceCollection));
         if(embeddedIOServiceCollection->TimerService != 0) factory->Register(idOffset + 12, [embeddedIOServiceCollection, factory](const void *config, size_t &sizeOut) { return Operation_Record<float>::Create(config, sizeOut, embeddedIOServiceCollection, factory); });
         factory->Register(idOffset + 13, Operation_FIRFilter<float>::Create);
-        if(embeddedIOServiceCollection->CANService != 0) factory->Register(idOffset + 14, [embeddedIOServiceCollection, factory](const void *config, size_t &sizeOut) { return Operation_CANReadData::Create(config, sizeOut, embeddedIOServiceCollection, factory); });
+        if(embeddedIOServiceCollection->TimerService != 0) factory->Register(idOffset + 14, [embeddedIOServiceCollection, factory](const void *config, size_t &sizeOut) { return Operation_Interval::Create(config, sizeOut, embeddedIOServiceCollection, factory); });
+        if(embeddedIOServiceCollection->CANService != 0) factory->Register(idOffset + 15, [embeddedIOServiceCollection, factory](const void *config, size_t &sizeOut) { return Operation_CANReadData::Create(config, sizeOut, embeddedIOServiceCollection, factory); });
+        if(embeddedIOServiceCollection->CANService != 0) factory->Register(idOffset + 16, [embeddedIOServiceCollection](const void *config, size_t &sizeOut) { return Operation_CANWriteData::Create(config, sizeOut, embeddedIOServiceCollection); });
+        factory->Register(idOffset + 17, Operation_CANParseData::Create);
     }
 }
 #endif

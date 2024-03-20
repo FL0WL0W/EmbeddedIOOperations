@@ -10,7 +10,8 @@ namespace EmbeddedIOOperations
 	Operation_Interval::Operation_Interval( ITimerService *timerService, const float intervalTime, AbstractOperation *operation) :
 		_timerService(timerService),
 		_intervalTick(intervalTime * timerService->GetTicksPerSecond()),
-		_operation(operation)
+		_operation(operation),
+		AbstractOperation(operation->NumberOfReturnVariables, operation->NumberOfParameters)
 	{
 	}
 
@@ -36,7 +37,7 @@ namespace EmbeddedIOOperations
 	AbstractOperation *Operation_Interval::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection, OperationFactory *factory)
 	{
 		const float intervalTime = Config::CastAndOffset<float>(config, sizeOut);
-		AbstractOperation * const operation = factory->Create(config, sizeOut); //this should be an operation that takes data[8] as a parameter and returns nothing. should probably do some sort of checking here
+		AbstractOperation * const operation = factory->Create(config, sizeOut);
 		return new Operation_Interval(embeddedIOServiceCollection->TimerService, intervalTime, operation);
 	}
 }

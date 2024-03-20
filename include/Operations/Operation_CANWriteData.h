@@ -5,7 +5,8 @@
 #ifndef OPERATION_CANWRITEDATA_H
 #define OPERATION_CANWRITEDATA_H
 namespace EmbeddedIOOperations
-{	class Operation_CANWriteData : public OperationArchitecture::Operation<void, EmbeddedIOServices::CANData_t>
+{
+	class Operation_CANWriteData : public OperationArchitecture::Operation<void, EmbeddedIOServices::CANData_t>
 	{
 	protected:
 		EmbeddedIOServices::ICANService *_canService;
