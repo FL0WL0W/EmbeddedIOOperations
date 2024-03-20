@@ -73,9 +73,9 @@ namespace UnitTests
 	{
 		CANData_t data;
 		data.Data[0] = 0x31;
-		data.Data[1] = 0x11;
+		data.Data[1] = 0x23;
 		data.Data[2] = 0xD2;
-		data.Data[3] = 0x22;
+		data.Data[3] = 0x34;
 		data.Data[4] = 0x55;
 		data.Data[5] = 0x11;
 		data.Data[6] = 0x44;
@@ -90,11 +90,11 @@ namespace UnitTests
 
 		ASSERT_EQ(variables[0], 1);
 		ASSERT_EQ(variables[1], true);
-		ASSERT_EQ(variables[2], -711.5);
+		ASSERT_EQ(variables[2], -702.5);
 		ASSERT_EQ(variables[3], true);
 		ASSERT_EQ(variables[4], false);
 		ASSERT_EQ(variables[5], true);
-		ASSERT_EQ(variables[6], -575);
+		ASSERT_EQ(variables[6], -566);
 		ASSERT_FLOAT_EQ(variables[7], 33.333332);
 		ASSERT_EQ(variables[8], false);
 		ASSERT_EQ(variables[9], 17);

@@ -73,11 +73,11 @@ namespace UnitTests
 
 	TEST_F(Operation_CANPackDataTests, ExecutingOperationPacksCANDataCorrectly)
 	{
-		CANData_t data = _operation->Execute<CANData_t>(1, true, -711.5f, true, false, true, -575.0f, 33.4f, false, 17, 26.7f, false, false, false, true);
+		CANData_t data = _operation->Execute<CANData_t>(1, true, -702.5f, true, false, true, -566.0f, 33.4f, false, 17, 26.7f, false, false, false, true);
 		ASSERT_EQ(data.Data[0], 0x31);
-		ASSERT_EQ(data.Data[1], 0x11);
+		ASSERT_EQ(data.Data[1], 0x23);
 		ASSERT_EQ(data.Data[2], 0xD2);
-		ASSERT_EQ(data.Data[3], 0x22);
+		ASSERT_EQ(data.Data[3], 0x34);
 		ASSERT_EQ(data.Data[4], 0x55);
 		ASSERT_EQ(data.Data[5], 0x11);
 		ASSERT_EQ(data.Data[6], 0x44);
