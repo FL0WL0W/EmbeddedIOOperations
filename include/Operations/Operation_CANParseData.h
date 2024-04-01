@@ -10,11 +10,10 @@ namespace EmbeddedIOOperations
 	{
 		float Multiplier;
 		float Adder;
-		uint8_t BitLocation : 6;
-		uint8_t BitLength : 6;
+		uint8_t BitLocation;
+		uint8_t BitLength;
 		bool CastToBool : 1;
 		bool CastToInt : 1;
-		uint8_t reserved : 2;
 	};
 
 	class Operation_CANParseData : public OperationArchitecture::AbstractOperation
