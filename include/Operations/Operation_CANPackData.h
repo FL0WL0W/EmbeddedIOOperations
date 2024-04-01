@@ -13,6 +13,7 @@ namespace EmbeddedIOOperations
 		uint8_t BitLocation : 6;
 		uint8_t BitLength : 6;
 		bool CastToBool : 1;
+		uint8_t reserved : 3;
 	};
 
 	class Operation_CANPackData : public OperationArchitecture::AbstractOperation
