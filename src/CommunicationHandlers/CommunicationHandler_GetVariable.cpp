@@ -4,7 +4,7 @@ using namespace EmbeddedIOServices;
 using namespace OperationArchitecture;
 
 #ifdef COMMUNICATIONHANDLER_GETVARIABLE_H
-namespace EFIGenie
+namespace EmbeddedIOOperations
 {	
 	CommunicationHandler_GetVariable::CommunicationHandler_GetVariable(GeneratorMap<Variable> *variableMap) :
 		_variableMap(variableMap)

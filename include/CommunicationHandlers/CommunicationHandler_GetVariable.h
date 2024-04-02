@@ -5,7 +5,7 @@
 #ifndef COMMUNICATIONHANDLER_GETVARIABLE_H
 #define COMMUNICATIONHANDLER_GETVARIABLE_H
 #define METADATA_VARIABLEID 4294967295
-namespace EFIGenie
+namespace EmbeddedIOOperations
 {	
 	class CommunicationHandler_GetVariable
 	{
