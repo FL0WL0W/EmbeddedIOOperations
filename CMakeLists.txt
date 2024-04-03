@@ -9,12 +9,24 @@ set(LIBRARIES	libs)
 
 project(${TARGET} CXX)
 
-if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${LIBRARIES}/OperationArchitecture/CMakeLists.txt)
-    add_subdirectory (${LIBRARIES}/OperationArchitecture)
-endif()
-if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${LIBRARIES}/EmbeddedIOServices/CMakeLists.txt)
-    add_subdirectory (${LIBRARIES}/EmbeddedIOServices)
-endif()
+Set(FETCHCONTENT_QUIET FALSE)
+include(FetchContent)
+
+FetchContent_Declare(
+    OperationArchitecture
+    GIT_REPOSITORY    https://github.com/FL0WL0W/OperationArchitecture
+    GIT_TAG           main
+    GIT_PROGRESS TRUE
+)
+FetchContent_MakeAvailable(OperationArchitecture)
+FetchContent_Declare(
+    EmbeddedIOServices
+    GIT_REPOSITORY    https://github.com/FL0WL0W/EmbeddedIOServices
+    GIT_TAG           main
+    GIT_PROGRESS TRUE
+)
+FetchContent_MakeAvailable(EmbeddedIOServices)
+
 
 # headers are always in include/
 set(HDR_DIR		include)
@@ -26,17 +38,11 @@ file(GLOB_RECURSE SRCS CONFIGURE_DEPENDS ${SRCS_DIR}/*.cpp)
 
 # create library
 add_library(${TARGET} STATIC ${HDRS} ${SRCS})
-target_include_directories(${TARGET} PUBLIC ${HDR_DIR})
+target_include_directories(${TARGET} PUBLIC "${HDR_DIR}")
 target_link_libraries(${TARGET} OperationArchitecture)
 target_link_libraries(${TARGET} EmbeddedIOServices)
 
-
-
 if(EmbeddedIOOperations_build_tests)
-    # Include google tests
-    if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${LIBRARIES}/googletest/CMakeLists.txt)
-        add_subdirectory (${LIBRARIES}/googletest)
-    endif()
     # include tests
     add_subdirectory (test)
 endif()

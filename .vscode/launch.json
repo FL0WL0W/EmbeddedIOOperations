@@ -8,21 +8,7 @@
             "name": "EmbeddedIOOperations Tests",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/GCC 9.3.0/test/EmbeddedIOOperationsUnitTests",
-            "cwd": "${workspaceFolder}",
-        },
-        {
-            "name": "OperationArchitecure Tests",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/build/GCC 9.3.0/libs/OperationArchitecture/test/OperationArchitectureUnitTests",
-            "cwd": "${workspaceFolder}",
-        },
-        {
-            "name": "EmbeddedIOServices Tests",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/build/GCC 9.3.0/libs/EmbeddedIOServices/test/EmbeddedIOServicesUnitTests",
+            "program": "${workspaceFolder}/build/GCC 11.3.0/test/EmbeddedIOOperationsUnitTests",
             "cwd": "${workspaceFolder}",
         }
     ]
