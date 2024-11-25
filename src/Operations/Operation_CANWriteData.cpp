@@ -15,7 +15,7 @@ namespace EmbeddedIOOperations
 
 	void Operation_CANWriteData::Execute(CANData_t data)
 	{
-        _canService->Send(_identifier, data);
+        _canService->Send(_identifier, data, 8);
 	}
 
 	AbstractOperation *Operation_CANWriteData::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)

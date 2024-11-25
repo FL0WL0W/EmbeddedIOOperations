@@ -11,12 +11,12 @@ namespace EmbeddedIOOperations
 		_canService(canService),
 		_operation(operation)
 	{
-		_iterator = _canService->RegisterReceiveCallBack(identifier, [this](can_send_callback_t send, const CANData_t data) { this->Sample(data); });
+		_canReceiveCallbackId = _canService->RegisterReceiveCallBack(identifier, [this](can_send_callback_t send, const CANData_t data, const uint8_t dataLength) { this->Sample(data); });
 	}
 
 	Operation_CANReadData::~Operation_CANReadData()
 	{
-		_canService->UnRegisterReceiveCallBack(_iterator);
+		_canService->UnRegisterReceiveCallBack(_canReceiveCallbackId);
 	}
 
 	void Operation_CANReadData::Execute()

@@ -52,7 +52,7 @@ namespace UnitTests
 	TEST_F(Operation_CANReadDataTests, CallingIdentifierNotSubscribedDoesNotCallOperation)
 	{
 		std::get<0>(_mockOperation.Parameters) = { 1 };
-		_canService.Receive({2, 0}, { 2 });
+		_canService.Receive({2, 0}, { 2 }, 1);
 		_operation->Execute();
 
 	 	ASSERT_EQ(1, std::get<0>(_mockOperation.Parameters).Data[0]) << "Operation called";	
@@ -61,7 +61,7 @@ namespace UnitTests
 	TEST_F(Operation_CANReadDataTests, CallingIdentifierSubscribedCallsOperationOnce)
 	{
 		std::get<0>(_mockOperation.Parameters) = { 1 };
-		_canService.Receive({1, 0}, { 2 });
+		_canService.Receive({1, 0}, { 2 }, 1);
 		_operation->Execute();
 
 	 	ASSERT_EQ(2, std::get<0>(_mockOperation.Parameters).Data[0]) << "Operation not called";	

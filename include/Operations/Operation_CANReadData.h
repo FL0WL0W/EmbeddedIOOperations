@@ -11,7 +11,7 @@ namespace EmbeddedIOOperations
 	protected:
 		EmbeddedIOServices::ICANService *_canService;
 		OperationArchitecture::AbstractOperation *_operation;
-		EmbeddedIOServices::can_receive_callback_map_t::iterator _iterator;
+		EmbeddedIOServices::can_receive_callback_id_t _canReceiveCallbackId;
 		EmbeddedIOServices::CANData_t _data;
 		bool _dataChanged = false;
 	public:		

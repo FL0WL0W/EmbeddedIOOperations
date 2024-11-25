@@ -46,7 +46,7 @@ namespace UnitTests
 	TEST_F(Operation_CANWriteDataTests, ExecutingOperationSendsDataToCANService)
 	{
 		CANData_t data;
-		EXPECT_CALL(_canService, Send(CANIdentifier_t({1, 0}), _))
+		EXPECT_CALL(_canService, Send(CANIdentifier_t({1, 0}), _, 8))
 			.Times(1)
 			.WillOnce(SaveArg<1>(&data));
 
