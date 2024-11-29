@@ -61,7 +61,7 @@ namespace EmbeddedIOOperations
 			uint8_t variableBuff[sizeof(VariableType)];//create a buffer for the returned message
 			variableBuff[0] = VOID;
 			//send the message back
-			sendCallBack(variableBuff, sizeof(uint32_t));
+			sendCallBack(variableBuff, sizeof(VariableType));
 		}
 
 		return sizeof(uint32_t);//return number of bytes handled
