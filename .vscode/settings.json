@@ -1,0 +1,7 @@
+{
+    "testMate.cpp.test.advancedExecutables": [
+        "${command:cmake.buildDirectory}/test/EmbeddedIOOperationsUnitTests",
+        "${command:cmake.buildDirectory}/_deps/embeddedioservices-build/test/EmbeddedIOServicesUnitTests"
+    ],
+    "cmake.ctest.testExplorerIntegrationEnabled": false
+}
