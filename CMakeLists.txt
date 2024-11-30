@@ -5,6 +5,8 @@ cmake_minimum_required (VERSION 3.30[3.30])
 option(EmbeddedIOOperations_build_tests "Build all of EmbeddedIOOperations tests" OFF)
 
 set(TARGET		        EmbeddedIOOperations)
+set(HDR_DIR		        include)
+set(SRCS_DIR	        src)
 set(LIBRARIES_DIR	    ${CMAKE_SOURCE_DIR}/libs)
 
 project(${TARGET} CXX)
@@ -35,11 +37,9 @@ execute_process(COMMAND git pull WORKING_DIRECTORY ${LIBRARIES_DIR}/EmbeddedIOSe
 
 
 # headers are always in include/
-set(HDR_DIR		include)
 file(GLOB_RECURSE HDRS CONFIGURE_DEPENDS ${HDR_DIR}/*.h)
 include_directories(${HDR_DIR})
 # sources are always in src/
-set(SRCS_DIR	src)
 file(GLOB_RECURSE SRCS CONFIGURE_DEPENDS ${SRCS_DIR}/*.cpp)
 
 # create library

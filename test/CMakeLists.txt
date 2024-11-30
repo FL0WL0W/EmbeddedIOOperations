@@ -2,7 +2,10 @@
 # project specific logic here.
 #
 cmake_minimum_required (VERSION 3.30[3.30])
+
 set(TARGET		EmbeddedIOOperationsUnitTests)
+set(HDR_DIR		include)
+set(SRCS_DIR	src)
 
 project(${TARGET} CXX)
 
