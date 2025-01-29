@@ -20,10 +20,9 @@ namespace EmbeddedIOOperations
 		data = reinterpret_cast<const uint32_t *>(data) + 1; //ofset data
 		
 		std::map<uint32_t, Variable*>::iterator it = _variableMap->find(variableID); //get the variable
-		if (it != _variableMap->end())
+		size_t size = 0;
+		if (it != _variableMap->end() && (size = it->second->Size()) > 0)
 		{
-			size_t size = it->second->Size();
-
 			uint8_t variableBuff[sizeof(VariableType) + size];//create a buffer for the returned message
 			variableBuff[0] = it->second->Type;//type is the first byte returned
 			if(it->second->Type == POINTER || it->second->Type == BIGOTHER)//if it is a pointer
