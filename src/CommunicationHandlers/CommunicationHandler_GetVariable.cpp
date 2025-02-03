@@ -35,7 +35,7 @@ namespace EmbeddedIOOperations
 					const uint8_t offset = *reinterpret_cast<const uint8_t *>(data); //grab offset from data
 					data = reinterpret_cast<const uint8_t *>(data) + 1; //ofset data
 					
-					std::memcpy(&variableBuff[sizeof(VariableType)], *reinterpret_cast<uint64_t **>(it->second->Value) + offset, sizeof(uint64_t));
+					std::memcpy(&variableBuff[sizeof(VariableType)], reinterpret_cast<uint64_t *>(it->second->POINTERValue) + offset, sizeof(uint64_t));
 					//send the message back
 					sendCallBack(variableBuff, sizeof(VariableType) + sizeof(uint64_t));
 					return sizeof(uint32_t) + sizeof(uint8_t);//return number of bytes handled
@@ -43,14 +43,14 @@ namespace EmbeddedIOOperations
 				//known pointer size
 				else
 				{
-					std::memcpy(&variableBuff[sizeof(VariableType)], *reinterpret_cast<uint8_t **>(it->second->Value), size);
+					std::memcpy(&variableBuff[sizeof(VariableType)], it->second->POINTERValue, size);
 					//send the message back
 					sendCallBack(variableBuff, sizeof(VariableType) + size);
 				}
 			}
 			else
 			{
-				std::memcpy(&variableBuff[sizeof(VariableType)], it->second->Value, size);
+				std::memcpy(&variableBuff[sizeof(VariableType)], it->second->ValueArray, size);
 				//send the message back
 				sendCallBack(variableBuff, sizeof(VariableType) + size);
 			}
