@@ -28,7 +28,7 @@
         ]
     },
     "gtest-adapter-new.debugConfig": [
-        "Launch EmbeddedIOOperationsUnitTests"
+        "EmbeddedIOOperations Tests"
     ],
     "gtest-adapter-new.supportLocation": true
 }
