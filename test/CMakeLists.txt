@@ -9,22 +9,6 @@ set(SRCS_DIR	src)
 
 project(${TARGET} CXX)
 
-# The dependency mock targets are normally created only when each dependency's
-# own tests are enabled.  Our tests need the mocks, but not the dependencies'
-# complete test suites.
-if(NOT TARGET EmbeddedIOServicesMockedObjects)
-    add_subdirectory(
-        ${embeddedioservices_SOURCE_DIR}/mock
-        ${CMAKE_CURRENT_BINARY_DIR}/EmbeddedIOServicesMockedObjects
-    )
-endif()
-if(NOT TARGET OperationArchitectureMockedObjects)
-    add_subdirectory(
-        ${operationarchitecture_SOURCE_DIR}/mock
-        ${CMAKE_CURRENT_BINARY_DIR}/OperationArchitectureMockedObjects
-    )
-endif()
-
 # headers are always in include/
 set(HDR_DIR		include)
 file(GLOB_RECURSE HDRS CONFIGURE_DEPENDS ${HDR_DIR}/*.h)
