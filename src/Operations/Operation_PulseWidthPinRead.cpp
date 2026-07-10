@@ -20,11 +20,11 @@ namespace EmbeddedIOOperations
 		return _pwmService->ReadPin(_pin).PulseWidth;
 	}
 
-	AbstractOperation *Operation_PulseWidthPinRead::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
+	AbstractOperation *Operation_PulseWidthPinRead::Create(const void *config, size_t  &sizeOut, const ServiceRegistry *serviceRegistry)
 	{
 		const uint16_t pin = Config::CastAndOffset<uint16_t>(config, sizeOut);
 		const uint16_t minFrequency = Config::CastAndOffset<uint16_t>(config, sizeOut);
-		return new Operation_PulseWidthPinRead(embeddedIOServiceCollection->PwmService, pin, minFrequency);
+		return new Operation_PulseWidthPinRead(serviceRegistry->TryGet<EmbeddedIOServices::IPwmService>(), pin, minFrequency);
 	}
 }
 #endif

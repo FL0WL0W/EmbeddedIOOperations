@@ -18,10 +18,10 @@ namespace EmbeddedIOOperations
         _canService->Send(_identifier, data, 8);
 	}
 
-	AbstractOperation *Operation_CANWriteData::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
+	AbstractOperation *Operation_CANWriteData::Create(const void *config, size_t  &sizeOut, const ServiceRegistry *serviceRegistry)
 	{
 		const CANIdentifier_t identifier = Config::CastAndOffset<CANIdentifier_t>(config, sizeOut);
-		return new Operation_CANWriteData(embeddedIOServiceCollection->CANService, identifier);
+		return new Operation_CANWriteData(serviceRegistry->TryGet<EmbeddedIOServices::ICANService>(), identifier);
 	}
 }
 #endif

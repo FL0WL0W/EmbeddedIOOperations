@@ -16,7 +16,7 @@ namespace UnitTests
 		protected:
 		MockDigitalService _digitalService;
 		MockTimerService _timerService;
-		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
+		ServiceRegistry _serviceRegistry;
 		AbstractOperation *_operation;
 		callback_t _callBack = 0;
 		Record<bool> *_record;
@@ -26,8 +26,8 @@ namespace UnitTests
 
 		Operation_DigitalPinInterruptRecordTests() 
 		{
-			_embeddedIOServiceCollection.DigitalService = &_digitalService;
-			_embeddedIOServiceCollection.TimerService = &_timerService;
+			_serviceRegistry.Register<IDigitalService>(&_digitalService);
+			_serviceRegistry.Register<ITimerService>(&_timerService);
 
 			_expectedSize = sizeof(uint16_t);
 			Config::AlignAndAddSize<bool>(_expectedSize);
@@ -47,7 +47,7 @@ namespace UnitTests
 				.Times(1)
 				.WillOnce(SaveArg<1>(&_callBack));
 
-			_operation = Operation_DigitalPinInterruptRecord::Create(config, _size, &_embeddedIOServiceCollection);
+			_operation = Operation_DigitalPinInterruptRecord::Create(config, _size, &_serviceRegistry);
 		}
 	};
 

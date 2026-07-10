@@ -14,7 +14,7 @@ namespace UnitTests
 	{
 		protected:
 		MockPwmService _pwmService;
-		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
+		ServiceRegistry _serviceRegistry;
 		AbstractOperation *_operation;
         size_t _size = 0;
         size_t _buildSize = 0;
@@ -23,7 +23,7 @@ namespace UnitTests
 
 		Operation_PwmPinWriteTests() 
 		{
-			_embeddedIOServiceCollection.PwmService = &_pwmService;
+			_serviceRegistry.Register<IPwmService>(&_pwmService);
 
 			_expectedSize = sizeof(uint16_t);
 			Config::AlignAndAddSize<uint16_t>(_expectedSize);
@@ -36,7 +36,7 @@ namespace UnitTests
 			Config::AssignAndOffset<uint16_t>(buildConfig, _buildSize, 2);
 
 			EXPECT_CALL(_pwmService, InitPin(1, Out, 2)).Times(1);
-			_operation = Operation_PwmPinWrite::Create(config, _size, &_embeddedIOServiceCollection);
+			_operation = Operation_PwmPinWrite::Create(config, _size, &_serviceRegistry);
 		}
 	};
 

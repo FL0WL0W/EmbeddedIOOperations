@@ -14,13 +14,13 @@ namespace UnitTests
 		protected:
 		AbstractOperation *_operation;
 		MockTimerService _timerService;
-		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
+		ServiceRegistry _serviceRegistry;
 
 		Operation_GetTickTests() 
 		{
-			_embeddedIOServiceCollection.TimerService = &_timerService;
+			_serviceRegistry.Register<ITimerService>(&_timerService);
 
-			_operation = Operation_GetTick::Create(&_embeddedIOServiceCollection);
+			_operation = Operation_GetTick::Create(&_serviceRegistry);
 		}
 	};
 

@@ -53,13 +53,13 @@ namespace EmbeddedIOOperations
 		_record.Last = last;
 	}
 
-	AbstractOperation *Operation_DigitalPinInterruptRecord::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
+	AbstractOperation *Operation_DigitalPinInterruptRecord::Create(const void *config, size_t  &sizeOut, const ServiceRegistry *serviceRegistry)
 	{
 		const uint16_t pin = Config::CastAndOffset<uint16_t>(config, sizeOut);
 		const bool inverted = Config::CastAndOffset<bool>(config, sizeOut);
 		const uint16_t length = Config::CastAndOffset<uint16_t>(config, sizeOut);
 					
-		Operation_DigitalPinInterruptRecord *operation = new Operation_DigitalPinInterruptRecord(embeddedIOServiceCollection->DigitalService, embeddedIOServiceCollection->TimerService, pin, inverted, length);
+		Operation_DigitalPinInterruptRecord *operation = new Operation_DigitalPinInterruptRecord(serviceRegistry->TryGet<EmbeddedIOServices::IDigitalService>(), serviceRegistry->TryGet<EmbeddedIOServices::ITimerService>(), pin, inverted, length);
 
 		return operation;
 	}

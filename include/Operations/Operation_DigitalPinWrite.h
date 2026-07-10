@@ -1,5 +1,6 @@
 #include "Operations/Operation.h"
-#include "EmbeddedIOServiceCollection.h"
+#include "ServiceRegistry.h"
+#include "IDigitalService.h"
 
 #ifndef OPERATION_DIGITALPINWRITE_H
 #define OPERATION_DIGITALPINWRITE_H
@@ -16,7 +17,7 @@ namespace EmbeddedIOOperations
         Operation_DigitalPinWrite(EmbeddedIOServices::IDigitalService *digitalService, uint16_t pin, const bool normalOn, const bool highZ);
 		void Execute(bool x) override;
 
-		static OperationArchitecture::AbstractOperation *Create(const void *config, size_t &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection);
+		static OperationArchitecture::AbstractOperation *Create(const void *config, size_t &sizeOut, const ServiceRegistry *serviceRegistry);
 	};
 }
 #endif

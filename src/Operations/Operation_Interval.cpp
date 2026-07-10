@@ -34,11 +34,11 @@ namespace EmbeddedIOOperations
 		_operation->AbstractExecute(variables);
 	}
 
-	AbstractOperation *Operation_Interval::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection, OperationFactory *factory)
+	AbstractOperation *Operation_Interval::Create(const void *config, size_t  &sizeOut, const ServiceRegistry *serviceRegistry, OperationFactory *factory)
 	{
 		const float intervalTime = Config::CastAndOffset<float>(config, sizeOut);
 		AbstractOperation * const operation = factory->Create(config, sizeOut);
-		return new Operation_Interval(embeddedIOServiceCollection->TimerService, intervalTime, operation);
+		return new Operation_Interval(serviceRegistry->TryGet<EmbeddedIOServices::ITimerService>(), intervalTime, operation);
 	}
 }
 #endif

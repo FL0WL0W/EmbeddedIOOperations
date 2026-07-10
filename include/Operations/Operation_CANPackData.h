@@ -1,6 +1,6 @@
 #include "Operations/Operation.h"
 #include "Operations/OperationFactory.h"
-#include "EmbeddedIOServiceCollection.h"
+#include "ICANService.h"
 
 #ifndef OPERATION_CANPACKDATA_H
 #define OPERATION_CANPACKDATA_H

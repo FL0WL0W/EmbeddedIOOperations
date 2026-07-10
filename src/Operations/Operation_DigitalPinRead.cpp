@@ -22,11 +22,11 @@ namespace EmbeddedIOOperations
 		return _digitalService->ReadPin(_pin);
 	}
 
-	AbstractOperation *Operation_DigitalPinRead::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
+	AbstractOperation *Operation_DigitalPinRead::Create(const void *config, size_t  &sizeOut, const ServiceRegistry *serviceRegistry)
 	{
 		const uint16_t pin = Config::CastAndOffset<uint16_t>(config, sizeOut);
 		const bool inverted = Config::CastAndOffset<bool>(config, sizeOut);
-		return new Operation_DigitalPinRead(embeddedIOServiceCollection->DigitalService, pin, inverted);
+		return new Operation_DigitalPinRead(serviceRegistry->TryGet<EmbeddedIOServices::IDigitalService>(), pin, inverted);
 	}
 }
 #endif

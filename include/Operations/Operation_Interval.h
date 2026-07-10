@@ -1,6 +1,7 @@
 #include "Operations/Operation.h"
 #include "Operations/OperationFactory.h"
-#include "EmbeddedIOServiceCollection.h"
+#include "ServiceRegistry.h"
+#include "ITimerService.h"
 
 #ifndef OPERATION_INTERVAL_H
 #define OPERATION_INTERVAL_H
@@ -17,7 +18,7 @@ namespace EmbeddedIOOperations
         Operation_Interval(EmbeddedIOServices::ITimerService *timerService, float intervalTime, OperationArchitecture::AbstractOperation *operation);
 		void AbstractExecute(OperationArchitecture::Variable **variables) override;
 
-		static AbstractOperation *Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection, OperationArchitecture::OperationFactory *factory);
+		static AbstractOperation *Create(const void *config, size_t  &sizeOut, const ServiceRegistry *serviceRegistry, OperationArchitecture::OperationFactory *factory);
 	};
 }
 #endif

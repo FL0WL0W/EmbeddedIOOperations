@@ -1,5 +1,5 @@
 #include "Operations/Operation.h"
-#include "EmbeddedIOServiceCollection.h"
+#include "ServiceRegistry.h"
 #include "Operations/OperationFactory.h"
 #include "Record.h"
 #include "Config.h"
@@ -82,7 +82,7 @@ namespace EmbeddedIOOperations
 			_record.Last = last;
 		}
 
-		static OperationArchitecture::AbstractOperation *Create(const void *config, size_t &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection, OperationArchitecture::OperationFactory *factory) 
+		static OperationArchitecture::AbstractOperation *Create(const void *config, size_t &sizeOut, const ServiceRegistry *serviceRegistry, OperationArchitecture::OperationFactory *factory)
 		{
 			const float sampleRate = OperationArchitecture::Config::CastAndOffset<float>(config, sizeOut);
 			const uint16_t length = OperationArchitecture::Config::CastAndOffset<uint16_t>(config, sizeOut);
@@ -91,7 +91,7 @@ namespace EmbeddedIOOperations
 			OperationArchitecture::AbstractOperation *sampleOperation = factory->Create(config, size);
 			OperationArchitecture::Config::OffsetConfig(config, sizeOut, size);
 
-			return new Operation_Record(embeddedIOServiceCollection->TimerService, sampleRate, length, sampleOperation);
+			return new Operation_Record(serviceRegistry->TryGet<EmbeddedIOServices::ITimerService>(), sampleRate, length, sampleOperation);
 		}
 	};
 }

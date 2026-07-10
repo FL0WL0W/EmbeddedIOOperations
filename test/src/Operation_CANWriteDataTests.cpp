@@ -16,7 +16,7 @@ namespace UnitTests
 	{
 		protected:
 		MockCANService _canService;
-		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
+		ServiceRegistry _serviceRegistry;
 		AbstractOperation *_operation;
         size_t _expectedSize = 0;
         size_t _buildSize = 0;
@@ -24,7 +24,7 @@ namespace UnitTests
 
 		Operation_CANWriteDataTests()
 		{
-			_embeddedIOServiceCollection.CANService = &_canService;
+			_serviceRegistry.Register<ICANService>(&_canService);
 
 			_expectedSize = sizeof(uint32_t); // can identifier
 			void *config = malloc(_expectedSize);
@@ -33,7 +33,7 @@ namespace UnitTests
 			//can identifier
 			Config::AssignAndOffset<uint32_t>(buildConfig, _buildSize, 1);
 
-			_operation = Operation_CANWriteData::Create(config, _size, &_embeddedIOServiceCollection);
+			_operation = Operation_CANWriteData::Create(config, _size, &_serviceRegistry);
 		}
 	};
 

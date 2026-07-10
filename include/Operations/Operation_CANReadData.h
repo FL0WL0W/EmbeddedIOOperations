@@ -1,6 +1,7 @@
 #include "Operations/Operation.h"
 #include "Operations/OperationFactory.h"
-#include "EmbeddedIOServiceCollection.h"
+#include "ServiceRegistry.h"
+#include "ICANService.h"
 
 #ifndef OPERATION_CANREADDATA_H
 #define OPERATION_CANREADDATA_H
@@ -20,7 +21,7 @@ namespace EmbeddedIOOperations
 		void Execute();
 		void Sample(const EmbeddedIOServices::CANData_t data);
 
-		static AbstractOperation *Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection, OperationArchitecture::OperationFactory *factory);
+		static AbstractOperation *Create(const void *config, size_t  &sizeOut, const ServiceRegistry *serviceRegistry, OperationArchitecture::OperationFactory *factory);
 	};
 }
 #endif

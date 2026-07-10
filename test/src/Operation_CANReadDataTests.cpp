@@ -17,7 +17,7 @@ namespace UnitTests
 		protected:
 		MockOperation<void, CANData_t> _mockOperation;
 		MockCANService _canService;
-		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
+		ServiceRegistry _serviceRegistry;
 		OperationFactory _operationFactory;
 		AbstractOperation *_operation;
         size_t _expectedSize = 0;
@@ -26,7 +26,7 @@ namespace UnitTests
 
 		Operation_CANReadDataTests()
 		{
-			_embeddedIOServiceCollection.CANService = &_canService;
+			_serviceRegistry.Register<ICANService>(&_canService);
 			_operationFactory.Register(1, &_mockOperation);
 
 			_expectedSize = sizeof(uint32_t); // can identifier
@@ -39,7 +39,7 @@ namespace UnitTests
 			//opertaion id
 			Config::AssignAndOffset<uint32_t>(buildConfig, _buildSize, 1);
 
-			_operation = Operation_CANReadData::Create(config, _size, &_embeddedIOServiceCollection, &_operationFactory);
+			_operation = Operation_CANReadData::Create(config, _size, &_serviceRegistry, &_operationFactory);
 		}
 	};
 

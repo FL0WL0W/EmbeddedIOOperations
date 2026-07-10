@@ -14,7 +14,7 @@ namespace UnitTests
 	{
 		protected:
 		MockDigitalService _digitalService;
-		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
+		ServiceRegistry _serviceRegistry;
 		AbstractOperation *_operationNormalOff;
 		AbstractOperation *_operationNormalOn;
 		AbstractOperation *_operationNormalOffHighZ;
@@ -31,7 +31,7 @@ namespace UnitTests
 
 		Operation_DigitalPinWriteTests() 
 		{
-			_embeddedIOServiceCollection.DigitalService = &_digitalService;
+			_serviceRegistry.Register<IDigitalService>(&_digitalService);
 
 			_expectedSize = sizeof(uint16_t);
 			Config::AlignAndAddSize<uint8_t>(_expectedSize);
@@ -46,7 +46,7 @@ namespace UnitTests
 			
 			EXPECT_CALL(_digitalService, InitPin(1, Out)).Times(1);
 			EXPECT_CALL(_digitalService, WritePin(1, false)).Times(1);
-			_operationNormalOff = Operation_DigitalPinWrite::Create(configNormalOff, _sizeNormalOff, &_embeddedIOServiceCollection);
+			_operationNormalOff = Operation_DigitalPinWrite::Create(configNormalOff, _sizeNormalOff, &_serviceRegistry);
 
 			void *configNormalOn = malloc( _expectedSize);
 			buildConfig = configNormalOn;
@@ -58,7 +58,7 @@ namespace UnitTests
 
 			EXPECT_CALL(_digitalService, InitPin(2, Out)).Times(1);
 			EXPECT_CALL(_digitalService, WritePin(2, true)).Times(1);
-			_operationNormalOn = Operation_DigitalPinWrite::Create(configNormalOn, _sizeNormalOn, &_embeddedIOServiceCollection);
+			_operationNormalOn = Operation_DigitalPinWrite::Create(configNormalOn, _sizeNormalOn, &_serviceRegistry);
 
 			void *configNormalOffHighZ = malloc(_expectedSize);
 			buildConfig = configNormalOffHighZ;
@@ -70,7 +70,7 @@ namespace UnitTests
 
 			EXPECT_CALL(_digitalService, InitPin(3, Out)).Times(1);
 			EXPECT_CALL(_digitalService, WritePin(3, false)).Times(1);
-			_operationNormalOffHighZ = Operation_DigitalPinWrite::Create(configNormalOffHighZ, _sizeNormalOffHighZ, &_embeddedIOServiceCollection);
+			_operationNormalOffHighZ = Operation_DigitalPinWrite::Create(configNormalOffHighZ, _sizeNormalOffHighZ, &_serviceRegistry);
 
 			void *configNormalOnHighZ = malloc(_expectedSize);
 			buildConfig = configNormalOnHighZ;
@@ -81,7 +81,7 @@ namespace UnitTests
 			Config::AssignAndOffset<uint8_t>(buildConfig, _buildSizeNormalOnHighZ, 0x03);
 
 			EXPECT_CALL(_digitalService, InitPin(4, In)).Times(1);
-			_operationNormalOnHighZ = Operation_DigitalPinWrite::Create(configNormalOnHighZ, _sizeNormalOnHighZ, &_embeddedIOServiceCollection);
+			_operationNormalOnHighZ = Operation_DigitalPinWrite::Create(configNormalOnHighZ, _sizeNormalOnHighZ, &_serviceRegistry);
 		}
 	};
 

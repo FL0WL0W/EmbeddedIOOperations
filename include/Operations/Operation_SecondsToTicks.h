@@ -1,5 +1,6 @@
 #include "Operations/Operation.h"
-#include "EmbeddedIOServiceCollection.h"
+#include "ServiceRegistry.h"
+#include "ITimerService.h"
 
 #ifndef OPERATION_SECONDSTOTICKS_H
 #define OPERATION_SECONDSTOTICKS_H
@@ -13,7 +14,7 @@ namespace EmbeddedIOOperations
         Operation_SecondsToTicks(EmbeddedIOServices::ITimerService *timerService);
 		uint32_t Execute(float seconds) override;
 
-		static OperationArchitecture::AbstractOperation *Create(const EmbeddedIOServiceCollection *embeddedIOServiceCollection);
+		static OperationArchitecture::AbstractOperation *Create(const ServiceRegistry *serviceRegistry);
 	};
 }
 #endif

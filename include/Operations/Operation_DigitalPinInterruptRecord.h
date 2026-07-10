@@ -1,6 +1,7 @@
 #include "Operations/Operation.h"
-#include "EmbeddedIOServiceCollection.h"
+#include "ServiceRegistry.h"
 #include "Record.h"
+#include "IDigitalService.h"
 
 #ifndef OPERATION_DIGITALPININTERRUPTRECORD_H
 #define OPERATION_DIGITALPININTERRUPTRECORD_H
@@ -20,7 +21,7 @@ namespace EmbeddedIOOperations
 		Record<bool> Execute() override;
 		void Sample();
 
-		static OperationArchitecture::AbstractOperation *Create(const void *config, size_t &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection);
+		static OperationArchitecture::AbstractOperation *Create(const void *config, size_t &sizeOut, const ServiceRegistry *serviceRegistry);
 	};
 }
 #endif

@@ -13,13 +13,13 @@ namespace UnitTests
 	{
 		protected:
 		MockAnalogService _analogService;
-		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
+		ServiceRegistry _serviceRegistry;
 		AbstractOperation *_operation;
 		size_t _size = 0;
 
 		Operation_AnalogPinReadTests() 
 		{
-			_embeddedIOServiceCollection.AnalogService = &_analogService;
+			_serviceRegistry.Register<IAnalogService>(&_analogService);
 
 			void *config = malloc(sizeof(uint16_t));
 
@@ -27,7 +27,7 @@ namespace UnitTests
 			*reinterpret_cast<uint16_t *>(config) = 1;
 
 			EXPECT_CALL(_analogService, InitPin(1)).Times(1);
-			_operation = Operation_AnalogPinRead::Create(config, _size, &_embeddedIOServiceCollection);
+			_operation = Operation_AnalogPinRead::Create(config, _size, &_serviceRegistry);
 		}
 	};
 

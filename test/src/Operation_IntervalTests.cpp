@@ -17,7 +17,7 @@ namespace UnitTests
 		MockOperation<void, uint8_t> _mockOperation;
 		AbstractOperation *_operation;
 		MockTimerService _timerService;
-		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
+		ServiceRegistry _serviceRegistry;
 		OperationFactory _operationFactory;
         size_t _expectedSize = 0;
         size_t _buildSize = 0;
@@ -25,7 +25,7 @@ namespace UnitTests
 
 		Operation_IntervalTests() 
 		{
-			_embeddedIOServiceCollection.TimerService = &_timerService;
+			_serviceRegistry.Register<ITimerService>(&_timerService);
 			_operationFactory.Register(1, &_mockOperation);
 
 			_expectedSize = sizeof(float); // interval time
@@ -39,7 +39,7 @@ namespace UnitTests
 			Config::AssignAndOffset<uint32_t>(buildConfig, _buildSize, 1);
 
 			EXPECT_CALL(_timerService, GetTicksPerSecond()).Times(1).WillOnce(Return(10));
-			_operation = Operation_Interval::Create(config, _size, &_embeddedIOServiceCollection, &_operationFactory);
+			_operation = Operation_Interval::Create(config, _size, &_serviceRegistry, &_operationFactory);
 		}
 	};
 

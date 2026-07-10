@@ -1,5 +1,6 @@
 #include "Operations/Operation_GetTick.h"
 #include "Config.h"
+#include "ITimerService.h"
 
 using namespace OperationArchitecture;
 using namespace EmbeddedIOServices;
@@ -14,9 +15,9 @@ namespace EmbeddedIOOperations
 		return _timerService->GetTick();
 	}
 
-	AbstractOperation * Operation_GetTick::Create(const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
+	AbstractOperation * Operation_GetTick::Create(const ServiceRegistry *serviceRegistry)
 	{
-		return new Operation_GetTick(embeddedIOServiceCollection->TimerService);
+		return new Operation_GetTick(serviceRegistry->TryGet<EmbeddedIOServices::ITimerService>());
 	}
 }
 #endif

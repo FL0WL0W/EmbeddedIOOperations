@@ -61,13 +61,13 @@ namespace EmbeddedIOOperations
 		}
 	}
 
-	AbstractOperation *Operation_DigitalPinWrite::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
+	AbstractOperation *Operation_DigitalPinWrite::Create(const void *config, size_t  &sizeOut, const ServiceRegistry *serviceRegistry)
 	{
 		const uint16_t pin = Config::CastAndOffset<uint16_t>(config, sizeOut);
 		const uint8_t opts = Config::CastAndOffset<uint8_t>(config, sizeOut);
 		const bool normalOn = opts & 0x01;
 		const bool highZ = (opts >> 1) & 0x01;
-		return new Operation_DigitalPinWrite(embeddedIOServiceCollection->DigitalService, pin, normalOn, highZ);
+		return new Operation_DigitalPinWrite(serviceRegistry->TryGet<EmbeddedIOServices::IDigitalService>(), pin, normalOn, highZ);
 	}
 }
 #endif

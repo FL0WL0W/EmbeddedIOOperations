@@ -45,11 +45,11 @@ namespace EmbeddedIOOperations
 		_dataChanged = true;
 	}
 
-	AbstractOperation *Operation_CANReadData::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection, OperationFactory *factory)
+	AbstractOperation *Operation_CANReadData::Create(const void *config, size_t  &sizeOut, const ServiceRegistry *serviceRegistry, OperationFactory *factory)
 	{
 		const CANIdentifier_t identifier = Config::CastAndOffset<CANIdentifier_t>(config, sizeOut);
 		AbstractOperation * const operation = factory->Create(config, sizeOut); //this should be an operation that takes data[8] as a parameter and returns nothing. should probably do some sort of checking here
-		return new Operation_CANReadData(embeddedIOServiceCollection->CANService, identifier, operation);
+		return new Operation_CANReadData(serviceRegistry->TryGet<EmbeddedIOServices::ICANService>(), identifier, operation);
 	}
 }
 #endif

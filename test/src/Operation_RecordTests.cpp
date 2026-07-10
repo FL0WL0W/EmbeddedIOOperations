@@ -18,7 +18,7 @@ namespace UnitTests
 		protected:
 		MockDigitalService _digitalService;
 		MockTimerService _timerService;
-		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
+		ServiceRegistry _serviceRegistry;
 		MockOperation<float> _operationSample;
 		OperationFactory _operationFactory;
 		AbstractOperation *_operationSampleOnExecute;
@@ -34,8 +34,8 @@ namespace UnitTests
 		Operation_RecordTests() 
 		{
         	_operationFactory.Register(5, &_operationSample);
-			_embeddedIOServiceCollection.DigitalService = &_digitalService;
-			_embeddedIOServiceCollection.TimerService = &_timerService;
+			_serviceRegistry.Register<IDigitalService>(&_digitalService);
+			_serviceRegistry.Register<ITimerService>(&_timerService);
 
 			_expectedSize = sizeof(float);
 			Config::AlignAndAddSize<uint16_t>(_expectedSize);
@@ -51,7 +51,7 @@ namespace UnitTests
 			Config::AssignAndOffset<uint32_t>(buildConfig, _buildSizeSampleOnExecute, 5);
 
 			EXPECT_CALL(_timerService, GetTicksPerSecond()).Times(2).WillRepeatedly(Return(10));
-			_operationSampleOnExecute = Operation_Record<float>::Create(config, _sizeSampleOnExecute, &_embeddedIOServiceCollection, &_operationFactory);
+			_operationSampleOnExecute = Operation_Record<float>::Create(config, _sizeSampleOnExecute, &_serviceRegistry, &_operationFactory);
 
 
 			config = malloc(_expectedSize);
@@ -66,7 +66,7 @@ namespace UnitTests
 			EXPECT_CALL(_timerService, ScheduleCallBack(10)).Times(1);
 			EXPECT_CALL(_timerService, GetTicksPerSecond()).Times(2).WillRepeatedly(Return(10));
 			EXPECT_CALL(_timerService, GetTick()).Times(1).WillRepeatedly(Return(0));
-			_operationSampleOnInterval = Operation_Record<float>::Create(config, _sizeSampleOnInterval, &_embeddedIOServiceCollection, &_operationFactory);
+			_operationSampleOnInterval = Operation_Record<float>::Create(config, _sizeSampleOnInterval, &_serviceRegistry, &_operationFactory);
 		}
 	};
 

@@ -14,9 +14,9 @@ namespace EmbeddedIOOperations
 		return static_cast<tick_t>(_timerService->GetTicksPerSecond() * seconds);
 	}
 
-	AbstractOperation * Operation_SecondsToTicks::Create(const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
+	AbstractOperation * Operation_SecondsToTicks::Create(const ServiceRegistry *serviceRegistry)
 	{
-		return new Operation_SecondsToTicks(embeddedIOServiceCollection->TimerService);
+		return new Operation_SecondsToTicks(serviceRegistry->TryGet<EmbeddedIOServices::ITimerService>());
 	}
 }
 #endif

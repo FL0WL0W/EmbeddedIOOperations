@@ -20,11 +20,11 @@ namespace EmbeddedIOOperations
 		_pwmService->WritePin(_pin, { period, pulseWidth });
 	}
 
-	AbstractOperation *Operation_PwmPinWrite::Create(const void *config, size_t  &sizeOut, const EmbeddedIOServiceCollection *embeddedIOServiceCollection)
+	AbstractOperation *Operation_PwmPinWrite::Create(const void *config, size_t  &sizeOut, const ServiceRegistry *serviceRegistry)
 	{
 		const uint16_t pin = Config::CastAndOffset<uint16_t>(config, sizeOut);
 		const uint16_t minFrequency = Config::CastAndOffset<uint16_t>(config, sizeOut);
-		return new Operation_PwmPinWrite(embeddedIOServiceCollection->PwmService, pin, minFrequency);
+		return new Operation_PwmPinWrite(serviceRegistry->TryGet<EmbeddedIOServices::IPwmService>(), pin, minFrequency);
 	}
 }
 #endif

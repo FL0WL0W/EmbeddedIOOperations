@@ -14,7 +14,7 @@ namespace UnitTests
 	{
 		protected:
 		MockDigitalService _digitalService;
-		EmbeddedIOServiceCollection _embeddedIOServiceCollection;
+		ServiceRegistry _serviceRegistry;
 		AbstractOperation *_operationInverted;
 		AbstractOperation *_operationUninverted;
         size_t _sizeInverted = 0;
@@ -25,7 +25,7 @@ namespace UnitTests
 
 		Operation_DigitalPinReadTests() 
 		{
-			_embeddedIOServiceCollection.DigitalService = &_digitalService;
+			_serviceRegistry.Register<IDigitalService>(&_digitalService);
 
 			_expectedSize = sizeof(uint16_t);
 			Config::AlignAndAddSize<bool>(_expectedSize);
@@ -47,8 +47,8 @@ namespace UnitTests
 
 			EXPECT_CALL(_digitalService, InitPin(1, In)).Times(1);
 			EXPECT_CALL(_digitalService, InitPin(2, In)).Times(1);
-			_operationUninverted = Operation_DigitalPinRead::Create(configUninverted, _sizeInverted, &_embeddedIOServiceCollection);
-			_operationInverted = Operation_DigitalPinRead::Create(configInverted, _sizeUnInverted, &_embeddedIOServiceCollection);
+			_operationUninverted = Operation_DigitalPinRead::Create(configUninverted, _sizeInverted, &_serviceRegistry);
+			_operationInverted = Operation_DigitalPinRead::Create(configInverted, _sizeUnInverted, &_serviceRegistry);
 		}
 	};
 
