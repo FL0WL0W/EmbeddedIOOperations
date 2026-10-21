@@ -14,7 +14,7 @@ namespace EmbeddedIOOperations
 		OperationArchitecture::AbstractOperation *_operation;
 		EmbeddedIOServices::can_receive_callback_id_t _canReceiveCallbackId;
 		EmbeddedIOServices::CANData_t _data;
-		bool _dataChanged = false;
+		volatile bool _dataChanged = false;
 	public:		
         Operation_CANReadData(EmbeddedIOServices::ICANService *canService, const EmbeddedIOServices::CANIdentifier_t identifier, OperationArchitecture::AbstractOperation *operation);
 		~Operation_CANReadData();
