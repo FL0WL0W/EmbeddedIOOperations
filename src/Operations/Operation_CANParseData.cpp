@@ -8,21 +8,21 @@ using namespace EmbeddedIOServices;
 namespace EmbeddedIOOperations
 {
 	Operation_CANParseData::Operation_CANParseData(const uint8_t numberOfVariables, const Operation_CANParseDataConfig *configs) :
-		AbstractOperation(numberOfVariables, 1),
-		_configs(configs)
+		_configs(configs),
+		_numberOfVariables(numberOfVariables)
 	{
 	}
 
 	void Operation_CANParseData::AbstractExecute(Variable **variables)
 	{
-		const CANData_t data = *variables[NumberOfReturnVariables];
+		const CANData_t data = *variables[_numberOfVariables];
 		uint64_t dataAsInt = data.Data[0];
 		for(int i = 1; i < 8; i++)
 		{
 			dataAsInt <<= 8;
 			dataAsInt |= data.Data[i];
 		}
-		for(uint8_t i = 0; i < NumberOfReturnVariables; i++)
+		for(uint8_t i = 0; i < _numberOfVariables; i++)
 		{
 			const uint64_t rawValue = (dataAsInt >> (64 - (_configs[i].BitLocation + _configs[i].BitLength))) & (0xFFFFFFFFFFFFFFFF >> (64 - _configs[i].BitLength));
 			if(_configs[i].CastToBool)

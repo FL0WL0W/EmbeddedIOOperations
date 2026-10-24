@@ -20,6 +20,7 @@ namespace EmbeddedIOOperations
 	protected:
 		const EmbeddedIOServices::CANData_t *_baseData;
 		const Operation_CANPackDataConfig *_configs;
+		const uint8_t _numberOfVariables;
 	public:		
         Operation_CANPackData(const EmbeddedIOServices::CANData_t *baseData, const uint8_t numberOfVariables, const Operation_CANPackDataConfig *configs);
 		void AbstractExecute(OperationArchitecture::Variable **variables);

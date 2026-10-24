@@ -8,16 +8,16 @@ using namespace EmbeddedIOServices;
 namespace EmbeddedIOOperations
 {
 	Operation_CANPackData::Operation_CANPackData(const CANData_t *baseData, const uint8_t numberOfVariables, const Operation_CANPackDataConfig *configs) :
-		AbstractOperation(1, numberOfVariables),
 		_baseData(baseData),
-		_configs(configs)
+		_configs(configs),
+		_numberOfVariables(numberOfVariables)
 	{
 	}
 
 	void Operation_CANPackData::AbstractExecute(Variable **variables)
 	{
 		uint64_t dataAsInt = 0;
-		for(uint8_t i = 0; i < NumberOfParameters; i++)
+		for(uint8_t i = 0; i < _numberOfVariables; i++)
 		{
 			uint64_t rawValue;
 			if(_configs[i].CastToBool)

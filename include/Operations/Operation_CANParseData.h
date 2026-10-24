@@ -20,6 +20,7 @@ namespace EmbeddedIOOperations
 	{
 	protected:
 		const Operation_CANParseDataConfig *_configs;
+		const uint8_t _numberOfVariables;
 	public:		
         Operation_CANParseData(const uint8_t numberOfVariables, const Operation_CANParseDataConfig *configs);
 		void AbstractExecute(OperationArchitecture::Variable **variables);
