@@ -14,6 +14,7 @@ namespace EmbeddedIOOperations
 		uint8_t BitLength;
 		bool CastToBool : 1;
 		bool CastToInt : 1;
+		uint8_t Reserved;
 	};
 
 	class Operation_CANParseData : public OperationArchitecture::AbstractOperation

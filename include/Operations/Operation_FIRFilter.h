@@ -36,6 +36,7 @@ namespace EmbeddedIOOperations
 		
 		float SampleRate;
 		uint16_t Order;
+		uint16_t Reserved;
 	};
 
 	template<typename state_t>
