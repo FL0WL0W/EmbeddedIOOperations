@@ -10,13 +10,13 @@ namespace EmbeddedIOOperations
 	class Operation_CANReadData : public OperationArchitecture::Operation<void>
 	{
 	protected:
-		EmbeddedIOServices::ICANService *_canService;
-		OperationArchitecture::AbstractOperation *_operation;
-		EmbeddedIOServices::can_receive_callback_id_t _canReceiveCallbackId;
+		EmbeddedIOServices::ICANService * const _canService;
+		OperationArchitecture::AbstractOperation * const _operation;
+		const EmbeddedIOServices::can_receive_callback_id_t _canReceiveCallbackId;
 		EmbeddedIOServices::CANData_t _data;
 		volatile bool _dataChanged = false;
 	public:		
-        Operation_CANReadData(EmbeddedIOServices::ICANService *canService, const EmbeddedIOServices::CANIdentifier_t identifier, OperationArchitecture::AbstractOperation *operation);
+        Operation_CANReadData(EmbeddedIOServices::ICANService * const canService, OperationArchitecture::AbstractOperation * const operation, const EmbeddedIOServices::CANIdentifier_t identifier);
 		~Operation_CANReadData();
 		void Execute();
 		void Sample(const EmbeddedIOServices::CANData_t data);

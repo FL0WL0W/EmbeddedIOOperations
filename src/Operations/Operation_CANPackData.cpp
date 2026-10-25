@@ -7,7 +7,7 @@ using namespace EmbeddedIOServices;
 #ifdef OPERATION_CANPACKDATA_H
 namespace EmbeddedIOOperations
 {
-	Operation_CANPackData::Operation_CANPackData(const CANData_t *baseData, const uint8_t numberOfVariables, const Operation_CANPackDataConfig *configs) :
+	Operation_CANPackData::Operation_CANPackData(const CANData_t * const baseData, const uint8_t numberOfVariables, const Operation_CANPackDataConfig * const configs) :
 		_baseData(baseData),
 		_configs(configs),
 		_numberOfVariables(numberOfVariables)

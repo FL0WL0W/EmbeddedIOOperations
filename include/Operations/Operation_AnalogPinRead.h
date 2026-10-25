@@ -9,7 +9,7 @@ namespace EmbeddedIOOperations
 	class Operation_AnalogPinRead : public OperationArchitecture::Operation<float>
 	{
 	protected:
-		EmbeddedIOServices::IAnalogService *_analogService;
+		EmbeddedIOServices::IAnalogService * const _analogService;
 		uint16_t _pin;
 	public:		
         Operation_AnalogPinRead(EmbeddedIOServices::IAnalogService *analogService, const uint16_t pin);

@@ -7,12 +7,11 @@ using namespace EmbeddedIOServices;
 #ifdef OPERATION_PWMPINWRITE_H
 namespace EmbeddedIOOperations
 {
-	Operation_PwmPinWrite::Operation_PwmPinWrite(IPwmService *pwmService, const uint16_t pin, const uint16_t minFrequency) :
+	Operation_PwmPinWrite::Operation_PwmPinWrite(IPwmService * const pwmService, const uint16_t pin, const uint16_t minFrequency) :
 		_pwmService(pwmService),
-		_pin(pin),
-		_minFrequency(minFrequency)
+		_pin(pin)
 	{
-		_pwmService->InitPin(_pin, Out, _minFrequency);
+		_pwmService->InitPin(_pin, Out, minFrequency);
 	}
 
 	void Operation_PwmPinWrite::Execute(float period, float pulseWidth)

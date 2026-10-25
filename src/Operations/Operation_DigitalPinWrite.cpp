@@ -7,7 +7,7 @@ using namespace EmbeddedIOServices;
 #ifdef OPERATION_DIGITALPINWRITE_H
 namespace EmbeddedIOOperations
 {
-	Operation_DigitalPinWrite::Operation_DigitalPinWrite(IDigitalService *digitalService, const uint16_t pin, const bool normalOn, const bool highZ) :
+	Operation_DigitalPinWrite::Operation_DigitalPinWrite(IDigitalService * const digitalService, const uint16_t pin, const bool normalOn, const bool highZ) :
 		_digitalService(digitalService),
 		_pin(pin),
 		_normalOn(normalOn),

@@ -43,9 +43,9 @@ namespace EmbeddedIOOperations
 	class Operation_FIRFilter : public OperationArchitecture::Operation<state_t, Record<state_t>>
 	{
 	protected:
-		const Operation_FIRFilterConfig *_firConfig;
+		const Operation_FIRFilterConfig * const _firConfig;
 	public:		
-        Operation_FIRFilter(const Operation_FIRFilterConfig *firConfig) : _firConfig(firConfig) {}
+        Operation_FIRFilter(const Operation_FIRFilterConfig * const firConfig) : _firConfig(firConfig) {}
 		state_t Execute(Record<state_t> record) override 
 		{
 			const uint16_t length = record.Length;

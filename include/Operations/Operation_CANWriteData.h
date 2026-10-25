@@ -10,10 +10,10 @@ namespace EmbeddedIOOperations
 	class Operation_CANWriteData : public OperationArchitecture::Operation<void, EmbeddedIOServices::CANData_t>
 	{
 	protected:
-		EmbeddedIOServices::ICANService *_canService;
+		EmbeddedIOServices::ICANService * const _canService;
 		const EmbeddedIOServices::CANIdentifier_t _identifier;
 	public:		
-        Operation_CANWriteData(EmbeddedIOServices::ICANService *canService, const EmbeddedIOServices::CANIdentifier_t identifier);
+        Operation_CANWriteData(EmbeddedIOServices::ICANService * const canService, const EmbeddedIOServices::CANIdentifier_t identifier);
 		void Execute(EmbeddedIOServices::CANData_t data);
 
 		static AbstractOperation *Create(const void *config, size_t  &sizeOut, const ServiceRegistry *serviceRegistry);

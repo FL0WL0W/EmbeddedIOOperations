@@ -9,9 +9,9 @@ namespace EmbeddedIOOperations
 	class Operation_TicksToSeconds : public OperationArchitecture::Operation<float, uint32_t>
 	{
 	protected:
-		EmbeddedIOServices::ITimerService *_timerService;
+		EmbeddedIOServices::ITimerService * const _timerService;
 	public:		
-        Operation_TicksToSeconds(EmbeddedIOServices::ITimerService *timerService);
+        Operation_TicksToSeconds(EmbeddedIOServices::ITimerService * const timerService);
 		float Execute(uint32_t ticks) override;
 
 		static OperationArchitecture::AbstractOperation *Create(const ServiceRegistry *serviceRegistry);

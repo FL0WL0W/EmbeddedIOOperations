@@ -10,13 +10,13 @@ namespace EmbeddedIOOperations
 	class Operation_DigitalPinInterruptRecord : public OperationArchitecture::Operation<Record<bool>>
 	{
 	protected:
-		EmbeddedIOServices::IDigitalService *_digitalService;
-		EmbeddedIOServices::ITimerService *_timerService;
-		uint16_t _pin;
-		bool _inverted;
+		EmbeddedIOServices::IDigitalService * const _digitalService;
+		EmbeddedIOServices::ITimerService * const _timerService;
+		const uint16_t _pin;
+		const bool _inverted;
 		Record<bool> _record;
 	public:	
-        Operation_DigitalPinInterruptRecord(EmbeddedIOServices::IDigitalService *digitalService, EmbeddedIOServices::ITimerService *timerService, uint16_t pin, bool inverted, uint16_t length);
+        Operation_DigitalPinInterruptRecord(EmbeddedIOServices::IDigitalService * const digitalService, EmbeddedIOServices::ITimerService * const timerService, uint16_t pin, bool inverted, uint16_t length);
 		~Operation_DigitalPinInterruptRecord();
 		Record<bool> Execute() override;
 		void Sample();

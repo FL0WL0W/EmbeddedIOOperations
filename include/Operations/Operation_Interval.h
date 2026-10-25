@@ -10,15 +10,16 @@ namespace EmbeddedIOOperations
 	class Operation_Interval : public OperationArchitecture::AbstractOperation
 	{
 	protected:
-		EmbeddedIOServices::ITimerService *_timerService;
+		EmbeddedIOServices::ITimerService * const _timerService;
+		OperationArchitecture::AbstractOperation * const _operation;
 		const EmbeddedIOServices::tick_t _intervalTick;
-		OperationArchitecture::AbstractOperation *_operation;
 		EmbeddedIOServices::tick_t _startTick;
 	public:		
-        Operation_Interval(EmbeddedIOServices::ITimerService *timerService, float intervalTime, OperationArchitecture::AbstractOperation *operation);
+		Operation_Interval(EmbeddedIOServices::ITimerService * const timerService, OperationArchitecture::AbstractOperation * const operation, const float intervalTime);
+		~Operation_Interval();
 		void AbstractExecute(OperationArchitecture::Variable **variables) override;
 
-		static AbstractOperation *Create(const void *config, size_t  &sizeOut, const ServiceRegistry *serviceRegistry, OperationArchitecture::OperationFactory *factory);
+		static OperationArchitecture::AbstractOperation *Create(const void *config, size_t  &sizeOut, const ServiceRegistry *serviceRegistry, OperationArchitecture::OperationFactory *factory);
 	};
 }
 #endif

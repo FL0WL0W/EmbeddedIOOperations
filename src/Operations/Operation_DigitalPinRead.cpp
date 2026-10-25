@@ -7,7 +7,7 @@ using namespace EmbeddedIOServices;
 #ifdef OPERATION_DIGITALPINREAD_H
 namespace EmbeddedIOOperations
 {
-	Operation_DigitalPinRead::Operation_DigitalPinRead(IDigitalService *digitalService, const uint16_t pin, const bool inverted) :
+	Operation_DigitalPinRead::Operation_DigitalPinRead(IDigitalService * const digitalService, const uint16_t pin, const bool inverted) :
 		_digitalService(digitalService),
 		_pin(pin),
 		_inverted(inverted)

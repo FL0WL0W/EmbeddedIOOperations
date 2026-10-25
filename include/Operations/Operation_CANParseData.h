@@ -20,10 +20,10 @@ namespace EmbeddedIOOperations
 	class Operation_CANParseData : public OperationArchitecture::AbstractOperation
 	{
 	protected:
-		const Operation_CANParseDataConfig *_configs;
+		const Operation_CANParseDataConfig * const _configs;
 		const uint8_t _numberOfVariables;
 	public:		
-        Operation_CANParseData(const uint8_t numberOfVariables, const Operation_CANParseDataConfig *configs);
+        Operation_CANParseData(const uint8_t numberOfVariables, const Operation_CANParseDataConfig * const configs);
 		void AbstractExecute(OperationArchitecture::Variable **variables);
 
 		static AbstractOperation *Create(const void *config, size_t  &sizeOut);

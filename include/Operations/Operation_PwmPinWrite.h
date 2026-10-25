@@ -9,11 +9,10 @@ namespace EmbeddedIOOperations
 	class Operation_PwmPinWrite : public OperationArchitecture::Operation<void, float, float>
 	{
 	protected:
-		EmbeddedIOServices::IPwmService *_pwmService;
-		uint16_t _pin;
-		uint16_t _minFrequency;
+		EmbeddedIOServices::IPwmService * const _pwmService;
+		const uint16_t _pin;
 	public:		
-        Operation_PwmPinWrite(EmbeddedIOServices::IPwmService *pwmService, const uint16_t pin, const uint16_t minFrequency);
+        Operation_PwmPinWrite(EmbeddedIOServices::IPwmService * const pwmService, const uint16_t pin, const uint16_t minFrequency);
 		void Execute(float period, float pulseWidth) override;
 
 		static OperationArchitecture::AbstractOperation *Create(const void *config, size_t &sizeOut, const ServiceRegistry *serviceRegistry);

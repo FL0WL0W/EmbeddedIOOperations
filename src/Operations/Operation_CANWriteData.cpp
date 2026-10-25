@@ -7,7 +7,7 @@ using namespace EmbeddedIOServices;
 #ifdef OPERATION_CANWRITEDATA_H
 namespace EmbeddedIOOperations
 {
-	Operation_CANWriteData::Operation_CANWriteData( ICANService *canService, const CANIdentifier_t identifier) :
+	Operation_CANWriteData::Operation_CANWriteData( ICANService * const canService, const CANIdentifier_t identifier) :
 		_canService(canService),
         _identifier(identifier)
 	{

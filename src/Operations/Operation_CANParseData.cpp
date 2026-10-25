@@ -7,7 +7,7 @@ using namespace EmbeddedIOServices;
 #ifdef OPERATION_CANPARSEDATA_H
 namespace EmbeddedIOOperations
 {
-	Operation_CANParseData::Operation_CANParseData(const uint8_t numberOfVariables, const Operation_CANParseDataConfig *configs) :
+	Operation_CANParseData::Operation_CANParseData(const uint8_t numberOfVariables, const Operation_CANParseDataConfig * const configs) :
 		_configs(configs),
 		_numberOfVariables(numberOfVariables)
 	{

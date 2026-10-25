@@ -7,11 +7,15 @@ using namespace EmbeddedIOServices;
 #ifdef OPERATION_INTERVAL_H
 namespace EmbeddedIOOperations
 {
-	Operation_Interval::Operation_Interval( ITimerService *timerService, const float intervalTime, AbstractOperation *operation) :
+	Operation_Interval::Operation_Interval(ITimerService * const timerService, AbstractOperation * const operation, const float intervalTime) :
 		_timerService(timerService),
-		_intervalTick(intervalTime * timerService->GetTicksPerSecond()),
-		_operation(operation)
+		_operation(operation),
+		_intervalTick(intervalTime * timerService->GetTicksPerSecond())
+	{ }
+
+	Operation_Interval::~Operation_Interval()
 	{
+		delete _operation;
 	}
 
 	void Operation_Interval::AbstractExecute(Variable **variables)
@@ -36,8 +40,9 @@ namespace EmbeddedIOOperations
 	AbstractOperation *Operation_Interval::Create(const void *config, size_t  &sizeOut, const ServiceRegistry *serviceRegistry, OperationFactory *factory)
 	{
 		const float intervalTime = Config::CastAndOffset<float>(config, sizeOut);
+		//we own this operation now. Operation_Interval must delete it
 		AbstractOperation * const operation = factory->Create(config, sizeOut);
-		return new Operation_Interval(serviceRegistry->TryGet<EmbeddedIOServices::ITimerService>(), intervalTime, operation);
+		return new Operation_Interval(serviceRegistry->TryGet<EmbeddedIOServices::ITimerService>(), operation, intervalTime);
 	}
 }
 #endif

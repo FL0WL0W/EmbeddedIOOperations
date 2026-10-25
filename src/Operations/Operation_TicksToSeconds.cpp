@@ -6,7 +6,7 @@ using namespace OperationArchitecture;
 #ifdef OPERATION_TICKSTOSECONDS_H
 namespace EmbeddedIOOperations
 {
-	Operation_TicksToSeconds::Operation_TicksToSeconds(EmbeddedIOServices::ITimerService *timerService) : _timerService(timerService) { }
+	Operation_TicksToSeconds::Operation_TicksToSeconds(EmbeddedIOServices::ITimerService * const timerService) : _timerService(timerService) { }
 
 	float Operation_TicksToSeconds::Execute(uint32_t ticks)
 	{

@@ -12,27 +12,31 @@ namespace EmbeddedIOOperations
 	class Operation_Record : public OperationArchitecture::Operation<Record<state_t>>
 	{
 	protected:
-		EmbeddedIOServices::ITimerService *_timerService;
-		EmbeddedIOServices::Task *_sampleTask;
+		EmbeddedIOServices::ITimerService * const _timerService;
+		OperationArchitecture::AbstractOperation * const _sampleOperation;
+		EmbeddedIOServices::Task * const _sampleTask = 0;
 		Record<state_t> _record;
 		const EmbeddedIOServices::tick_t _sampleRateTicks;
-		OperationArchitecture::AbstractOperation *_sampleOperation;
 	public:		
-        Operation_Record(EmbeddedIOServices::ITimerService *timerService, const float sampleRate, const uint16_t length, OperationArchitecture::AbstractOperation *sampleOperation) :
+        Operation_Record(EmbeddedIOServices::ITimerService * const timerService, OperationArchitecture::AbstractOperation * const sampleOperation, const float sampleRate, const uint16_t length) :
 			_timerService(timerService),
+			_sampleOperation(sampleOperation),
+			_sampleTask( sampleRate > 0 ? new EmbeddedIOServices::Task([this]() { this->Sample(); }) : 0),
 			_record(length, timerService->GetTicksPerSecond()),
-			_sampleRateTicks(sampleRate * timerService->GetTicksPerSecond()),
-			_sampleOperation(sampleOperation)
+			_sampleRateTicks(sampleRate * timerService->GetTicksPerSecond())
 		{
 			//if sample rate ticks is greater than 0 it means we sample on an interval
 			if(_sampleRateTicks > 0)
-			{
-				_sampleTask = new EmbeddedIOServices::Task([this]() 
-				{
-					this->Sample(); 
-				});
 				_timerService->ScheduleTask(_sampleTask, _timerService->GetTick() + _sampleRateTicks);
+		}
+		~Operation_Record()
+		{
+			if(_sampleTask != 0)
+			{
+				_timerService->UnScheduleTask(_sampleTask);
+				delete _sampleTask;
 			}
+			delete _sampleOperation;
 		}
 		Record<state_t> Execute() override 
 		{
@@ -88,10 +92,11 @@ namespace EmbeddedIOOperations
 			const uint16_t length = OperationArchitecture::Config::CastAndOffset<uint16_t>(config, sizeOut);
 
 			size_t size = 0;
+			//we own this operation now. Operation_Record must delete it
 			OperationArchitecture::AbstractOperation *sampleOperation = factory->Create(config, size);
 			OperationArchitecture::Config::OffsetConfig(config, sizeOut, size);
 
-			return new Operation_Record(serviceRegistry->TryGet<EmbeddedIOServices::ITimerService>(), sampleRate, length, sampleOperation);
+			return new Operation_Record(serviceRegistry->TryGet<EmbeddedIOServices::ITimerService>(), sampleOperation, sampleRate, length);
 		}
 	};
 }

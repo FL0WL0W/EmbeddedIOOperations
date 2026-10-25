@@ -9,11 +9,11 @@ namespace EmbeddedIOOperations
 	class Operation_DigitalPinRead : public OperationArchitecture::Operation<bool>
 	{
 	protected:
-		EmbeddedIOServices::IDigitalService *_digitalService;
-		uint16_t _pin;
-		bool _inverted;
+		EmbeddedIOServices::IDigitalService * const _digitalService;
+		const uint16_t _pin;
+		const bool _inverted;
 	public:		
-        Operation_DigitalPinRead(EmbeddedIOServices::IDigitalService *digitalService, uint16_t pin, bool inverted);
+        Operation_DigitalPinRead(EmbeddedIOServices::IDigitalService * const digitalService, uint16_t pin, bool inverted);
 		bool Execute() override;
 
 		static OperationArchitecture::AbstractOperation *Create(const void *config, size_t &sizeOut, const ServiceRegistry *serviceRegistry);

@@ -7,12 +7,11 @@ using namespace EmbeddedIOServices;
 #ifdef OPERATION_FREQUENCYPINREAD_H
 namespace EmbeddedIOOperations
 {
-	Operation_FrequencyPinRead::Operation_FrequencyPinRead( IPwmService *pwmService, const uint16_t pin, const uint16_t minFrequency) :
+	Operation_FrequencyPinRead::Operation_FrequencyPinRead(IPwmService * const pwmService, const uint16_t pin, const uint16_t minFrequency) :
 		_pwmService(pwmService),
-		_pin(pin),
-		_minFrequency(minFrequency)
+		_pin(pin)
 	{
-		_pwmService->InitPin(_pin, In, _minFrequency);
+		_pwmService->InitPin(_pin, In, minFrequency);
 	}
 
 	float Operation_FrequencyPinRead::Execute()

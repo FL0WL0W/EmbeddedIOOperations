@@ -7,7 +7,7 @@ using namespace EmbeddedIOServices;
 #ifdef OPERATION_DIGITALPININTERRUPTRECORD_H
 namespace EmbeddedIOOperations
 {
-	Operation_DigitalPinInterruptRecord::Operation_DigitalPinInterruptRecord(IDigitalService *digitalService, ITimerService *timerService, uint16_t pin, bool inverted, uint16_t length) :
+	Operation_DigitalPinInterruptRecord::Operation_DigitalPinInterruptRecord(IDigitalService * const digitalService, ITimerService * const timerService, uint16_t pin, bool inverted, uint16_t length) :
 		_digitalService(digitalService),
 		_timerService(timerService),
 		_pin(pin),

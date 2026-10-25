@@ -7,7 +7,7 @@ using namespace EmbeddedIOServices;
 #ifdef OPERATION_SECONDSTOTICKS_H
 namespace EmbeddedIOOperations
 {
-	Operation_SecondsToTicks::Operation_SecondsToTicks(ITimerService *timerService) : _timerService(timerService) { }
+	Operation_SecondsToTicks::Operation_SecondsToTicks(ITimerService * const timerService) : _timerService(timerService) { }
 
 	tick_t Operation_SecondsToTicks::Execute(float seconds)
 	{

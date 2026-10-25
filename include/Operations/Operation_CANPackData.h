@@ -19,11 +19,11 @@ namespace EmbeddedIOOperations
 	class Operation_CANPackData : public OperationArchitecture::AbstractOperation
 	{
 	protected:
-		const EmbeddedIOServices::CANData_t *_baseData;
-		const Operation_CANPackDataConfig *_configs;
+		const EmbeddedIOServices::CANData_t * const _baseData;
+		const Operation_CANPackDataConfig * const _configs;
 		const uint8_t _numberOfVariables;
 	public:		
-        Operation_CANPackData(const EmbeddedIOServices::CANData_t *baseData, const uint8_t numberOfVariables, const Operation_CANPackDataConfig *configs);
+        Operation_CANPackData(const EmbeddedIOServices::CANData_t * const baseData, const uint8_t numberOfVariables, const Operation_CANPackDataConfig * const configs);
 		void AbstractExecute(OperationArchitecture::Variable **variables);
 
 		static AbstractOperation *Create(const void *config, size_t  &sizeOut);

@@ -8,7 +8,7 @@ using namespace EmbeddedIOServices;
 #ifdef OPERATION_GETTICK_H
 namespace EmbeddedIOOperations
 {
-	Operation_GetTick::Operation_GetTick(ITimerService *timerService) : _timerService(timerService) {}
+	Operation_GetTick::Operation_GetTick(ITimerService * const timerService) : _timerService(timerService) {}
 
 	tick_t Operation_GetTick::Execute()
 	{

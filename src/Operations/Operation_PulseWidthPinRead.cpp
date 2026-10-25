@@ -7,12 +7,11 @@ using namespace EmbeddedIOServices;
 #ifdef OPERATION_PULSEWIDTHPINREAD_H
 namespace EmbeddedIOOperations
 {
-	Operation_PulseWidthPinRead::Operation_PulseWidthPinRead(IPwmService *pwmService, const uint16_t pin, const uint16_t minFrequency) :
+	Operation_PulseWidthPinRead::Operation_PulseWidthPinRead(IPwmService * const pwmService, const uint16_t pin, const uint16_t minFrequency) :
 		_pwmService(pwmService),
-		_pin(pin),
-		_minFrequency(minFrequency)
+		_pin(pin)
 	{
-		_pwmService->InitPin(_pin, In, _minFrequency);
+		_pwmService->InitPin(_pin, In, minFrequency);
 	}
 
 	float Operation_PulseWidthPinRead::Execute()

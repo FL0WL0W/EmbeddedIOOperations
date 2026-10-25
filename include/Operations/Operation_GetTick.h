@@ -9,9 +9,9 @@ namespace EmbeddedIOOperations
 	class Operation_GetTick : public OperationArchitecture::Operation<EmbeddedIOServices::tick_t>
 	{
 	protected:
-		EmbeddedIOServices::ITimerService *_timerService;
+		EmbeddedIOServices::ITimerService * const _timerService;
 	public:		
-        Operation_GetTick(EmbeddedIOServices::ITimerService *timerService);
+        Operation_GetTick(EmbeddedIOServices::ITimerService * const timerService);
 		EmbeddedIOServices::tick_t Execute() override;
 
 		static OperationArchitecture::AbstractOperation *Create(const ServiceRegistry *serviceRegistry);
