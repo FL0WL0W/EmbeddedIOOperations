@@ -18,6 +18,7 @@
 #include "Operations/Operation_CANWriteData.h"
 #include "Operations/Operation_CANParseData.h"
 #include "Operations/Operation_CANPackData.h"
+#include "Operations/Operation_CANCRCJ1850.h"
 
 #ifndef EMBEDDEDIOOPERATIONFACTORYREGISTER_H
 #define EMBEDDEDIOOPERATIONFACTORYREGISTER_H
@@ -25,7 +26,7 @@ namespace EmbeddedIOOperations
 {
 	template<uint32_t idOffset, OperationArchitecture::OperationFactory *factory, ServiceRegistry *serviceRegistry>
 	constexpr auto RegisterEmbeddedIOOperationFactory = []() {
-    	return std::array<OperationArchitecture::OperationFactoryEntry, 18>{{
+    	return std::array<OperationArchitecture::OperationFactoryEntry, 19>{{
 			{ idOffset + 1, [](const void *config, size_t &sizeOut) { return Operation_AnalogPinRead::Create(config, sizeOut, serviceRegistry); } },
 			{ idOffset + 2, [](const void *config, size_t &sizeOut) { return Operation_DigitalPinRead::Create(config, sizeOut, serviceRegistry); } },
 			{ idOffset + 3, [](const void *config, size_t &sizeOut) { return Operation_DigitalPinInterruptRecord::Create(config, sizeOut, serviceRegistry); } },
@@ -43,7 +44,8 @@ namespace EmbeddedIOOperations
 			{ idOffset + 15, [](const void *config, size_t &sizeOut) { return Operation_CANReadData::Create(config, sizeOut, serviceRegistry, factory); } },
 			{ idOffset + 16, [](const void *config, size_t &sizeOut) { return Operation_CANWriteData::Create(config, sizeOut, serviceRegistry); } },
 			{ idOffset + 17, Operation_CANParseData::Create },
-			{ idOffset + 18, Operation_CANPackData::Create }
+			{ idOffset + 18, Operation_CANPackData::Create },
+			{ idOffset + 19, Operation_CANCRCJ1850::Create }
     	}};
 	};
 }
