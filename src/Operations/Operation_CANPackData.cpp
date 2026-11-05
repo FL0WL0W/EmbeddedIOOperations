@@ -19,6 +19,8 @@ namespace EmbeddedIOOperations
 		uint64_t dataAsInt = 0;
 		for(uint8_t i = 0; i < _numberOfVariables; i++)
 		{
+			if(variables[i+1] == nullptr || variables[i+1]->Type == VOID)
+				continue;
 			uint64_t rawValue;
 			if(_configs[i].CastToBool)
 			{
