@@ -7,7 +7,7 @@ using namespace EmbeddedIOServices;
 #ifdef OPERATION_CANPACKDATA_H
 namespace EmbeddedIOOperations
 {
-	Operation_CANPackData::Operation_CANPackData(const CANData_t * const baseData, const uint8_t numberOfVariables, const Operation_CANPackDataConfig * const configs) :
+	Operation_CANPackData::Operation_CANPackData(const uint64_t * const baseData, const uint8_t numberOfVariables, const Operation_CANPackDataConfig * const configs) :
 		_baseData(baseData),
 		_configs(configs),
 		_numberOfVariables(numberOfVariables)
@@ -16,7 +16,7 @@ namespace EmbeddedIOOperations
 
 	void Operation_CANPackData::AbstractExecute(Variable **variables)
 	{
-		uint64_t dataAsInt = 0;
+		uint64_t dataAsInt = *_baseData;
 		for(uint8_t i = 0; i < _numberOfVariables; i++)
 		{
 			if(variables[i+1] == nullptr || variables[i+1]->Type == VOID)
@@ -32,7 +32,7 @@ namespace EmbeddedIOOperations
 			}
 			dataAsInt |= (rawValue & (0xFFFFFFFFFFFFFFFF >> (64 - _configs[i].BitLength))) << (64 - (_configs[i].BitLocation + _configs[i].BitLength));
 		}
-		CANData_t data = *_baseData;
+		CANData_t data = { .Data = {0} };
 		for(int i = 7; i >= 0; i--)
 		{
 			data.Data[i] |= dataAsInt & 0xFF;
@@ -43,7 +43,7 @@ namespace EmbeddedIOOperations
 
 	AbstractOperation *Operation_CANPackData::Create(const void *config, size_t  &sizeOut)
 	{
-		const CANData_t *baseData = Config::CastAndOffsetPointer<CANData_t>(config, sizeOut);
+		const uint64_t *baseData = Config::CastAndOffsetPointer<uint64_t>(config, sizeOut);
 		const uint8_t numberOfVariables = Config::CastAndOffset<uint8_t>(config, sizeOut);
 		const Operation_CANPackDataConfig *configs = Config::CastAndOffsetPointer<Operation_CANPackDataConfig>(config, sizeOut);
 		for(uint8_t i = 1; i < numberOfVariables; i++)
