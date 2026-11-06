@@ -30,6 +30,7 @@ namespace EmbeddedIOOperations
 			{
 				rawValue = (*variables[i+1] - _configs[i].Adder) / _configs[i].Multiplier;
 			}
+			dataAsInt &= ~(0xFFFFFFFFFFFFFFFF >> (64 - _configs[i].BitLength) << (64 - (_configs[i].BitLocation + _configs[i].BitLength)));
 			dataAsInt |= (rawValue & (0xFFFFFFFFFFFFFFFF >> (64 - _configs[i].BitLength))) << (64 - (_configs[i].BitLocation + _configs[i].BitLength));
 		}
 		CANData_t data = { .Data = {0} };
