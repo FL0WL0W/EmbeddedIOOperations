@@ -25,7 +25,7 @@
 namespace EmbeddedIOOperations
 {
 	template<uint32_t idOffset, OperationArchitecture::OperationFactory *factory, ServiceRegistry *serviceRegistry>
-	constexpr auto RegisterEmbeddedIOOperationFactory = []() {
+	inline std::array<OperationArchitecture::OperationFactoryEntry, 19> RegisterEmbeddedIOOperationFactory() {
     	return std::array<OperationArchitecture::OperationFactoryEntry, 19>{{
 			{ idOffset + 1, [](const void *config, size_t &sizeOut) { return Operation_AnalogPinRead::Create(config, sizeOut, serviceRegistry); } },
 			{ idOffset + 2, [](const void *config, size_t &sizeOut) { return Operation_DigitalPinRead::Create(config, sizeOut, serviceRegistry); } },
@@ -47,6 +47,6 @@ namespace EmbeddedIOOperations
 			{ idOffset + 18, Operation_CANPackData::Create },
 			{ idOffset + 19, Operation_CANCRCJ1850::Create }
     	}};
-	};
+	}
 }
 #endif
