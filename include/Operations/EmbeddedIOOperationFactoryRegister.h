@@ -25,28 +25,26 @@
 namespace EmbeddedIOOperations
 {
 	template<uint32_t idOffset, OperationArchitecture::OperationFactory *factory, ServiceRegistry *serviceRegistry>
-	inline std::array<OperationArchitecture::OperationFactoryEntry, 19> RegisterEmbeddedIOOperationFactory() {
-    	return std::array<OperationArchitecture::OperationFactoryEntry, 19>{{
-			{ idOffset + 1, [](const void *config, size_t &sizeOut) { return Operation_AnalogPinRead::Create(config, sizeOut, serviceRegistry); } },
-			{ idOffset + 2, [](const void *config, size_t &sizeOut) { return Operation_DigitalPinRead::Create(config, sizeOut, serviceRegistry); } },
-			{ idOffset + 3, [](const void *config, size_t &sizeOut) { return Operation_DigitalPinInterruptRecord::Create(config, sizeOut, serviceRegistry); } },
-			{ idOffset + 4, [](const void *config, size_t &sizeOut) { return Operation_DutyCyclePinRead::Create(config, sizeOut, serviceRegistry); } },
-			{ idOffset + 5, [](const void *config, size_t &sizeOut) { return Operation_FrequencyPinRead::Create(config, sizeOut, serviceRegistry); } },
-			{ idOffset + 6, [](const void *config, size_t &sizeOut) { return Operation_PulseWidthPinRead::Create(config, sizeOut, serviceRegistry); } },
-			{ idOffset + 7, [](const void *config, size_t &sizeOut) { return Operation_DigitalPinWrite::Create(config, sizeOut, serviceRegistry); } },
-			{ idOffset + 8, [](const void *config, size_t &sizeOut) { return Operation_PwmPinWrite::Create(config, sizeOut, serviceRegistry); } },
-			{ idOffset + 9, [](const void *config, size_t &sizeOut) { return Operation_GetTick::Create(serviceRegistry); } },
-			{ idOffset + 10, [](const void *config, size_t &sizeOut) { return Operation_SecondsToTicks::Create(serviceRegistry); } },
-			{ idOffset + 11, [](const void *config, size_t &sizeOut) { return Operation_TicksToSeconds::Create(serviceRegistry); } },
-			{ idOffset + 12, [](const void *config, size_t &sizeOut) { return Operation_Record<float>::Create(config, sizeOut, serviceRegistry, factory); } },
-			{ idOffset + 13, Operation_FIRFilter<float>::Create },
-			{ idOffset + 14, [](const void *config, size_t &sizeOut) { return Operation_Interval::Create(config, sizeOut, serviceRegistry, factory); } },
-			{ idOffset + 15, [](const void *config, size_t &sizeOut) { return Operation_CANReadData::Create(config, sizeOut, serviceRegistry, factory); } },
-			{ idOffset + 16, [](const void *config, size_t &sizeOut) { return Operation_CANWriteData::Create(config, sizeOut, serviceRegistry); } },
-			{ idOffset + 17, Operation_CANParseData::Create },
-			{ idOffset + 18, Operation_CANPackData::Create },
-			{ idOffset + 19, Operation_CANCRCJ1850::Create }
-    	}};
-	}
+	constexpr std::array<OperationArchitecture::OperationFactoryEntry, 19> EmbeddedIOOperationFactoryEntries ={{
+		{ idOffset + 1, [](const void *config, size_t &sizeOut) { return Operation_AnalogPinRead::Create(config, sizeOut, serviceRegistry); } },
+		{ idOffset + 2, [](const void *config, size_t &sizeOut) { return Operation_DigitalPinRead::Create(config, sizeOut, serviceRegistry); } },
+		{ idOffset + 3, [](const void *config, size_t &sizeOut) { return Operation_DigitalPinInterruptRecord::Create(config, sizeOut, serviceRegistry); } },
+		{ idOffset + 4, [](const void *config, size_t &sizeOut) { return Operation_DutyCyclePinRead::Create(config, sizeOut, serviceRegistry); } },
+		{ idOffset + 5, [](const void *config, size_t &sizeOut) { return Operation_FrequencyPinRead::Create(config, sizeOut, serviceRegistry); } },
+		{ idOffset + 6, [](const void *config, size_t &sizeOut) { return Operation_PulseWidthPinRead::Create(config, sizeOut, serviceRegistry); } },
+		{ idOffset + 7, [](const void *config, size_t &sizeOut) { return Operation_DigitalPinWrite::Create(config, sizeOut, serviceRegistry); } },
+		{ idOffset + 8, [](const void *config, size_t &sizeOut) { return Operation_PwmPinWrite::Create(config, sizeOut, serviceRegistry); } },
+		{ idOffset + 9, [](const void *config, size_t &sizeOut) { return Operation_GetTick::Create(serviceRegistry); } },
+		{ idOffset + 10, [](const void *config, size_t &sizeOut) { return Operation_SecondsToTicks::Create(serviceRegistry); } },
+		{ idOffset + 11, [](const void *config, size_t &sizeOut) { return Operation_TicksToSeconds::Create(serviceRegistry); } },
+		{ idOffset + 12, [](const void *config, size_t &sizeOut) { return Operation_Record<float>::Create(config, sizeOut, serviceRegistry, factory); } },
+		{ idOffset + 13, Operation_FIRFilter<float>::Create },
+		{ idOffset + 14, [](const void *config, size_t &sizeOut) { return Operation_Interval::Create(config, sizeOut, serviceRegistry, factory); } },
+		{ idOffset + 15, [](const void *config, size_t &sizeOut) { return Operation_CANReadData::Create(config, sizeOut, serviceRegistry, factory); } },
+		{ idOffset + 16, [](const void *config, size_t &sizeOut) { return Operation_CANWriteData::Create(config, sizeOut, serviceRegistry); } },
+		{ idOffset + 17, Operation_CANParseData::Create },
+		{ idOffset + 18, Operation_CANPackData::Create },
+		{ idOffset + 19, Operation_CANCRCJ1850::Create }
+	}};
 }
 #endif
