@@ -11,7 +11,7 @@ namespace EmbeddedIOOperations
 	{
 	}
 
-	size_t CommunicationHandler_GetVariable::Receive(communication_send_callback_t sendCallBack, const void *data, size_t length)
+	size_t CommunicationHandler_GetVariable::Receive(ICommunicationService *sendService, const void *data, size_t length)
 	{
 		if(length < sizeof(uint32_t))//make sure there are enough bytes to process a request
 			return 0;
@@ -37,7 +37,8 @@ namespace EmbeddedIOOperations
 					
 					std::memcpy(&variableBuff[sizeof(VariableType)], reinterpret_cast<uint64_t *>(it->second->POINTERValue) + offset, sizeof(uint64_t));
 					//send the message back
-					sendCallBack(variableBuff, sizeof(VariableType) + sizeof(uint64_t));
+					if(sendService->Ready())
+						sendService->Send(variableBuff, sizeof(VariableType) + sizeof(uint64_t));
 					return sizeof(uint32_t) + sizeof(uint8_t);//return number of bytes handled
 				}
 				//known pointer size
@@ -45,14 +46,16 @@ namespace EmbeddedIOOperations
 				{
 					std::memcpy(&variableBuff[sizeof(VariableType)], it->second->POINTERValue, size);
 					//send the message back
-					sendCallBack(variableBuff, sizeof(VariableType) + size);
+					if(sendService->Ready())
+						sendService->Send(variableBuff, sizeof(VariableType) + size);
 				}
 			}
 			else
 			{
 				std::memcpy(&variableBuff[sizeof(VariableType)], it->second->ValueArray, size);
 				//send the message back
-				sendCallBack(variableBuff, sizeof(VariableType) + size);
+				if(sendService->Ready())
+					sendService->Send(variableBuff, sizeof(VariableType) + size);
 			}
 		}
 		else
@@ -60,7 +63,8 @@ namespace EmbeddedIOOperations
 			uint8_t variableBuff[sizeof(VariableType)];//create a buffer for the returned message
 			variableBuff[0] = VOID;
 			//send the message back
-			sendCallBack(variableBuff, sizeof(VariableType));
+			if(sendService->Ready())
+				sendService->Send(variableBuff, sizeof(VariableType));
 		}
 
 		return sizeof(uint32_t);//return number of bytes handled
